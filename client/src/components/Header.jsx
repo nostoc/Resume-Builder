@@ -2,7 +2,7 @@ import { Link } from "react-router-dom";
 
 const Header = () => {
   return (
-    <div className=" bg-blue-300 font-montserrat text-xl">
+    <div className=" bg-red-100 font-montserrat text-xl ">
         <div className="flex justify-between items-center max-w-6xl mx-auto p-4 " >
       <Link to="/"><h1 className=" font-bold">Eazy Rezume</h1></Link>
       <ul className=" flex gap-5"> 
