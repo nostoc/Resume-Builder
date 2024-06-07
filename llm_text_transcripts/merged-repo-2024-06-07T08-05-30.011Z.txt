@@ -1,0 +1,616 @@
+
+D:\DATA\DEV\EAZY-REZUME\BACKEND\.ENV CODE IS BELOW
+PORT = 5000
+MONGO_URL = "mongodb+srv://nostochk:j15hgywfyJxkDmmh@cluster0.mefxs23.mongodb.net/easy-resume?retryWrites=true&w=majority&appName=Cluster0"
+TOKEN_KEY = bac6176c49cc5a02add0a9952a78515037955d62f7f76e4799a7c9b1bcb2bc4fc176cb7d76fae90ff438e8f27876c4ccde803df099cd51bed42c7b87e0d726fe
+
+D:\DATA\DEV\EAZY-REZUME\BACKEND\CONTROLLERS\AUTHCONTOLLER.JS CODE IS BELOW
+import { User } from "../models/UserModel.js";
+import { createSecretToken } from "../util/SecretToken.js";
+import bcrypt from "bcryptjs";
+
+export const Signup = async (req, res,next) => {
+  try {
+    const { email, password, username, createdAt } = req.body;
+    console.log("Signup request received:", { email, password, username, createdAt });
+    const existingUser = await User.findOne({ email });
+    if (existingUser) {
+      return res.json({ message: "User already exists" });
+    }
+
+    const hashedPassword = await bcrypt.hash(password, 12);
+    const user = await User.create({ email, password: hashedPassword, username, createdAt });
+    console.log("User created successfully:", user);
+
+    
+    const token = createSecretToken(user._id);
+    res.cookie("token", token, {
+      withCredentials: true,
+      httpOnly: false,
+    });
+    res.status(201).json({ message: "User signed in successfully", success: true, user });
+    next();// No need for next() here, it may cause the request to hang
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: "Internal Server Error" });
+  }
+};
+
+export const Login = async (req, res, next) => {
+  try {
+    const { email, password } = req.body;
+    if(!email || !password ){
+      return res.json({message:'All fields are required'})
+    }
+    const user = await User.findOne({ email });
+    if(!user){
+      return res.json({message:'Incorrect password or email' }) 
+    }
+    const auth = await bcrypt.compare(password,user.password)
+    if (!auth) {
+      return res.json({message:'Incorrect password or email' }) 
+    }
+     const token = createSecretToken(user._id);
+     res.cookie("token", token, {
+       withCredentials: true,
+       httpOnly: false,
+     });
+     res.status(201).json({ message: "User logged in successfully", success: true });
+     next()
+  } catch (error) {
+    console.error(error);
+  }
+}
+
+D:\DATA\DEV\EAZY-REZUME\BACKEND\MIDDLEWARES\AUTHMIDDLEWARE.JS CODE IS BELOW
+import { User } from "../models/UserModel.js";
+import dotenv from "dotenv";
+dotenv.config();
+import jwt from "jsonwebtoken";
+
+export const userVerification = (req, res) => {
+  const token = req.cookies.token;
+  if (!token) {
+    return res.json({ status: false });
+  }
+  jwt.verify(token, process.env.TOKEN_KEY, async (err, data) => {
+    if (err) {
+      return res.json({ status: false });
+    } else {
+      const user = await User.findById(data.id);
+      if (user) return res.json({ status: true, user: user.username });
+      else return res.json({ status: false });
+    }
+  });
+};
+
+
+D:\DATA\DEV\EAZY-REZUME\BACKEND\MODELS\RESUMEMODEL.JS CODE IS BELOW
+// backend/models/Resume.js
+import mongoose from "mongoose";
+
+//const Schema = mongoose.Schema;
+
+const ExperienceSchema = new Schema({
+  company: { type: String, required: true },
+  position: { type: String, required: true },
+  startDate: { type: Date, required: true },
+  endDate: { type: Date },
+  description: { type: String },
+});
+
+const EducationSchema = new Schema({
+  institution: { type: String, required: true },
+  degree: { type: String, required: true },
+  fieldOfStudy: { type: String },
+  startDate: { type: Date, required: true },
+  endDate: { type: Date },
+});
+
+const ProjectSchema = new Schema({
+  name: { type: String, required: true },
+  description: { type: String },
+  technologies: [String],
+});
+
+const CertificationSchema = new Schema({
+  name: { type: String, required: true },
+  institution: { type: String },
+  date: { type: Date },
+});
+
+const ResumeSchema = new Schema({
+  userId: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "User",
+    required: true,
+  },
+  name: { type: String, required: true },
+  email: { type: String, required: true, trim: true },
+  phone: { type: String, required: true, trim: true },
+  summary: { type: String },
+  experience: [ExperienceSchema],
+  education: [EducationSchema],
+  skills: [String],
+  projects: [ProjectSchema],
+  certifications: [CertificationSchema],
+  createdAt: {
+    type: Date,
+    default: Date.now,
+  },
+});
+
+export const Resume = mongoose.model("Resume", ResumeSchema);
+
+
+
+D:\DATA\DEV\EAZY-REZUME\BACKEND\MODELS\USERMODEL.JS CODE IS BELOW
+import mongoose from "mongoose";
+import bcrypt from "bcryptjs";
+
+const UserSchema = new mongoose.Schema({
+  username: {
+    type: String,
+    required: [true, "Your username is required"],
+    unique: true,
+  },
+  email: {
+    type: String,
+    required: [true, "Your email address is required"],
+    unique: true,
+   
+  },
+  password: {
+    type: String,
+    required: [true, "Your password is required"],
+  },
+  createdAt: {
+    type: Date,
+    default: new Date(),
+  },
+});
+
+UserSchema.pre("save", async function () {
+  this.password = await bcrypt.hash(this.password, 12);
+});
+
+export const User = mongoose.model("User", UserSchema);
+
+
+D:\DATA\DEV\EAZY-REZUME\BACKEND\ROUTES\AUTHROUTE.JS CODE IS BELOW
+import { Signup } from "../controllers/AuthContoller.js";
+import { Router } from "express";
+import { userVerification } from "../middlewares/AuthMiddleware.js";
+import { Login } from "../controllers/AuthContoller.js";
+const router = Router();
+router.post("/signup", Signup);
+router.post("/login", Login);
+router.post("/",userVerification)
+
+export default router;
+
+D:\DATA\DEV\EAZY-REZUME\BACKEND\SERVER.JS CODE IS BELOW
+import express from "express";
+import mongoose from "mongoose";
+import dotenv from "dotenv";
+import { User } from "./models/UserModel.js";
+import cors from "cors";
+const app = express();
+dotenv.config();
+import cookieParser from "cookie-parser";
+import authRoute from "./routes/AuthRoute.js";
+const { MONGO_URL, PORT } = process.env;
+
+mongoose
+  .connect(MONGO_URL )
+  .then(() => {
+    console.log("Connected to MongoDB");
+    app.listen(PORT, () => {
+      console.log(`Server is running on port ${PORT}`);
+    });
+  })
+  .catch((err) => {
+    console.log("Error while connecting to MongoDB", err);
+  });
+
+app.use(
+  cors({
+    origin: ["http://localhost:5000"],
+    methods: ["GET", "POST", "PUT", "DELETE"],
+    credentials: true,
+  })
+);
+app.use(cookieParser());
+app.use(express.json());
+
+app.use("/",authRoute)
+
+/*app.get("/", async (req, res) => {
+  console.log(res);
+  return res.status(200).send("This is my resume Builder");
+});
+
+
+// request to create a new resume
+app.post("/register", async (req, res) => {
+  try {
+    if (!req.body.username || !req.body.email || !req.body.password) {
+      return res
+        .status(400)
+        .send({ message: "username, email and password are required" });
+    }
+    const newUser = {
+      username: req.body.username,
+      email: req.body.email,
+      password: req.body.password,
+    };
+    const user = await User.create(newUser);
+    return res.status(200).send(user);
+  } catch (error) {
+    console.log(error.message);
+    res.status(500).send({ messsage: error.message });
+  }
+});*/
+
+
+D:\DATA\DEV\EAZY-REZUME\BACKEND\UTIL\SECRETTOKEN.JS CODE IS BELOW
+import jwt from "jsonwebtoken";
+import dotenv from "dotenv";
+dotenv.config();
+
+export const createSecretToken = (id) => {
+  return jwt.sign({ id }, process.env.TOKEN_KEY, {
+    expiresIn: 3 * 24 * 60 * 60,
+  });
+};
+
+
+D:\DATA\DEV\EAZY-REZUME\CLIENT\INDEX.HTML CODE IS BELOW
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Vite + React</title>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/src/main.jsx"></script>
+  </body>
+</html>
+
+
+D:\DATA\DEV\EAZY-REZUME\CLIENT\SRC\APP.CSS CODE IS BELOW
+
+
+D:\DATA\DEV\EAZY-REZUME\CLIENT\SRC\APP.JSX CODE IS BELOW
+import {Route, Routes} from 'react-router-dom'
+import {Login,Signup} from './pages'
+import {Home} from './pages'
+import './App.css'
+
+function App() {
+ 
+
+  return (
+    <div>
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/login" element={<Login />} />
+        <Route path="/signup" element={<Signup />} />
+      </Routes>
+    </div>
+  )
+}
+
+export default App
+
+
+D:\DATA\DEV\EAZY-REZUME\CLIENT\SRC\INDEX.CSS CODE IS BELOW
+@import url("https://fonts.googleapis.com/css2?family=Montserrat:wght@100;200;300;400;500;600;700;800;900&family=Palanquin:wght@100;200;300;400;500;600;700&display=swap");
+  @tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+
+D:\DATA\DEV\EAZY-REZUME\CLIENT\SRC\MAIN.JSX CODE IS BELOW
+import React from 'react'
+import ReactDOM from 'react-dom/client'
+import App from './App.jsx'
+import './index.css'
+import { BrowserRouter } from "react-router-dom";
+import "react-toastify/dist/ReactToastify.css";
+
+ReactDOM.createRoot(document.getElementById('root')).render(
+  <React.StrictMode>
+    <BrowserRouter>
+    <App />
+    </BrowserRouter>
+    
+  </React.StrictMode>,
+)
+
+
+D:\DATA\DEV\EAZY-REZUME\CLIENT\SRC\PAGES\HOME.JSX CODE IS BELOW
+import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { useCookies } from "react-cookie";
+import axios from "axios";
+import { ToastContainer, toast } from "react-toastify";
+import 'react-toastify/dist/ReactToastify.css';
+
+const Home = () => {
+  const navigate = useNavigate();
+  const [cookies, removeCookie] = useCookies([]);
+  const [username, setUsername] = useState("");
+  
+  useEffect(() => {
+    const verifyCookie = async () => {
+      if (!cookies.token) {
+        navigate("/login");
+      }
+      try {
+        const { data } = await axios.post(
+          "http://localhost:5000",
+          {},
+          { withCredentials: true }
+        );
+        const { status, user } = data;
+        setUsername(user);
+        if (status) {
+          toast(`Hello ${user}`, {
+            position: "top-right",
+          });
+        } else {
+          removeCookie("token");
+          navigate("/login");
+        }
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    verifyCookie();
+  }, [cookies, navigate, removeCookie]);
+  
+  const Logout = () => {
+    removeCookie("token");
+    navigate("/signup");
+  };
+  
+  return (
+    <>
+      <div className=" font-montserrat flex justify-center items-center min-h-screen bg-gray-100">
+        <div className="bg-white p-8 rounded shadow-md w-full max-w-md">
+          <h4 className="text-xl mb-4">
+            Welcome <span className="font-bold">{username}</span>
+          </h4>
+          <button onClick={Logout} className="w-full bg-red-500 text-white py-2 rounded hover:bg-red-600 transition duration-200">LOGOUT</button>
+        </div>
+      </div>
+      <ToastContainer />
+    </>
+  );
+};
+
+export default Home;
+
+
+D:\DATA\DEV\EAZY-REZUME\CLIENT\SRC\PAGES\INDEX.JS CODE IS BELOW
+export {default as Home} from './Home';
+export {default as Login} from './Login';
+export {default as Signup} from './Signup';
+
+D:\DATA\DEV\EAZY-REZUME\CLIENT\SRC\PAGES\LOGIN.JSX CODE IS BELOW
+import { useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import axios from "axios";
+import { ToastContainer, toast } from "react-toastify";
+import 'react-toastify/dist/ReactToastify.css';
+
+const Login = () => {
+  const navigate = useNavigate();
+  const [inputValue, setInputValue] = useState({
+    email: "",
+    password: "",
+  });
+  const { email, password } = inputValue;
+  const handleOnChange = (e) => {
+    const { name, value } = e.target;
+    setInputValue({
+      ...inputValue,
+      [name]: value,
+    });
+  };
+
+  const handleError = (err) =>
+    toast.error(err, {
+      position: "bottom-left",
+    });
+  const handleSuccess = (msg) =>
+    toast.success(msg, {
+      position: "bottom-left",
+    });
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      const { data } = await axios.post(
+        "http://localhost:5000/login",
+        {
+          ...inputValue,
+        },
+        { withCredentials: true }
+      );
+      console.log(data);
+      const { success, message } = data;
+      if (success) {
+        handleSuccess(message);
+        setTimeout(() => {
+          navigate("/");
+        }, 1000);
+      } else {
+        handleError(message);
+      }
+    } catch (error) {
+      console.log(error);
+    }
+    setInputValue({
+      ...inputValue,
+      email: "",
+      password: "",
+    });
+  };
+
+  return (
+    <div className=" font-montserrat flex justify-center items-center min-h-screen bg-gray-100">
+      <div className="bg-white p-8 rounded shadow-md w-full max-w-md">
+        <h2 className="text-2xl font-bold mb-6">Login Account</h2>
+        <form onSubmit={handleSubmit}>
+          <div className="mb-4">
+            <label htmlFor="email" className="block text-gray-700">Email</label>
+            <input
+              type="email"
+              name="email"
+              value={email}
+              placeholder="Enter your email"
+              onChange={handleOnChange}
+              className="w-full p-2 border border-gray-300 rounded mt-1"
+            />
+          </div>
+          <div className="mb-4">
+            <label htmlFor="password" className="block text-gray-700">Password</label>
+            <input
+              type="password"
+              name="password"
+              value={password}
+              placeholder="Enter your password"
+              onChange={handleOnChange}
+              className="w-full p-2 border border-gray-300 rounded mt-1"
+            />
+          </div>
+          <button type="submit" className="w-full bg-blue-500 text-white p-2 rounded hover:bg-blue-600 transition duration-200">Submit</button>
+          <span className="block text-center mt-4 text-gray-600">
+            Don&apos;t have an account? <Link to={"/signup"} className="text-blue-500">Signup</Link>
+          </span>
+        </form>
+        <ToastContainer />
+      </div>
+    </div>
+  );
+};
+
+export default Login;
+
+
+D:\DATA\DEV\EAZY-REZUME\CLIENT\SRC\PAGES\SIGNUP.JSX CODE IS BELOW
+import  { useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import axios from "axios";
+import { ToastContainer, toast } from "react-toastify";
+
+const Signup = () => {
+  const navigate = useNavigate();
+  const [inputValue, setInputValue] = useState({
+    email: "",
+    password: "",
+    username: "",
+  });
+  const { email, password, username } = inputValue;
+  const handleOnChange = (e) => {
+    const { name, value } = e.target;
+    setInputValue({
+      ...inputValue,
+      [name]: value,
+    });
+  };
+
+  const handleError = (err) =>
+    toast.error(err, {
+      position: "bottom-left",
+    });
+  const handleSuccess = (msg) =>
+    toast.success(msg, {
+      position: "bottom-right",
+    });
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      const { data } = await axios.post(
+        "http://localhost:5000/signup",
+        {
+          ...inputValue,
+        },
+        { withCredentials: true }
+      );
+      const { success, message } = data;
+      if (success) {
+        handleSuccess(message);
+        setTimeout(() => {
+          navigate("/");
+        }, 1000);
+      } else {
+        handleError(message);
+      }
+    } catch (error) {
+      console.log(error);
+    }
+    setInputValue({
+      ...inputValue,
+      email: "",
+      password: "",
+      username: "",
+    });
+  };
+
+  return (
+    <div className=" font-montserrat flex justify-center items-center min-h-screen bg-gray-100">
+      <div className="bg-white p-8 rounded shadow-md w-full max-w-md">
+        <h2 className="text-2xl font-bold mb-6">Signup Account</h2>
+        <form onSubmit={handleSubmit}>
+          <div className="mb-4">
+            <label htmlFor="email" className="block text-gray-700">Email</label>
+            <input
+              type="email"
+              name="email"
+              value={email}
+              placeholder="Enter your email"
+              onChange={handleOnChange}
+              className="w-full p-2 border border-gray-300 rounded mt-1"
+            />
+          </div>
+          <div className="mb-4">
+            <label htmlFor="username" className="block text-gray-700">Username</label>
+            <input
+              type="text"
+              name="username"
+              value={username}
+              placeholder="Enter your username"
+              onChange={handleOnChange}
+              className="w-full p-2 border border-gray-300 rounded mt-1"
+            />
+          </div>
+          <div className="mb-4">
+            <label htmlFor="password" className="block text-gray-700">Password</label>
+            <input
+              type="password"
+              name="password"
+              value={password}
+              placeholder="Enter your password"
+              onChange={handleOnChange}
+              className="w-full p-2 border border-gray-300 rounded mt-1"
+            />
+          </div>
+          <button type="submit" className="w-full bg-blue-500 text-white p-2 rounded hover:bg-blue-600 transition duration-200">Submit</button>
+          <span className="block text-center mt-4 text-gray-600">
+            Already have an account? <Link to={"/login"} className="text-blue-500">Login</Link>
+          </span>
+        </form>
+        <ToastContainer />
+      </div>
+    </div>
+  );
+};
+
+export default Signup;

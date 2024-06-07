@@ -1,6 +1,7 @@
 import { User } from "../models/UserModel.js";
 import { createSecretToken } from "../util/SecretToken.js";
 import bcrypt from "bcryptjs";
+import jwt from "jsonwebtoken";
 
 export const Signup = async (req, res,next) => {
   try {
@@ -36,11 +37,15 @@ export const Login = async (req, res, next) => {
       return res.json({message:'All fields are required'})
     }
     const user = await User.findOne({ email });
+    console.log(`User found: ${user}`);
     if(!user){
+      console.log('User not found');
       return res.json({message:'Incorrect password or email' }) 
     }
     const auth = await bcrypt.compare(password,user.password)
+    console.log(`Password match result: ${auth}`);
     if (!auth) {
+      console.log('Password mismatch');
       return res.json({message:'Incorrect password or email' }) 
     }
      const token = createSecretToken(user._id);
@@ -48,9 +53,10 @@ export const Login = async (req, res, next) => {
        withCredentials: true,
        httpOnly: false,
      });
-     res.status(201).json({ message: "User logged in successfully", success: true });
-     next()
+     res.status(201).json({ message: "User logged in successfully", success: true,user:username });
+    
   } catch (error) {
-    console.error(error);
+    console.error("Login error",error);
+    res.status(500).json({ message: "Internal Server Error" });
   }
 }
