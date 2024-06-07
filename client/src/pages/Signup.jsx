@@ -11,23 +11,23 @@ const Signup = () => {
           type="text"
           placeholder="Username"
           id="username"
-          className=" bg-red-50 p-3 rounded-lg font-sans"
+          className=" bg-purple-50 p-3 rounded-lg font-sans"
         />
         <input
           type="email"
           placeholder="Email"
           id="email"
-          className=" bg-red-50 p-3 rounded-lg font-sans"
+          className=" bg-purple-50 p-3 rounded-lg font-sans"
         />
         <input
           type="password"
           placeholder="Password"
           id="password"
-          className=" bg-red-50 p-3 rounded-lg font-sans"
+          className=" bg-purple-50 p-3 rounded-lg font-sans"
         />
         <button
           type="submit"
-          className="bg-red-600 text-white py-3 rounded-lg font-sans font-bold hover:opacity-95 disabled:opacity-85"
+          className="bg-purple-600 text-white py-3 rounded-lg font-sans font-bold hover:opacity-95 disabled:opacity-85"
         >
           Sign Up
         </button>
@@ -35,7 +35,7 @@ const Signup = () => {
       <div className=" flex gap-2 mt-5">
         <p>Already having an account?</p>
         <Link to="/sign-in">
-          <span className="text-blue-500">Sign in</span>
+          <span className="text-purple-800 font-semibold">Sign in</span>
         </Link>
       </div>
     </div>
