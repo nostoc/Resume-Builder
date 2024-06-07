@@ -1,0 +1,148 @@
+
+D:\DATA\DEV\EAZY-REZUME\CLIENT\INDEX.HTML CODE IS BELOW
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Vite + React</title>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/src/main.jsx"></script>
+  </body>
+</html>
+
+
+D:\DATA\DEV\EAZY-REZUME\CLIENT\SRC\APP.CSS CODE IS BELOW
+#root {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 2rem;
+  text-align: center;
+}
+
+.logo {
+  height: 6em;
+  padding: 1.5em;
+  will-change: filter;
+  transition: filter 300ms;
+}
+.logo:hover {
+  filter: drop-shadow(0 0 2em #646cffaa);
+}
+.logo.react:hover {
+  filter: drop-shadow(0 0 2em #61dafbaa);
+}
+
+@keyframes logo-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  a:nth-of-type(2) .logo {
+    animation: logo-spin infinite 20s linear;
+  }
+}
+
+.card {
+  padding: 2em;
+}
+
+.read-the-docs {
+  color: #888;
+}
+
+
+D:\DATA\DEV\EAZY-REZUME\CLIENT\SRC\APP.JSX CODE IS BELOW
+import {Route, Routes} from 'react-router-dom'
+import {Login,Signup} from './pages'
+import {Home} from './pages/Home'
+import './App.css'
+
+function App() {
+ 
+
+  return (
+    <div>
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/login" element={<Login />} />
+        <Route path="/signup" element={<Signup />} />
+      </Routes>
+    </div>
+  )
+}
+
+export default App
+
+
+D:\DATA\DEV\EAZY-REZUME\CLIENT\SRC\INDEX.CSS CODE IS BELOW
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+D:\DATA\DEV\EAZY-REZUME\CLIENT\SRC\MAIN.JSX CODE IS BELOW
+import React from 'react'
+import ReactDOM from 'react-dom/client'
+import App from './App.jsx'
+import './index.css'
+import { BrowserRouter } from "react-router-dom";
+import "react-toastify/dist/ReactToastify.css";
+
+ReactDOM.createRoot(document.getElementById('root')).render(
+  <React.StrictMode>
+    <BrowserRouter>
+    <App />
+    </BrowserRouter>
+    
+  </React.StrictMode>,
+)
+
+
+D:\DATA\DEV\EAZY-REZUME\CLIENT\SRC\PAGES\HOME.JSX CODE IS BELOW
+const Home = () => {
+  return (
+    <div>
+      <h1>Home Page </h1>
+    </div>
+  );
+};
+
+export default Home;
+
+
+D:\DATA\DEV\EAZY-REZUME\CLIENT\SRC\PAGES\INDEX.JS CODE IS BELOW
+export {default as Home} from './Home';
+export {default as Login} from './Login';
+export {default as Signup} from './Signup';
+
+D:\DATA\DEV\EAZY-REZUME\CLIENT\SRC\PAGES\LOGIN.JSX CODE IS BELOW
+const Login = () => {
+  return (
+    <div>
+      <h1> Login Page </h1>
+    </div>
+  );
+};
+
+export default Login;
+
+
+D:\DATA\DEV\EAZY-REZUME\CLIENT\SRC\PAGES\SIGNUP.JSX CODE IS BELOW
+const Signup = () => {
+  return (
+    <div>
+      <h1>Signup Page</h1>
+    </div>
+  );
+};
+
+export default Signup;
+
