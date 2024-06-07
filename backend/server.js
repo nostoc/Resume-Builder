@@ -3,6 +3,7 @@ import mongoose from "mongoose";
 import dotenv from "dotenv";
 dotenv.config();
 import userRouter from "./routes/user.route.js";
+import authRouter from "./routes/auth.route.js";
 mongoose
   .connect(process.env.MONGO_URL)
   .then(() => {
@@ -13,8 +14,11 @@ mongoose
   });
 const app = express();
 
+app.use(express.json());
+
 app.listen(process.env.PORT, () => {
   console.log(`Server is listening on port ${process.env.PORT}`);
 });
 
 app.use("/eazy-rezume/user", userRouter);
+app.use("/eazy-rezume/auth", authRouter);
