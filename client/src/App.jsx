@@ -8,6 +8,7 @@ import MyResumes from "./pages/MyResumes";
 
 import "./App.css";
 
+
 function App() {
   return (
     
@@ -17,7 +18,7 @@ function App() {
         <Route path="/sign-in" element={<SignIn />} />
         <Route path="/sign-up" element={<SignUp />} />
         <Route path="/profile" element={<Profile />} />
-        <Route path="/my-resumes" element={<MyResumes />} />
+        <Route path="/my-rezumes" element={<MyResumes />} />
       </Routes>
     
   );
