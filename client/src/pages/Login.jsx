@@ -1,4 +1,4 @@
-import { useState } from "react";
+import  { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { ToastContainer, toast } from "react-toastify";
@@ -11,7 +11,6 @@ const Login = () => {
     password: "",
   });
   const { email, password } = inputValue;
-  
   const handleOnChange = (e) => {
     const { name, value } = e.target;
     setInputValue({
@@ -32,7 +31,6 @@ const Login = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      console.log('Submitting login form:', inputValue);
       const { data } = await axios.post(
         "http://localhost:5000/login",
         {
@@ -40,20 +38,18 @@ const Login = () => {
         },
         { withCredentials: true }
       );
-
-      console.log('Login response:', data);
-      const { success, message, token} = data;
+      console.log(data);
+      const { success, message } = data;
       if (success) {
-        localStorage.setItem("token", token);
         handleSuccess(message);
         setTimeout(() => {
-          navigate("/home");
+          navigate("/");
         }, 1000);
       } else {
         handleError(message);
       }
     } catch (error) {
-      console.log('Login request error:', error);
+      console.log(error);
     }
     setInputValue({
       ...inputValue,
@@ -63,7 +59,7 @@ const Login = () => {
   };
 
   return (
-    <div className=" font-montserrat flex justify-center items-center min-h-screen bg-gray-100">
+    <div className="flex justify-center items-center min-h-screen bg-gray-100">
       <div className="bg-white p-8 rounded shadow-md w-full max-w-md">
         <h2 className="text-2xl font-bold mb-6">Login Account</h2>
         <form onSubmit={handleSubmit}>
@@ -91,7 +87,7 @@ const Login = () => {
           </div>
           <button type="submit" className="w-full bg-blue-500 text-white p-2 rounded hover:bg-blue-600 transition duration-200">Submit</button>
           <span className="block text-center mt-4 text-gray-600">
-            Don&apos;t have an account? <Link to={"/signup"} className="text-blue-500">Signup</Link>
+            Don&rsquo;t have an account? <Link to={"/signup"} className="text-blue-500">Signup</Link>
           </span>
         </form>
         <ToastContainer />

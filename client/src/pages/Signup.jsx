@@ -2,6 +2,7 @@ import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { ToastContainer, toast } from "react-toastify";
+import 'react-toastify/dist/ReactToastify.css';
 
 const Signup = () => {
   const navigate = useNavigate();
@@ -42,7 +43,7 @@ const Signup = () => {
       if (success) {
         handleSuccess(message);
         setTimeout(() => {
-          navigate("/home");
+          navigate("/");
         }, 1000);
       } else {
         handleError(message);
@@ -59,14 +60,12 @@ const Signup = () => {
   };
 
   return (
-    <div className=" font-montserrat flex justify-center items-center min-h-screen bg-gray-100">
+    <div className="flex justify-center items-center min-h-screen bg-gray-100">
       <div className="bg-white p-8 rounded shadow-md w-full max-w-md">
         <h2 className="text-2xl font-bold mb-6">Signup Account</h2>
         <form onSubmit={handleSubmit}>
           <div className="mb-4">
-            <label htmlFor="email" className="block text-gray-700">
-              Email
-            </label>
+            <label htmlFor="email" className="block text-gray-700">Email</label>
             <input
               type="email"
               name="email"
@@ -77,9 +76,7 @@ const Signup = () => {
             />
           </div>
           <div className="mb-4">
-            <label htmlFor="username" className="block text-gray-700">
-              Username
-            </label>
+            <label htmlFor="username" className="block text-gray-700">Username</label>
             <input
               type="text"
               name="username"
@@ -90,9 +87,7 @@ const Signup = () => {
             />
           </div>
           <div className="mb-4">
-            <label htmlFor="password" className="block text-gray-700">
-              Password
-            </label>
+            <label htmlFor="password" className="block text-gray-700">Password</label>
             <input
               type="password"
               name="password"
@@ -102,17 +97,9 @@ const Signup = () => {
               className="w-full p-2 border border-gray-300 rounded mt-1"
             />
           </div>
-          <button
-            type="submit"
-            className="w-full bg-blue-500 text-white p-2 rounded hover:bg-blue-600 transition duration-200"
-          >
-            Submit
-          </button>
+          <button type="submit" className="w-full bg-blue-500 text-white p-2 rounded hover:bg-blue-600 transition duration-200">Submit</button>
           <span className="block text-center mt-4 text-gray-600">
-            Already have an account?{" "}
-            <Link to={"/login"} className="text-blue-500">
-              Login
-            </Link>
+            Already have an account? <Link to={"/login"} className="text-blue-500">Login</Link>
           </span>
         </form>
         <ToastContainer />

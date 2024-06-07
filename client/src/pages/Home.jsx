@@ -40,12 +40,12 @@ const Home = () => {
   
   const Logout = () => {
     removeCookie("token");
-    navigate("/login");
+    navigate("/signup");
   };
   
   return (
     <>
-      <div className=" font-montserrat flex justify-center items-center min-h-screen bg-gray-100">
+      <div className="flex justify-center items-center min-h-screen bg-gray-100">
         <div className="bg-white p-8 rounded shadow-md w-full max-w-md">
           <h4 className="text-xl mb-4">
             Welcome <span className="font-bold">{username}</span>
