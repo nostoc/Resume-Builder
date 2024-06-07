@@ -29,7 +29,7 @@ export const Signup = async (req, res,next) => {
   }
 };
 
-export const Login = async (req, res, next) => {
+export const Login = async (req, res) => {
   try {
     const { email, password } = req.body;
     if(!email || !password ){
@@ -49,7 +49,7 @@ export const Login = async (req, res, next) => {
        httpOnly: false,
      });
      res.status(201).json({ message: "User logged in successfully", success: true });
-     next()
+     
   } catch (error) {
     console.error(error);
   }
