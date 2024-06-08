@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Link,useNavigate} from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 const SignUp = () => {
   const [formData, setFormData] = useState({});
@@ -29,7 +29,7 @@ const SignUp = () => {
         setError(true);
         return;
       }
-      navigate("/sign-in")
+      navigate("/sign-in");
     } catch (error) {
       setLoading(false);
       setError(true);
@@ -75,7 +75,9 @@ const SignUp = () => {
           <span className="text-purple-800 font-semibold">Sign in</span>
         </Link>
       </div>
-      <p className=" text-red-700 mt-5">{error && "Something went wrong!"}</p>
+      <p className=" text-red-700 mt-5">
+        {error ? error.message || "Something went wrong!" : " "}
+      </p>
     </div>
   );
 };
