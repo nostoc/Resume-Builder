@@ -1,0 +1,912 @@
+
+D:\DATA\EAZY-REZUME\.ENV CODE IS BELOW
+PORT = 5000
+MONGO_URL = "mongodb+srv://nostochk:j15hgywfyJxkDmmh@cluster0.mefxs23.mongodb.net/easy-resume?retryWrites=true&w=majority&appName=Cluster0"
+JWT_SECRET = bac6176c49cc5a02add0a9952a78515037955d62f7f76e4799a7c9b1bcb2bc4fc176cb7d76fae90ff438e8f27876c4ccde803df099cd51bed42c7b87e0d726fe
+
+D:\DATA\EAZY-REZUME\BACKEND\CONFIG\DB.JS CODE IS BELOW
+import mongoose from "mongoose";
+
+const connectDB = async () => {
+  try {
+    await mongoose.connect(process.env.MONGO_URL);
+    console.log("MongoDB connected successfully");
+  } catch (err) {
+    console.error("MongoDB connection error:", err.message);
+  }
+};
+
+export default connectDB;
+
+
+D:\DATA\EAZY-REZUME\BACKEND\CONTROLLERS\AUTHCONTROLLER.JS CODE IS BELOW
+import User from "../models/userModel.js";
+import bcryptjs from "bcryptjs";
+import { errorHandler } from "../util/error.js";
+import jwt from "jsonwebtoken";
+import { validationResult } from "express-validator";
+
+export const registerUser = async (req, res) => {
+  const errros = validationResult(req);
+  if (!errros.isEmpty()) {
+    return res.status(400).json({ errors: errros.array() });
+  }
+
+  const { username, email, password } = req.body;
+  try{
+    let user = await User.findOne({ email});
+    if(user){
+      return res.status(400).json({ message: "User already exists"});
+    }
+
+    user = new User({
+      username,
+      email,
+      password
+    });
+
+    const salt = await bcryptjs.genSalt(10);
+    user.password = await bcryptjs.hash(password, salt);
+    await user.save();
+
+    const payload = {
+      user: {
+        id: user.id
+      },
+    };
+
+    jwt.sign(
+      payload,
+      process.env.JWT_SECRET,
+      { expiresIn: 360000},
+      (err, token) => {
+        if(err) throw err;
+        res.json({ token });
+      }
+    );
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).send("Server Error");
+  }
+};
+// Authenticate user and get token 
+
+export const authUser = async (req, res) => {
+  const errros = validationResult(req);
+  if (!errros.isEmpty()) {
+    return res.status(400).json({ errors: errros.array() });
+  }
+
+  const { email, password } = req.body;
+  try{
+    let user = await User.findOne({email});
+    if(!user){
+      return res.status(400).json({ message: "Invalid Credentials"});
+    }
+
+    const isMatch = await bcryptjs.compare(password, user.password);
+    if(!isMatch){
+      return res.status(400).json({ message: "Invalid Credentials"});
+    }
+
+    const payload = {
+      user: {
+        id: user.id
+      },
+    };
+
+    jwt.sign(
+      payload,
+      process.env.JWT_SECRET,
+      { expiresIn: 360000},
+      (err, token) => {
+        if(err) throw err;
+        res.json({ token });
+      }
+    );
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).send("Server Error");
+  }
+};
+
+
+
+D:\DATA\EAZY-REZUME\BACKEND\CONTROLLERS\PROFILECONTROLLER.JS CODE IS BELOW
+import { Profile } from "../models/profileModel.js";
+import { validationResult } from "express-validator";
+
+// @route   GET api/profile/me
+// @desc    Get current user profile
+// @access  Private
+
+export const getCurrentProfile = async (req, res) => {
+  try {
+    const profile = await Profile.findOne({ user: req.user.id });
+    if (!profile) {
+      return res
+        .status(400)
+        .json({ message: "There is no profile for this user" });
+    }
+    res.json(profile);
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).send("Server Error");
+  }
+};
+
+// @route   POST api/profile
+// @desc    Create or update user profile
+// @access  Private
+
+export const createOrUpdateProfile = async (req, res) => {
+  const errors = validationResult(req);
+  if (!errors.isEmpty()) {
+    return res.status(400).json({ errors: errors.array() });
+  }
+  const { personalInfo, education, experience, skills, projects } = req.body;
+
+  // Build profile object
+  const profileFields = {};
+  profileFields.user = req.user.id;
+  if (personalInfo) profileFields.personalInfo = personalInfo;
+  if (education) profileFields.education = education;
+  if (experience) profileFields.experience = experience;
+  if (skills) profileFields.skills = skills;
+  if (projects) profileFields.projects = projects;
+
+  try {
+    let profile = await Profile.findOne({ user: req.user.id });
+    if (profile) {
+      //update profile
+      profile = await Profile.findOneAndUpdate(
+        { user: req.user.id },
+        { $set: profileFields },
+        { new: true }
+      );
+      return res.json(profile);
+    }
+    //create profile
+    profile = new Profile(profileFields);
+    await profile.save();
+    res.json(profile);
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).send("Server Error");
+  }
+};
+
+// @route   DELETE api/profile
+// @desc    Delete profile
+// @access  Private
+
+export const deleteProfile = async (req, res) => {
+  try {
+    // Remove profile
+    await Profile.findOneAndDelete({ user: req.user.id });
+    res.json({ message: "Profile deleted" });
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).send("Server Error");
+  }
+};
+
+
+D:\DATA\EAZY-REZUME\BACKEND\CONTROLLERS\RESUMECONTROLLER.JS CODE IS BELOW
+import { ResumeTemplate } from "../models/resumeTemplateModel.js";
+import { validationResult } from "express-validator";
+
+// @route  POST api/resume
+// @desc   Create a resume template
+// @access Private
+
+export const createResumeTemplate = async (req, res) => {
+  const errors = validationResult(req);
+  if (!errors.isEmpty()) {
+    return res.status(400).json({ errors: errors.array() });
+  }
+  const { name, description, fields } = req.body;
+  try {
+    const newTemplate = new ResumeTemplate({
+      user: req.user.id,
+      name,
+      description,
+      fields,
+    });
+
+    const template = await newTemplate.save();
+    res.json(template);
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).send("Server Error");
+  }
+};
+
+// @route  GET api/resume
+// @desc   Get all resume templates
+// @access Public
+
+export const getAllResumeTemplates = async (req, res) => {
+  try {
+    const templates = await ResumeTemplate.find();
+    res.json(templates);
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).send("Server Error");
+  }
+};
+
+// @route  GET api/resume/:id
+// @desc   Get resume template by ID
+// @access Public
+
+export const getResumeTemplateById = async (req, res) => {
+  try {
+    const template = await ResumeTemplate.findById(req.params.id);
+    if (!template) {
+      return res.status(404).json({ message: "Template not found" });
+    }
+    res.json(template);
+  } catch (err) {
+    console.error(err.message);
+    if (err.kind === "ObjectId") {
+      return res.status(404).json({ message: "Resume Template not found" });
+    }
+    res.status(500).send("Server Error");
+  }
+};
+
+// @route PUT api/resume/:id
+// @desc Update resume template by ID
+// @access Private
+
+export const updateResumeTemplate = async (req, res) => {
+  const errors = validationResult(req);
+  if (!errors.isEmpty()) {
+    return res.status(400).json({ errors: errors.array() });
+  }
+  const { name, description, fields } = req.body;
+
+  const templateFields = {};
+  if (name) templateFields.name = name;
+  if (description) templateFields.description = description;
+  if (fields) templateFields.fields = fields;
+
+  try {
+    let template = await ResumeTemplate.findById(req.params.id);
+    if (!template) {
+      return res.status(404).json({ message: "Resume Template not found" });
+    }
+    // Make sure user owns the template
+    if (template.user.toString() !== req.user.id) {
+      return res.status(401).json({ message: "User not authorized" });
+    }
+
+    template = await ResumeTemplate.findByIdAndUpdate(
+      req.params.id,
+      { $set: templateFields },
+      { new: true }
+    );
+
+    res.json(template);
+  } catch (err) {
+    console.error(err.message);
+    if (err.kind === "ObjectId") {
+      return res.status(404).json({ message: "Resume Template not found" });
+    }
+    res.status(500).send("Server Error");
+  }
+};
+
+// @route DELETE api/resume/:id
+// @desc Delete resume template by ID
+// @access Private
+
+export const deleteResumeTemplate = async (req, res) => {
+  try {
+    const template = await ResumeTemplate.findById(req.params.id);
+    if (!template) {
+      return res.status(404).json({ message: "Resume Template not found" });
+    }
+    // Make sure user owns the template
+    if (template.user.toString() !== req.user.id) {
+      return res.status(401).json({ message: "User not authorized" });
+    }
+
+    //await template.remove();
+   // res.json({ message: "Template removed" });
+
+      await ResumeTemplate.findByIdAndDelete(req.params.id);
+     res.json({ message: "Template removed" });
+  } catch (err) {
+    console.error(err.message);
+    if (err.kind === "ObjectId") {
+      return res.status(404).json({ message: "Resume Template not found" });
+    }
+    res.status(500).send("Server Error");
+  }
+};
+
+
+D:\DATA\EAZY-REZUME\BACKEND\CONTROLLERS\USER.CONTROLLER.JS CODE IS BELOW
+export const test = (req, res) => {
+  res.json({
+    message: "Backend is running...",
+  });
+};
+
+
+D:\DATA\EAZY-REZUME\BACKEND\MIDDLEWARE\AUTH.JS CODE IS BELOW
+import e from "express";
+import jwt from "jsonwebtoken";
+
+const auth = (req, res, next) => {
+  const token = req.header("x-auth-token");
+
+  if (!token) {
+    return res.status(401).json({ message: "No token, authorization denied" });
+  }
+
+  try {
+    const decoded = jwt.verify(token, process.env.JWT_SECRET);
+    req.user = decoded.user;
+    next();
+  } catch (err) {
+    res.status(401).json({ message: "Token is not valid" });
+  }
+};
+
+export default auth;
+
+
+D:\DATA\EAZY-REZUME\BACKEND\MODELS\PROFILEMODEL.JS CODE IS BELOW
+import mongoose from "mongoose";
+
+const ProfileSchema = new mongoose.Schema(
+  {
+    user: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "User",
+      required: true,
+    },
+    personalInfo: {
+      name: { type: String, required: true },
+      email: { type: String, required: true },
+      phone: { type: String },
+      address: { type: String },
+    },
+    education: [
+      {
+        institution: { type: String, required: true },
+        degree: { type: String, required: true },
+        startDate: { type: Date, required: true },
+        endDate: { type: Date },
+        description: { type: String },
+      },
+    ],
+    experience: [
+      {
+        company: { type: String, required: true },
+        position: { type: String, required: true },
+        startDate: { type: Date, required: true },
+        endDate: { type: Date },
+        description: { type: String },
+      },
+    ],
+    skills: [{ type: String }],
+    projects: [
+      {
+        name: { type: String, required: true },
+        description: { type: String, required: true },
+        link: { type: String },
+      },
+    ],
+  },
+  {
+    timestamps: true,
+  }
+);
+
+export const Profile = mongoose.model("Profile", ProfileSchema);
+
+
+D:\DATA\EAZY-REZUME\BACKEND\MODELS\RESUMETEMPLATEMODEL.JS CODE IS BELOW
+import mongoose from "mongoose";
+
+const FieldSchema = new mongoose.Schema({
+  label: { type: String, required: true },
+  type: { type: String, required: true },
+});
+
+const ResumeTemplateSchema = new mongoose.Schema(
+  {
+    user: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "user",
+      required: true,
+    },
+    name: {
+      type: String,
+      required: true,
+    },
+    description: {
+      type: String,
+      required: true,
+    },
+    fields: [FieldSchema],
+  },
+  {
+    timestamps: true,
+  }
+);
+
+export const ResumeTemplate = mongoose.model("ResumeTemplate", ResumeTemplateSchema);
+
+D:\DATA\EAZY-REZUME\BACKEND\MODELS\USERMODEL.JS CODE IS BELOW
+import mongoose from "mongoose";
+
+
+const userSchema = new mongoose.Schema(
+  {
+    username: {
+      type: String,
+      required: true,
+      
+    },
+    email: {
+      type: String,
+      required: true,
+      unique: true,
+    },
+    password: {
+      type: String,
+      required: true,
+    },
+  },
+  {
+    timestamps: true,
+  }
+);
+
+const User = mongoose.model("User", userSchema);
+export default User;
+
+
+D:\DATA\EAZY-REZUME\BACKEND\ROUTES\AUTH.JS CODE IS BELOW
+import express from "express";
+import { check } from "express-validator";
+import { authUser, registerUser } from "../controllers/authController.js";
+import e from "express";
+
+const router = express.Router();
+
+// @route    POST api/auth/register
+// @desc     Register user
+// @access   Public
+router.post(
+  "/register",
+  [
+    check("username", "Username is required").not().isEmpty(),
+    check("email", "Please include a valid email").isEmail(),
+    check(
+      "password",
+      "Please enter a password with 6 or more characters"
+    ).isLength({ min: 6 }),
+  ],
+  registerUser
+);
+
+// @route    POST api/auth
+// @desc     Authenticate user & get token
+// @access   Public
+router.post(
+  "/login",
+  [
+    check("email", "Please include a valid email").isEmail(),
+    check("password", "Password is required").exists(),
+  ],
+  authUser
+);
+export default router;
+
+
+D:\DATA\EAZY-REZUME\BACKEND\ROUTES\PROFILE.JS CODE IS BELOW
+import express from "express";
+import { check } from "express-validator";
+import {
+  getCurrentProfile,
+  createOrUpdateProfile,
+  deleteProfile,
+} from "../controllers/profileController.js";
+import auth from "../middleware/auth.js";
+
+const router = express.Router();
+
+// @route    GET api/profile/me
+// @desc     Get current user profile
+// @access   Private
+router.get("/me", auth, getCurrentProfile);
+
+// @route    POST api/profile
+// @desc     Create or update user profile
+// @access   Private
+router.post(
+  "/upsert",
+  [
+    auth,
+    check("personalInfo", "Personal Info is required").not().isEmpty(),
+    check("education", "Education is required").not().isEmpty(),
+    check("experience", "Experience is required").not().isEmpty(),
+    check("skills", "Skills is required").not().isEmpty(),
+    check("projects", "Projects is required").not().isEmpty(),
+  ],
+  createOrUpdateProfile
+);
+
+// @route    DELETE api/profile
+// @desc     Delete profile, user & posts
+// @access   Private
+router.delete("/delete", auth, deleteProfile);
+
+export default router;
+
+
+D:\DATA\EAZY-REZUME\BACKEND\ROUTES\RESUME.JS CODE IS BELOW
+import express from "express";
+import { check } from "express-validator";
+import auth from "../middleware/auth.js";
+
+import {
+  createResumeTemplate,
+  getAllResumeTemplates,
+  getResumeTemplateById,
+  updateResumeTemplate,
+  deleteResumeTemplate,
+} from "../controllers/resumeController.js";
+
+const router = express.Router();
+
+// @route  POST api/resume
+// @desc   Create a resume template
+// @access Private
+router.post(
+  "/",
+  auth,
+  [
+    check("name", "Name is required").not().isEmpty(),
+    check("description", "Description is required").not().isEmpty(),
+    check("fields", "Fields is required").not().isEmpty(),
+  ],
+  createResumeTemplate
+);
+
+// @route  GET api/resume
+// @desc   Get all resume templates
+// @access Public
+router.get("/", getAllResumeTemplates);
+
+// @route  GET api/resume/:id
+// @desc   Get resume template by ID
+// @access Public
+router.get("/:id", getResumeTemplateById);
+
+// @route  PUT api/resume/:id
+// @desc   Update resume template by ID
+// @access Private
+router.put("/:id", [
+  auth,
+  [
+    check("name", "Name is required").not().isEmpty(),
+    check("description", "Description is required").not().isEmpty(),
+    check("fields", "Fields is required").not().isEmpty(),
+  ],
+  updateResumeTemplate,
+]);
+
+// @route  DELETE api/resume/:id;
+// @desc   Delete resume template by ID
+// @access Private
+router.delete("/:id", auth, deleteResumeTemplate);
+
+export default router;
+
+
+D:\DATA\EAZY-REZUME\BACKEND\SERVER.JS CODE IS BELOW
+import express from "express";
+import dotenv from "dotenv";
+import authRoutes from "./routes/auth.js";
+import profileRoutes from "./routes/profile.js";
+import resumeRoutes from "./routes/resume.js";
+import connectDB from "./config/db.js";
+import mongoose from "mongoose";
+//load env variables
+dotenv.config();
+
+//connect to db
+connectDB();
+
+const app = express();
+
+//init middlewares
+app.use(express.json());
+
+// Define Routes (we will add routes later)
+app.use("/api/auth", authRoutes);
+app.use("/api/profile", profileRoutes);
+app.use("/api/resume", resumeRoutes);
+// app.use('/api/users', require('./routes/users'));
+// app.use('/api/auth', require('./routes/auth'));
+// app.use('/api/profile', require('./routes/profile'));
+// app.use('/api/resume', require('./routes/resume'));
+
+//server
+app.listen(process.env.PORT, () => {
+  console.log(`Server is listening on port ${process.env.PORT}`);
+});
+
+//global error handler
+app.use((err, req, res, next) => {
+  const statusCode = err.statusCode || 500;
+  const message = err.message || "Internal Server Error";
+  return res.status(statusCode).json({
+    success: false,
+    message,
+    statusCode,
+  });
+});
+
+
+D:\DATA\EAZY-REZUME\BACKEND\UTIL\ERROR.JS CODE IS BELOW
+export const errorHandler = (statusCode, message)=>{
+    const error = new Error();
+    error.statusCode = statusCode;
+    error.message = message;
+    return error;
+}
+
+D:\DATA\EAZY-REZUME\CLIENT\.ENV CODE IS BELOW
+VITE_FIREBASE_KEY="AIzaSyAq_HI_D2cSlxWDkHEjEd5sHJMbPGyPQBE"
+
+D:\DATA\EAZY-REZUME\CLIENT\INDEX.HTML CODE IS BELOW
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Eazy Rezume</title>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/src/main.jsx"></script>
+  </body>
+</html>
+
+
+D:\DATA\EAZY-REZUME\CLIENT\SRC\APP.CSS CODE IS BELOW
+
+
+D:\DATA\EAZY-REZUME\CLIENT\SRC\APP.JSX CODE IS BELOW
+import { Route, Routes } from "react-router-dom";
+import Login from "./components/auth/Login";
+import Register from "./components/auth/Register";
+
+import "./App.css";
+
+
+function App() {
+  return (
+    
+      <Routes>
+        
+        <Route path="/login" element={<Login/>} />
+        <Route path="/register" element={<Register />} />
+        
+      </Routes>
+    
+  );
+}
+
+export default App;
+
+
+D:\DATA\EAZY-REZUME\CLIENT\SRC\COMPONENTS\AUTH\LOGIN.JSX CODE IS BELOW
+// src/components/Auth/Login.js
+
+import  { useState } from 'react';
+import { useDispatch } from 'react-redux';
+import { loginUser } from '../../redux/actions/authActions';
+
+const Login = () => {
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const dispatch = useDispatch();
+
+  const handleLogin = () => {
+    dispatch(loginUser({ email, password }));
+  };
+
+  return (
+    <div className="flex flex-col items-center justify-center h-screen">
+      <h2 className="text-3xl font-semibold mb-4">Login</h2>
+      <input
+        type="email"
+        placeholder="Email"
+        value={email}
+        onChange={(e) => setEmail(e.target.value)}
+        className="border rounded-md px-3 py-2 mb-3"
+      />
+      <input
+        type="password"
+        placeholder="Password"
+        value={password}
+        onChange={(e) => setPassword(e.target.value)}
+        className="border rounded-md px-3 py-2 mb-3"
+      />
+      <button onClick={handleLogin} className="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600">
+        Login
+      </button>
+    </div>
+  );
+};
+
+export default Login;
+
+
+D:\DATA\EAZY-REZUME\CLIENT\SRC\COMPONENTS\AUTH\REGISTER.JSX CODE IS BELOW
+// src/components/Auth/Register.js
+
+import  { useState } from 'react';
+import { useDispatch } from 'react-redux';
+import { registerUser } from '../../redux/actions/authActions';
+
+const Register = () => {
+  const [name, setName] = useState('');
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const dispatch = useDispatch();
+
+  const handleRegister = () => {
+    dispatch(registerUser({ name, email, password }));
+  };
+
+  return (
+    <div className="flex flex-col items-center justify-center h-screen">
+      <h2 className="text-3xl font-semibold mb-4">Register</h2>
+      <input
+        type="text"
+        placeholder="Name"
+        value={name}
+        onChange={(e) => setName(e.target.value)}
+        className="border rounded-md px-3 py-2 mb-3"
+      />
+      <input
+        type="email"
+        placeholder="Email"
+        value={email}
+        onChange={(e) => setEmail(e.target.value)}
+        className="border rounded-md px-3 py-2 mb-3"
+      />
+      <input
+        type="password"
+        placeholder="Password"
+        value={password}
+        onChange={(e) => setPassword(e.target.value)}
+        className="border rounded-md px-3 py-2 mb-3"
+      />
+      <button onClick={handleRegister} className="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600">
+        Register
+      </button>
+    </div>
+  );
+};
+
+export default Register;
+
+
+D:\DATA\EAZY-REZUME\CLIENT\SRC\INDEX.CSS CODE IS BELOW
+@import url("https://fonts.googleapis.com/css2?family=Montserrat:wght@100;200;300;400;500;600;700;800;900&family=Palanquin:wght@100;200;300;400;500;600;700&display=swap");
+  @tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+
+D:\DATA\EAZY-REZUME\CLIENT\SRC\MAIN.JSX CODE IS BELOW
+import ReactDOM from "react-dom/client";
+import App from "./App.jsx";
+import "./index.css";
+import { BrowserRouter } from "react-router-dom";
+import "react-toastify/dist/ReactToastify.css";
+import { Provider } from "react-redux";
+import store from "./redux/store"; // Your Redux store
+
+ReactDOM.createRoot(document.getElementById("root")).render(
+  <Provider store={store}>
+    <BrowserRouter>
+      <App />
+    </BrowserRouter>
+  </Provider>
+);
+
+
+D:\DATA\EAZY-REZUME\CLIENT\SRC\REDUX\ACTIONS\AUTHACTIONS.JS CODE IS BELOW
+// src/redux/actions/authActions.js
+
+import axios from 'axios';
+
+export const loginUser = (userData) => async (dispatch) => {
+  try {
+    const res = await axios.post('/api/auth/login', userData);
+    console.log(res.data); // Dispatch success action if needed
+  } catch (error) {
+    console.error(error); // Dispatch failure action if needed
+  }
+};
+
+export const registerUser = (userData) => async (dispatch) => {
+  try {
+    const res = await axios.post('/api/auth/register', userData);
+    console.log(res.data); // Dispatch success action if needed
+  } catch (error) {
+    console.error(error); // Dispatch failure action if needed
+  }
+};
+
+
+D:\DATA\EAZY-REZUME\CLIENT\SRC\REDUX\ACTIONS\TYPES.JS CODE IS BELOW
+export const LOGIN_USER = 'LOGIN_USER';
+export const REGISTER_USER = 'REGISTER_USER';
+
+
+D:\DATA\EAZY-REZUME\CLIENT\SRC\REDUX\REDUCERS\AUTHREDUCER.JS CODE IS BELOW
+// src/redux/reducers/authReducer.js
+
+import { LOGIN_USER, REGISTER_USER } from "../actions/types";
+
+const initialState = {
+  user: null,
+  isAuthenticated: false,
+  loading: false,
+};
+
+const authReducer = (state = initialState, action) => {
+  switch (action.type) {
+    case LOGIN_USER:
+    case REGISTER_USER:
+      return {
+        ...state,
+        user: action.payload,
+        isAuthenticated: true,
+        loading: false,
+      };
+    default:
+      return state;
+  }
+};
+
+export default authReducer;
+
+
+D:\DATA\EAZY-REZUME\CLIENT\SRC\REDUX\REDUCERS\ROOTREDUCER.JS CODE IS BELOW
+// src/redux/reducers/rootReducer.js
+
+import { combineReducers } from 'redux';
+import authReducer from './authReducer.js';
+
+export default combineReducers({
+  auth: authReducer,
+});
+
+
+D:\DATA\EAZY-REZUME\CLIENT\SRC\REDUX\STORE.JS CODE IS BELOW
+
+
+import { configureStore } from '@reduxjs/toolkit';
+import rootReducer from '../redux/reducers/rootReducer.js';
+
+const store = configureStore({
+  reducer: rootReducer,
+});
+
+export default store;
+

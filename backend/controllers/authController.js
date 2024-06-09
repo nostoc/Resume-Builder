@@ -5,15 +5,17 @@ import jwt from "jsonwebtoken";
 import { validationResult } from "express-validator";
 
 export const registerUser = async (req, res) => {
-  const errros = validationResult(req);
-  if (!errros.isEmpty()) {
-    return res.status(400).json({ errors: errros.array() });
+  const errors = validationResult(req);
+  if (!errors.isEmpty()) {
+    console.log("Validation errors:", errors.array());
+    return res.status(400).json({ errors: errors.array() });
   }
 
   const { username, email, password } = req.body;
   try{
     let user = await User.findOne({ email});
     if(user){
+      console.log("User already exists");
       return res.status(400).json({ message: "User already exists"});
     }
 
@@ -50,9 +52,9 @@ export const registerUser = async (req, res) => {
 // Authenticate user and get token 
 
 export const authUser = async (req, res) => {
-  const errros = validationResult(req);
-  if (!errros.isEmpty()) {
-    return res.status(400).json({ errors: errros.array() });
+  const errors = validationResult(req);
+  if (!errors.isEmpty()) {
+    return res.status(400).json({ errors: errors.array() });
   }
 
   const { email, password } = req.body;

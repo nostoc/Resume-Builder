@@ -1,4 +1,6 @@
 import express from "express";
+import cors from "cors";
+import bodyparser from "body-parser";
 import dotenv from "dotenv";
 import authRoutes from "./routes/auth.js";
 import profileRoutes from "./routes/profile.js";
@@ -15,6 +17,9 @@ const app = express();
 
 //init middlewares
 app.use(express.json());
+app.use(cors({
+  origin: 'http://localhost:5173', // Adjust this to match your frontend's origin
+}));
 
 // Define Routes (we will add routes later)
 app.use("/api/auth", authRoutes);
