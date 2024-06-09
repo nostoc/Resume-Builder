@@ -6,7 +6,7 @@ export default defineConfig({
   plugins: [react()],
   server: {
     proxy: {
-      "/eazy-rezume":{ // This is the path that we want to proxy  {api/auth/sign-up}
+      "/api":{ // This is the path that we want to proxy  {api/auth/sign-up}
       target: "http://localhost:5000",
       secure: false,
       },

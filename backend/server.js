@@ -1,36 +1,36 @@
 import express from "express";
-import mongoose from "mongoose";
 import dotenv from "dotenv";
-
+import authRoutes from "./routes/auth.js";
+import profileRoutes from "./routes/profile.js";
+import resumeRoutes from "./routes/resume.js";
+import connectDB from "./config/db.js";
+import mongoose from "mongoose";
+//load env variables
 dotenv.config();
-import userRouter from "./routes/user.route.js";
-import authRouter from "./routes/auth.route.js";
+
+//connect to db
+connectDB();
 
 const app = express();
 
-//middlewares
+//init middlewares
 app.use(express.json());
 
+// Define Routes (we will add routes later)
+app.use("/api/auth", authRoutes);
+app.use("/api/profile", profileRoutes);
+app.use("/api/resume", resumeRoutes);
+// app.use('/api/users', require('./routes/users'));
+// app.use('/api/auth', require('./routes/auth'));
+// app.use('/api/profile', require('./routes/profile'));
+// app.use('/api/resume', require('./routes/resume'));
 
-//mongo db connection
-mongoose
-  .connect(process.env.MONGO_URL)
-  .then(() => {
-    console.log("Connected to MongoDB");
-  })
-  .catch((err) => {
-    console.log(err);
-  });
-
-  //server
+//server
 app.listen(process.env.PORT, () => {
   console.log(`Server is listening on port ${process.env.PORT}`);
 });
 
 //global error handler
-app.use("/eazy-rezume/user", userRouter);
-app.use("/eazy-rezume/auth", authRouter);
-
 app.use((err, req, res, next) => {
   const statusCode = err.statusCode || 500;
   const message = err.message || "Internal Server Error";
