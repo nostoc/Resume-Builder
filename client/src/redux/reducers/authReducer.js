@@ -1,6 +1,6 @@
 // src/redux/reducers/authReducer.js
 
-import { LOGIN_SUCCESS, LOGIN_FAILURE, REGISTER_SUCCESS, REGISTER_FAILURE } from "../actions/types";
+import { LOGIN_USER, REGISTER_USER, LOGIN_FAILURE, REGISTER_FAILURE } from "../actions/types";
 
 const initialState = {
   user: null,
@@ -11,8 +11,8 @@ const initialState = {
 
 const authReducer = (state = initialState, action) => {
   switch (action.type) {
-    case LOGIN_SUCCESS:
-    case REGISTER_SUCCESS:
+    case LOGIN_USER:
+    case REGISTER_USER:
       return {
         ...state,
         user: action.payload,
