@@ -5,6 +5,7 @@ export default {
     extend: {
       fontFamily: {
         montserrat: ["Montserrat", "sans-serif"],
+        "times-new-roman": ["Times New Roman", "serif"],
       },
       colors:{
         "ocean-blue": "#6C63FF",
