@@ -25,10 +25,13 @@ export const getCurrentProfile = async (req, res) => {
 // @access  Private
 
 export const createOrUpdateProfile = async (req, res) => {
+  console.log("createOrUpdateProfile called"); //log function call
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
-    return res.status(400).json({ errors: errors.array() });
+    console.log("Validation error", errors.array()); //log validation errors
+    return res.status(400).json({ errors: errors.array(),status:400 });
   }
+  console.log("Request body", req.body); //log incoming request body
   const { personalInfo, education, experience, skills, projects } = req.body;
 
   // Build profile object
@@ -57,7 +60,7 @@ export const createOrUpdateProfile = async (req, res) => {
     res.json(profile);
   } catch (err) {
     console.error(err.message);
-    res.status(500).send("Server Error");
+    res.status(500).json({message: "Server Error",status:500});
   }
 };
 

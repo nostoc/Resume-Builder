@@ -19,6 +19,8 @@ const profileCreation = () => {
   ];
   const dispatch = useDispatch();
   const profile = useSelector((state) => state.profile.profile);
+  const token = useSelector((state) => state.auth.token);
+  console.log("token", token);
 
   const handleNext = () => {
     setActiveStep((prevActiveStep) => prevActiveStep + 1);
@@ -28,15 +30,16 @@ const profileCreation = () => {
     setActiveStep((prevActiveStep) => prevActiveStep - 1);
   };
 
-  const handleSave = async () => {
+  const handleSave =  async () => {
     try {
-      await dispatch(saveProfileData(profile));
+     await dispatch(saveProfileData(profile, token));
       toast.success("Profile saved successfully!");
     } catch (error) {
       toast.error("Failed to save profile!");
     }
   };
 
+  
   const renderStepContent = (step) => {
     switch (step) {
       case 0:

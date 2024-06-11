@@ -3,7 +3,7 @@ import { updateProfileField } from "../../../redux/actions/profileActions";
 
 const PersonalInfo = () => {
   const dispatch = useDispatch();
-  const personalInfo = useSelector((state) => state.profile.personalInfo);
+  const personalInfo = useSelector((state) => state.profile.profile.personalInfo);
 
   const handleChange = (e) => {
     const { name, value } = e.target;

@@ -8,11 +8,13 @@ const API_URL = "http://localhost:5000/api/auth"; // Backend API URL
 export const loginUser = (userData,navigate) => async (dispatch) => {
   try {
     const res = await axios.post(`${API_URL}/login`, userData);
+    const token = res.data.token;
     console.log("Login response", res.data);
     dispatch({
       type: LOGIN_USER,
-      payload: res.data,
+      payload: {token},
     });   
+    console.log("Login response", res.data);
     toast.success("Login successful");
     navigate("/profile/create");
     return Promise.resolve(res.data);

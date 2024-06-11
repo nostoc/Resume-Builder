@@ -1,53 +1,51 @@
 const initialState = {
   profile: {
-  personalInfo: {
-    name: "",
-    email: "",
-    phone: "",
-    address: "",
-  },
-  education: [
-    {
-      institution: "",
-      degree: "",
-      startDate: "",
-      endDate: "",
-      description: "",
-    },
-  ],
-  experience: [
-    {
-      company: "",
-      position: "",
-      startDate: "",
-      endDate: "",
-      description: "",
-    },
-  ],
-  skills: [
-    {
-      skill: "",
-    },
-  ],
-  projects: [
-    {
+    personalInfo: {
       name: "",
-      description: "",
-      link: "",
+      email: "",
+      phone: "",
+      address: "",
     },
-  ],
-}
+    education: [
+      {
+        institution: "",
+        degree: "",
+        startDate: "",
+        endDate: "",
+        description: "",
+      },
+    ],
+    experience: [
+      {
+        company: "",
+        position: "",
+        startDate: "",
+        endDate: "",
+        description: "",
+      },
+    ],
+    skills: [""],
+    projects: [
+      {
+        name: "",
+        description: "",
+        link: "",
+      },
+    ],
+  },
 };
 const profileReducer = (state = initialState, action) => {
   switch (action.type) {
-    case  "UPDATE_PROFILE_FIELD":
+    case "UPDATE_PROFILE_FIELD":
       return {
         ...state,
-        [action.payload.section]:{
-          ...state[action.payload.section],
-          ...action.payload.fieldData,
+        profile: {
+          ...state.profile,
+          [action.payload.section]: {
+            ...state.profile[action.payload.section],
+            ...action.payload.fieldData,
+          },
         },
-        
       };
     case "SAVE_PROFILE_DATA":
       return {
@@ -55,7 +53,6 @@ const profileReducer = (state = initialState, action) => {
         ...action.payload,
       };
 
-    
     case "ADD_EDUCATION":
       return {
         ...state,
@@ -100,7 +97,9 @@ const profileReducer = (state = initialState, action) => {
         profile: {
           ...state.profile,
           experience: state.profile.experience.map((item, index) =>
-            index === action.payload.index ? { ...item, [action.payload.field]: action.payload.value } : item
+            index === action.payload.index
+              ? { ...item, [action.payload.field]: action.payload.value }
+              : item
           ),
         },
       };
@@ -128,7 +127,9 @@ const profileReducer = (state = initialState, action) => {
         profile: {
           ...state.profile,
           skills: state.profile.skills.map((item, index) =>
-            index === action.payload.index ? { ...item, [action.payload.field]: action.payload.value } : item
+            index === action.payload.index
+              ? { ...item, [action.payload.field]: action.payload.value }
+              : item
           ),
         },
       };
@@ -156,7 +157,9 @@ const profileReducer = (state = initialState, action) => {
         profile: {
           ...state.profile,
           projects: state.profile.projects.map((item, index) =>
-            index === action.payload.index ? { ...item, [action.payload.field]: action.payload.value } : item
+            index === action.payload.index
+              ? { ...item, [action.payload.field]: action.payload.value }
+              : item
           ),
         },
       };

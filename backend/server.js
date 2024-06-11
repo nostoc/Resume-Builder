@@ -15,20 +15,21 @@ connectDB();
 
 const app = express();
 
+app.use((req, res, next) => {
+  console.log('Request received:', req.method, req.url);
+  next();
+});
 //init middlewares
 app.use(express.json());
 app.use(cors({
-  origin: 'http://localhost:5173', // Adjust this to match your frontend's origin
+  origin: 'http://localhost:5173', 
+  credentials: true
 }));
 
 // Define Routes (we will add routes later)
 app.use("/api/auth", authRoutes);
 app.use("/api/profile", profileRoutes);
 app.use("/api/resume", resumeRoutes);
-// app.use('/api/users', require('./routes/users'));
-// app.use('/api/auth', require('./routes/auth'));
-// app.use('/api/profile', require('./routes/profile'));
-// app.use('/api/resume', require('./routes/resume'));
 
 //server
 app.listen(process.env.PORT, () => {

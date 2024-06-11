@@ -17,6 +17,7 @@ const authReducer = (state = initialState, action) => {
         ...state,
         user: action.payload,
         isRegistered: true,
+        token:action.payload.token,
         loading: false,
         error: null, // Clear any previous errors on success
       };
