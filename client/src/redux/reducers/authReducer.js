@@ -4,7 +4,7 @@ import { LOGIN_USER, REGISTER_USER, LOGIN_FAILURE, REGISTER_FAILURE } from "../a
 
 const initialState = {
   user: null,
-  isAuthenticated: false,
+  isRegistered: false,
   loading: false,
   error: null, // Add error field to store error messages
 };
@@ -16,7 +16,7 @@ const authReducer = (state = initialState, action) => {
       return {
         ...state,
         user: action.payload,
-        isAuthenticated: true,
+        isRegistered: true,
         loading: false,
         error: null, // Clear any previous errors on success
       };
@@ -24,6 +24,8 @@ const authReducer = (state = initialState, action) => {
     case REGISTER_FAILURE:
       return {
         ...state,
+        isRegistered: false,
+        user: null,
         error: action.payload, // Set error message in state
         loading: false,
       };

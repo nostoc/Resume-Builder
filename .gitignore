@@ -23,3 +23,4 @@ dist-ssr
 *.sln
 *.sw?
 .env
+llm_text_transcripts

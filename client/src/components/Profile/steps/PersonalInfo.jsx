@@ -16,13 +16,15 @@ const PersonalInfo = () => {
 
   return (
     <div>
-      <h3>Personal Information</h3>
+      <h3 className="text-xl font-semibold mb-4">Personal Information</h3>
+      <div className="mb-4 flex flex-col gap-4" >
       <input
         type="text"
         name="name"
         value={personalInfo?.name || ""}
         onChange={handleChange}
         placeholder="Name"
+        className="w-full px-3 py-2 border border-gray-300 rounded"
       />
       <input
         type="text"
@@ -30,13 +32,16 @@ const PersonalInfo = () => {
         value={personalInfo?.email || ""}
         onChange={handleChange}
         placeholder="Email"
+        className="w-full px-3 py-2 border border-gray-300 rounded"
       />
+      
       <input
         type="text"
         name="phone"
         value={personalInfo?.phone || ""}
         onChange={handleChange}
         placeholder="Phone"
+        className="w-full px-3 py-2 border border-gray-300 rounded"
       />
       <input
         type="text"
@@ -44,7 +49,9 @@ const PersonalInfo = () => {
         value={personalInfo?.address || ""}
         onChange={handleChange}
         placeholder="Address"
+        className="w-full px-3 py-2 border border-gray-300 rounded"
       />
+      </div>
     </div>
   );
 };

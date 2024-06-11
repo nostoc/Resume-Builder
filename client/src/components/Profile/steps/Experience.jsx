@@ -1,57 +1,70 @@
-import { useDispatch, useSelector } from "react-redux";
-import { updateProfileField } from "../../../redux/actions/profileActions";
+import { useDispatch, useSelector } from 'react-redux';
+import { addExperience, updateExperience, removeExperience } from '../../../redux/actions/profileActions';
 
 const Experience = () => {
   const dispatch = useDispatch();
-  const experience = useSelector((state) => state.profile.experience);
+  const experienceList = useSelector((state) => state.profile.profile.experience);
 
-  const handleChange = (e) => {
+  const handleChange = (index, e) => {
     const { name, value } = e.target;
-    dispatch(
-      updateProfileField("experience", {
-        [name]: value,
-      })
-    );
+       dispatch(updateExperience(index, name,value));
   };
 
   return (
     <div>
-      <h3>Experience</h3>
-      <input
-        type="text"
-        name="company"
-        value={experience?.company || ""}
-        onChange={handleChange}
-        placeholder="Company"
-      />
-      <input
-        type="text"
-        name="position"
-        value={experience?.position || ""}
-        onChange={handleChange}
-        placeholder="Position"
-      />
-      <input
-        type="date"
-        name="startDate"
-        value={experience?.startDate || ""}
-        onChange={handleChange}
-        placeholder="Start date"
-      />
-      <input
-        type="date"
-        name="endDate"
-        value={experience?.endDate || ""}
-        onChange={handleChange}
-        placeholder="End date"
-      />
-      <input
-        type="text"
-        name="description"
-        value={experience?.description || ""}
-        onChange={handleChange}
-        placeholder="Description"
-      />
+      <h3 className="text-xl font-semibold mb-4">Experience</h3>
+      {experienceList.map((experience, index) => (
+        <div key={index} className="mb-4">
+          <input
+            type="text"
+            name="company"
+            value={experience.company || ""}
+            onChange={(e) => handleChange(index, e)}
+            placeholder="Company"
+            className="w-full px-3 py-2 border border-gray-300 rounded mb-2"
+          />
+          <input
+            type="text"
+            name="position"
+            value={experience.position || ""}
+            onChange={(e) => handleChange(index, e)}
+            placeholder="Position"
+            className="w-full px-3 py-2 border border-gray-300 rounded mb-2"
+          />
+          <input
+            type="text"
+            name="startDate"
+            value={experience.startDate || ""}
+            onChange={(e) => handleChange(index, e)}
+            placeholder="Start Date"
+            className="w-full px-3 py-2 border border-gray-300 rounded mb-2"
+            onFocus={(e) => (e.target.type = 'date')}
+            onBlur={(e) => (e.target.type = 'text')}
+          />
+          <input
+            type="text"
+            name="endDate"
+            value={experience.endDate || ""}
+            onChange={(e) => handleChange(index, e)}
+            placeholder="End Date"
+            className="w-full px-3 py-2 border border-gray-300 rounded mb-2"
+            onFocus={(e) => (e.target.type = 'date')}
+            onBlur={(e) => (e.target.type = 'text')}
+          />
+          <button
+            className="bg-red-500 text-white py-2 px-4 rounded mb-2"
+            onClick={() => dispatch(removeExperience(index))}
+          >
+            Remove
+          </button>
+        </div>
+      ))}
+      <button
+        className="bg-blue-500 text-white py-2 px-4 rounded"
+        onClick={() => dispatch(addExperience())}
+      >
+        Add Experience
+      </button>
     </div>
   );
 };

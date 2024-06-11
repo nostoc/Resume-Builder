@@ -1,48 +1,43 @@
+import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import React, { useState } from "react";
 import { saveProfileData } from "../../redux/actions/profileActions";
 import PersonalInfo from "./steps/PersonalInfo";
 import Education from "./steps/Education";
 import Experience from "./steps/Experience";
 import Skills from "./steps/Skills";
 import Projects from "./steps/Projects";
-import {
-  Stepper,
-  Step,
-  StepLabel,
-  Button,
-  Box,
-  Typography,
-} from "@mui/material";
+import { toast } from "react-toastify";
 
-const steps = [
-  "Personal Information",
-  "Education",
-  "Experience",
-  "Skills",
-  "Projects",
-];
-
-const ProfileCreation = () => {
+const profileCreation = () => {
   const [activeStep, setActiveStep] = useState(0);
+  const steps = [
+    "Personal Information",
+    "Education",
+    "Experience",
+    "Skills",
+    "Projects",
+  ];
   const dispatch = useDispatch();
-  const profileData = useSelector((state) => state.profile);
+  const profile = useSelector((state) => state.profile.profile);
 
   const handleNext = () => {
-    if (activeStep === steps.length - 1) {
-      dispatch(saveProfileData(profileData));
-    } else {
-      setActiveStep((prevActiveStep) => prevActiveStep + 1);
-    }
+    setActiveStep((prevActiveStep) => prevActiveStep + 1);
   };
 
   const handleBack = () => {
     setActiveStep((prevActiveStep) => prevActiveStep - 1);
   };
-  const handleReset = () => {
-    setActiveStep(0);
+
+  const handleSave = async () => {
+    try {
+      await dispatch(saveProfileData(profile));
+      toast.success("Profile saved successfully!");
+    } catch (error) {
+      toast.error("Failed to save profile!");
+    }
   };
-  const getStepContent = (step) => {
+
+  const renderStepContent = (step) => {
     switch (step) {
       case 0:
         return <PersonalInfo />;
@@ -55,49 +50,55 @@ const ProfileCreation = () => {
       case 4:
         return <Projects />;
       default:
-        return "Unknown step";
+        return <div>Unknown step</div>;
     }
   };
 
   return (
-    <Box sx={{ width: "100%" }}>
-      <Stepper activeStep={activeStep}>
+    <div className="w-full max-w-3xl mx-auto p-4 font-montserrat">
+      <div className="flex justify-between items-center mb-4">
         {steps.map((label, index) => (
-          <Step key={index}>
-            <StepLabel>{label}</StepLabel>
-          </Step>
+          <div
+            key={label}
+            className={`w-1/5 text-center py-2 ${
+              index === activeStep
+                ? "text-blue-500 font-semibold"
+                : "text-gray-500"
+            }`}
+          >
+            {label}
+          </div>
         ))}
-      </Stepper>
-      <Box sx={{ mt: 2, mb: 2 }}>
-        {activeStep === steps.length ? (
-          <React.Fragment>
-            <Typography sx={{ mt: 2, mb: 2 }}>
-              All steps completed - your profile is saved!
-            </Typography>
-            <Button onClick={handleReset}>Reset</Button>
-          </React.Fragment>
+      </div>
+      <div className="bg-white p-4 rounded shadow">
+        {renderStepContent(activeStep)}
+      </div>
+      <div className="flex justify-between mt-4">
+        <button
+          disabled={activeStep === 0}
+          onClick={handleBack}
+          className="bg-gray-500 text-white py-2 px-4 rounded"
+        >
+          Back
+        </button>
+        {activeStep === steps.length - 1 ? (
+          <button
+            onClick={handleSave}
+            className="bg-blue-500 text-white py-2 px-4 rounded"
+          >
+            Finish
+          </button>
         ) : (
-          <React.Fragment>
-            {getStepContent(activeStep)}
-            <Box sx={{ display: "flex", flexDirection: "row", pt: 2 }}>
-              <Button
-                color="inherit"
-                disabled={activeStep === 0}
-                onClick={handleBack}
-                sx={{ mr: 1 }}
-              >
-                Back
-              </Button>
-              <Box sx={{ flex: "1 1 auto" }} />
-              <Button onClick={handleNext}>
-                {activeStep === steps.length - 1 ? "Finish" : "Next"}
-              </Button>
-            </Box>
-          </React.Fragment>
+          <button
+            onClick={handleNext}
+            className="bg-blue-500 text-white py-2 px-4 rounded"
+          >
+            Next
+          </button>
         )}
-      </Box>
-    </Box>
+      </div>
+    </div>
   );
 };
 
-export default ProfileCreation;
+export default profileCreation;
