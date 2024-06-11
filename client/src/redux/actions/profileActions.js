@@ -1,6 +1,6 @@
 import { UPDATE_PROFILE_FIELD } from "./types";
 import axios from "axios";
-import { toast } from "react-toastify";
+//import { toast } from "react-toastify";
 const API_URL = "http://localhost:5000/api/profile/upsert";
 
 export const addPersonalInfo = () => ({
@@ -78,31 +78,53 @@ export const updateProfileField = (section, fieldData) => ({
   payload: { section, fieldData },
 });
 
-export const saveProfileData = (profileData, token) => async (dispatch) => {
-  dispatch({ type: "SAVE_PROFILE_REQUEST" });
-
+export const getProfile = () => async (dispatch) => {
   try {
-    const config = {
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`,
-      },
-    };
-
-    console.log("Saving profile data:", profileData);
-    const response = await axios.post(API_URL, profileData, config);
-
+    const res = await axios.get("http://localhost:5000/api/profile/me");
+    console.log('Profile data fetched:', res.data); 
     dispatch({
-      type: "SAVE_PROFILE_SUCCESS",
-      payload: response.data,
+      type: "GET_PROFILE",
+      payload: res.data,
     });
-    toast.success("Profile saved successfully!");
-  } catch (error) {
+  } catch (err) {
+    console.error('Error fetching profile:', err);
     dispatch({
-      type: "SAVE_PROFILE_FAILURE",
-      payload: { message: error.message, status: error.response?.status || 500 },
+      type: "PROFILE_ERROR",
+      payload: { msg: err.response.statusText, status: err.response.status },
     });
-    console.error("Error saving profile data:", error);
-    toast.error("Failed to save profile!");
   }
 };
+
+export const saveProfileData =
+  (profileData, token, navigate) => async (dispatch) => {
+    dispatch({ type: "SAVE_PROFILE_REQUEST" });
+
+    try {
+      const config = {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+      };
+
+      console.log("Saving profile data:", profileData);
+      const response = await axios.post(API_URL, profileData, config);
+
+      dispatch({
+        type: "SAVE_PROFILE_SUCCESS",
+        payload: response.data,
+      });
+      navigate("/profile/resume");
+      //toast.success("Profile saved successfully!");
+    } catch (error) {
+      dispatch({
+        type: "SAVE_PROFILE_FAILURE",
+        payload: {
+          message: error.message,
+          status: error.response?.status || 500,
+        },
+      });
+      console.error("Error saving profile data:", error);
+      //toast.error("Failed to save profile!");
+    }
+  };

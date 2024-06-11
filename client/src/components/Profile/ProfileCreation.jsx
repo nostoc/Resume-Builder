@@ -7,6 +7,7 @@ import Experience from "./steps/Experience";
 import Skills from "./steps/Skills";
 import Projects from "./steps/Projects";
 import { toast } from "react-toastify";
+import { useNavigate } from "react-router-dom";
 
 const profileCreation = () => {
   const [activeStep, setActiveStep] = useState(0);
@@ -18,6 +19,7 @@ const profileCreation = () => {
     "Projects",
   ];
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const profile = useSelector((state) => state.profile.profile);
   const token = useSelector((state) => state.auth.token);
   console.log("token", token);
@@ -32,7 +34,7 @@ const profileCreation = () => {
 
   const handleSave =  async () => {
     try {
-     await dispatch(saveProfileData(profile, token));
+     await dispatch(saveProfileData(profile, token,navigate));
       toast.success("Profile saved successfully!");
     } catch (error) {
       toast.error("Failed to save profile!");

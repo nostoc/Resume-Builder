@@ -33,6 +33,8 @@ const initialState = {
       },
     ],
   },
+  error: null,
+  loading:true,
 };
 const profileReducer = (state = initialState, action) => {
   switch (action.type) {
@@ -177,12 +179,26 @@ const profileReducer = (state = initialState, action) => {
       return {
         ...state,
         profile: action.payload,
+        
       };
     case "SAVE_PROFILE_FAILURE":
       return {
         ...state,
         error: action.payload,
       };
+      case "GET_PROFILE":
+        return {
+          ...state,
+          loading:false,
+          profile: action.payload,
+        };
+
+        case "PROFILE_ERROR":
+          return {
+            ...state,
+            loading:false,
+            error: action.payload,
+          };
     default:
       return state;
   }

@@ -1,6 +1,42 @@
 import { ResumeTemplate } from "../models/resumeTemplateModel.js";
 import { validationResult } from "express-validator";
 
+export const getResumeByProfile = async (req,res) =>{
+  try {
+    const profile = await Profile.findOne({ user: req.user.id });
+    if (!profile) {
+      return res
+        .status(400)
+        .json({ message: "There is no profile for this user" });
+    }
+
+    // logic to format the profile data into a resume
+
+    const resume = {
+      personalInfo: profile.personalInfo,
+      education: profile.education,
+      experience: profile.experience,
+      skills: profile.skills,
+      projects: profile.projects,
+    };
+    res.json(resume);
+  }catch(err){
+    console.error(err.message);
+    res.status(500).send("Server Error");
+  }
+}
+
+
+
+
+
+
+
+
+
+
+
+
 // @route  POST api/resume
 // @desc   Create a resume template
 // @access Private

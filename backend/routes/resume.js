@@ -8,9 +8,13 @@ import {
   getResumeTemplateById,
   updateResumeTemplate,
   deleteResumeTemplate,
+  getResumeByProfile,
 } from "../controllers/resumeController.js";
 
 const router = express.Router();
+
+router.get("/generate",auth,getResumeByProfile)
+
 
 // @route  POST api/resume
 // @desc   Create a resume template
