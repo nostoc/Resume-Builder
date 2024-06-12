@@ -32,7 +32,7 @@ export const createOrUpdateProfile = async (req, res) => {
     return res.status(400).json({ errors: errors.array(), status: 400 });
   }
   console.log("Request body", req.body); //log incoming request body
-  const { personalInfo, education, experience, skills, projects } = req.body;
+  const { personalInfo, education, experience, skills, projects, achievements } = req.body;
 
   // Build profile object
   const profileFields = {};
@@ -42,6 +42,7 @@ export const createOrUpdateProfile = async (req, res) => {
   if (experience) profileFields.experience = experience;
   if (skills) profileFields.skills = skills;
   if (projects) profileFields.projects = projects;
+  if (achievements) profileFields.achievements = achievements;
 
   try {
     let profile = await Profile.findOne({ user: req.user.id });

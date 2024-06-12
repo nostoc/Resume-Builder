@@ -1,14 +1,20 @@
-import { useDispatch, useSelector } from 'react-redux';
-import { addEducation, updateEducation, removeEducation } from '../../../redux/actions/profileActions';
+import { useDispatch, useSelector } from "react-redux";
+import {
+  addEducation,
+  updateEducation,
+  removeEducation,
+} from "../../../redux/actions/profileActions";
 //import addIcon from "../../../assets/add-circle-svgrepo-com.svg"
 const Education = () => {
   const dispatch = useDispatch();
-  const educationList = useSelector((state) => state.profile.profile.education || []);
+  const educationList = useSelector(
+    (state) => state.profile.profile.education || []
+  );
 
   const handleChange = (index, e) => {
     const { name, value } = e.target;
-   
-    dispatch(updateEducation(index, name,value));
+
+    dispatch(updateEducation(index, name, value));
   };
 
   return (
@@ -26,6 +32,22 @@ const Education = () => {
           />
           <input
             type="text"
+            name="institutionCity"
+            value={education.institutionCity || ""}
+            onChange={(e) => handleChange(index, e)}
+            placeholder="City"
+            className="w-full px-3 py-2 border border-gray-300 rounded mb-2"
+          />
+          <input
+            type="text"
+            name="institutionProvince"
+            value={education.institutionProvince || ""}
+            onChange={(e) => handleChange(index, e)}
+            placeholder="Province"
+            className="w-full px-3 py-2 border border-gray-300 rounded mb-2"
+          />
+          <input
+            type="text"
             name="degree"
             value={education.degree || ""}
             onChange={(e) => handleChange(index, e)}
@@ -39,8 +61,8 @@ const Education = () => {
             onChange={(e) => handleChange(index, e)}
             placeholder="Start Date"
             className="w-full px-3 py-2 border border-gray-300 rounded mb-2"
-            onFocus={(e) => (e.target.type = 'date')}
-            onBlur={(e) => (e.target.type = 'text')}
+            onFocus={(e) => (e.target.type = "date")}
+            onBlur={(e) => (e.target.type = "text")}
           />
           <input
             type="text"
@@ -49,10 +71,10 @@ const Education = () => {
             onChange={(e) => handleChange(index, e)}
             placeholder="End Date"
             className="w-full px-3 py-2 border border-gray-300 rounded mb-2"
-            onFocus={(e) => (e.target.type = 'date')}
-            onBlur={(e) => (e.target.type = 'text')}
+            onFocus={(e) => (e.target.type = "date")}
+            onBlur={(e) => (e.target.type = "text")}
           />
-         
+
           <button
             className="bg-red-500 text-white py-2 px-4 rounded mb-2"
             onClick={() => dispatch(removeEducation(index))}
@@ -61,18 +83,13 @@ const Education = () => {
           </button>
         </div>
       ))}
-      
-      
+
       <button
         className="bg-blue-500 text-white py-2 px-4 rounded mb-2"
         onClick={() => dispatch(addEducation())}
       >
-        
         Add
-        
       </button>
-      
-      
     </div>
   );
 };

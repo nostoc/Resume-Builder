@@ -6,6 +6,7 @@ import Education from "./steps/Education";
 import Experience from "./steps/Experience";
 import Skills from "./steps/Skills";
 import Projects from "./steps/Projects";
+import Achievements from "./steps/Achievements";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
 
@@ -17,6 +18,7 @@ const profileCreation = () => {
     "Experience",
     "Skills",
     "Projects",
+    "Achievements"
   ];
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -54,6 +56,8 @@ const profileCreation = () => {
         return <Skills />;
       case 4:
         return <Projects />;
+      case 5:
+        return <Achievements />;
       default:
         return <div>Unknown step</div>;
     }

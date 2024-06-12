@@ -26,6 +26,7 @@ router.post(
     check("experience", "Experience is required").not().isEmpty(),
     check("skills", "Skills is required").not().isEmpty(),
     check("projects", "Projects is required").not().isEmpty(),
+    check("achievements", "Achievements is required").not().isEmpty(),
   ],
   createOrUpdateProfile
 );

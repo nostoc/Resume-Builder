@@ -4,24 +4,33 @@ const initialState = {
       name: "",
       email: "",
       phone: "",
+      linkedin: "",
+      website: "",
       address: "",
+      city: "",
+      province: "",
+      postalCode: "",
+      country: "",
     },
     education: [
       {
         institution: "",
+        institutionCity: "",
+        institutionProvince: "",
         degree: "",
         startDate: "",
         endDate: "",
-        description: "",
       },
     ],
     experience: [
       {
         company: "",
+        city: "",
+        province: "",
         position: "",
         startDate: "",
         endDate: "",
-        description: "",
+        responsibilities: [""],
       },
     ],
     skills: [""],
@@ -30,11 +39,20 @@ const initialState = {
         name: "",
         description: "",
         link: "",
+        skillsUsed: [""],
       },
     ],
+    achievements: [
+      {
+        title: "",
+        date: "",
+        description: "",
+      },
+    ],
+    
   },
   error: null,
-  loading:true,
+  loading: true,
 };
 const profileReducer = (state = initialState, action) => {
   switch (action.type) {
@@ -175,30 +193,59 @@ const profileReducer = (state = initialState, action) => {
           ),
         },
       };
+    case "ADD_ACHIEVEMENT":
+      return {
+        ...state,
+        profile: {
+          ...state.profile,
+          achievements: [...state.profile.achievements, {}],
+        },
+      };
+    case "UPDATE_ACHIEVEMENT":
+      return {
+        ...state,
+        profile: {
+          ...state.profile,
+          achievements: state.profile.achievements.map((item, index) =>
+            index === action.payload.index
+              ? { ...item, [action.payload.field]: action.payload.value }
+              : item
+          ),
+        },
+      };
+    case "REMOVE_ACHIEVEMENT":
+      return {
+        ...state,
+        profile: {
+          ...state.profile,
+          achievements: state.profile.achievements.filter(
+            (_, index) => index !== action.payload
+          ),
+        },
+      };
     case "SAVE_PROFILE_SUCCESS":
       return {
         ...state,
         profile: action.payload,
-        
       };
     case "SAVE_PROFILE_FAILURE":
       return {
         ...state,
         error: action.payload,
       };
-      case "GET_PROFILE":
-        return {
-          ...state,
-          loading:false,
-          profile: action.payload,
-        };
+    case "GET_PROFILE":
+      return {
+        ...state,
+        loading: false,
+        profile: action.payload,
+      };
 
-        case "PROFILE_ERROR":
-          return {
-            ...state,
-            loading:false,
-            error: action.payload,
-          };
+    case "PROFILE_ERROR":
+      return {
+        ...state,
+        loading: false,
+        error: action.payload,
+      };
     default:
       return state;
   }

@@ -45,10 +45,59 @@ const PersonalInfo = () => {
       />
       <input
         type="text"
+        name="linkedin"
+        value={personalInfo?.linkedin || ""}
+        onChange={handleChange}
+        placeholder="Linkedin"
+        className="w-full px-3 py-2 border border-gray-300 rounded"
+      />
+      <input
+        type="text"
+        name="website"
+        value={personalInfo?.website || ""}
+        onChange={handleChange}
+        placeholder="Website"
+        className="w-full px-3 py-2 border border-gray-300 rounded"
+        />
+
+      <input
+        type="text"
         name="address"
         value={personalInfo?.address || ""}
         onChange={handleChange}
         placeholder="Address"
+        className="w-full px-3 py-2 border border-gray-300 rounded"
+      />
+      <input
+        type="text"
+        name="city"
+        value={personalInfo?.city || ""}
+        onChange={handleChange}
+        placeholder="City"
+        className="w-full px-3 py-2 border border-gray-300 rounded"
+      />
+      <input
+        type="text"
+        name="province"
+        value={personalInfo?.province || ""}
+        onChange={handleChange}
+        placeholder="Province"
+        className="w-full px-3 py-2 border border-gray-300 rounded"
+      />
+      <input
+        type="text"
+        name="postalCode"
+        value={personalInfo?.postalCode || ""}
+        onChange={handleChange}
+        placeholder="Postal Code"
+        className="w-full px-3 py-2 border border-gray-300 rounded"
+      />
+      <input
+        type="text"
+        name="country"
+        value={personalInfo?.country || ""}
+        onChange={handleChange}
+        placeholder="Country"
         className="w-full px-3 py-2 border border-gray-300 rounded"
       />
       </div>

@@ -73,6 +73,20 @@ export const removeProject = (index) => ({
   payload: index,
 });
 
+export const addAchievement = () => ({
+  type: "ADD_ACHIEVEMENT",
+});
+
+export const updateAchievement = (index, field, value) => ({
+  type: "UPDATE_ACHIEVEMENT",
+  payload: { index, field, value },
+});
+
+export const removeAchievement = (index) => ({
+  type: "REMOVE_ACHIEVEMENT",
+  payload: index,
+});
+
 export const updateProfileField = (section, fieldData) => ({
   type: UPDATE_PROFILE_FIELD,
   payload: { section, fieldData },
@@ -81,13 +95,13 @@ export const updateProfileField = (section, fieldData) => ({
 export const getProfile = () => async (dispatch) => {
   try {
     const res = await axios.get("http://localhost:5000/api/profile/me");
-    console.log('Profile data fetched:', res.data); 
+    console.log("Profile data fetched:", res.data);
     dispatch({
       type: "GET_PROFILE",
       payload: res.data,
     });
   } catch (err) {
-    console.error('Error fetching profile:', err);
+    console.error("Error fetching profile:", err);
     dispatch({
       type: "PROFILE_ERROR",
       payload: { msg: err.response.statusText, status: err.response.status },

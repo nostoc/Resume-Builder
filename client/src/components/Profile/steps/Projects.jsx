@@ -40,7 +40,14 @@ const Projects = () => {
             placeholder="Link"
             className="w-full px-3 py-2 border border-gray-300 rounded mb-2"
           />
-          
+          <input
+            type="text"
+            name="skillsUsed"
+            value={project.skillsUsed|| ""}
+            onChange={(e) => handleChange(index, e)}
+            placeholder="Skills Used (comma separated)"
+            className="w-full px-3 py-2 border border-gray-300 rounded mb-2"
+          />
          
           <button
             className="bg-red-500 text-white py-2 px-4 rounded mb-2"
