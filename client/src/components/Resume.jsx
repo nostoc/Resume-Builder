@@ -2,6 +2,9 @@
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { getProfile } from "../redux/actions/profileActions";
+import { MdEmail, MdPhone } from "react-icons/md";
+import { FaGlobe } from "react-icons/fa";
+import { MdLocationOn } from "react-icons/md";
 
 const Resume = () => {
   const dispatch = useDispatch();
@@ -45,16 +48,26 @@ const Resume = () => {
           {profile.personalInfo.name}
         </h1>
         <p className="flex justify-center items-center space-x-4">
-          <span>📧 {profile.personalInfo.email}</span>
-          <span>📞 {profile.personalInfo.phone}</span>
-          <span>
-            🌐{" "}
+          <span className="flex items-center">
+            {" "}
+            <MdEmail className="mr-2" /> {profile.personalInfo.email}
+          </span>
+          <span className="flex items-center">
+            <MdPhone className="mr-2" /> {profile.personalInfo.phone}
+          </span>
+          <span className="flex items-center">
+            <FaGlobe className="mr-2" />  exampledomain.com
             <a href={profile.personalInfo.website} className="underline">
               {profile.personalInfo.website}
             </a>
           </span>
         </p>
-        <p>{profile.personalInfo.address}</p>
+        <p>
+          <span className="flex items-center justify-center">
+            {" "}
+            <MdLocationOn className="mr-2" />  {profile.personalInfo.address}{" "}
+          </span>
+        </p>
       </div>
 
       <div className="mb-4">
@@ -80,10 +93,10 @@ const Resume = () => {
         <h2 className="text-xl font-semibold text-green-700 border-b-2 border-green-700 pb-2 mb-2 text-center pt-2 border-t-2">
           Skills
         </h2>
-        <div className="grid grid-cols-3 ">
+        <div className="grid grid-cols-3 gap-x-36 ">
           {profile.skills.map((skill) => (
-            <p key={skill._id} className="italic">
-              {skill.name}
+            <p key={skill._id} className="italic ">
+             ● {skill.name}
             </p>
           ))}
         </div>
@@ -108,7 +121,7 @@ const Resume = () => {
 
       <div className="mb-4">
         <h2 className="text-xl font-semibold text-green-700 border-b-2 border-green-700 pb-2 mb-2 pt-2 border-t-2 text-center">
-         Work Experience
+          Work Experience
         </h2>
         {profile.experience.map((exp) => (
           <div key={exp._id} className="mb-4">
