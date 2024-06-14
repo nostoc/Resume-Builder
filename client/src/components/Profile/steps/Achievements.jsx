@@ -4,6 +4,7 @@ import {
   updateAchievement,
   removeAchievement,
 } from "../../../redux/actions/profileActions";
+import { FaPlus, FaMinus } from "react-icons/fa";
 
 const Achievements = () => {
   const dispatch = useDispatch();
@@ -13,55 +14,82 @@ const Achievements = () => {
 
   const handleChange = (index, e) => {
     const { name, value } = e.target;
-
     dispatch(updateAchievement(index, name, value));
   };
 
   return (
-    <div>
-      <h3 className="text-xl font-semibold mb-4">Achievements</h3>
-      {achievementList.map((achievements, index) => (
-        <div key={index} className="mb-4">
-          <input
-            type="text"
-            name="title"
-            value={achievements.title || ""}
-            onChange={(e) => handleChange(index, e)}
-            placeholder="Title"
-            className="w-full px-3 py-2 border border-gray-300 rounded mb-2"
-          />
-          <input
-            type="date"
-            name="date"
-            value={achievements.date || ""}
-            onChange={(e) => handleChange(index, e)}
-            placeholder="Description"
-            className="w-full px-3 py-2 border border-gray-300 rounded mb-2"
-          />
-          <input
-            type="text"
-            name="description"
-            value={achievements.description || ""}
-            onChange={(e) => handleChange(index, e)}
-            placeholder="Description"
-            className="w-full px-3 py-2 border border-gray-300 rounded mb-2"
-          />
-          
-
-          <button
-            className="bg-red-500 text-white py-2 px-4 rounded mb-2"
-            onClick={() => dispatch(removeAchievement(index))}
-          >
-            Remove
-          </button>
+    <div className="p-6 bg-gray-100 min-h-screen">
+      <h3 className="text-2xl font-semibold mb-6">Achievements</h3>
+      {achievementList.map((achievement, index) => (
+        <div key={index} className="mb-6 p-6 bg-white rounded-lg shadow-md">
+          <div className="mb-4">
+            <label
+              className="block text-lg font-medium text-gray-700 mb-1"
+              htmlFor={`achievement-title-${index}`}
+            >
+              Title
+            </label>
+            <input
+              type="text"
+              name="title"
+              id={`achievement-title-${index}`}
+              value={achievement.title || ""}
+              onChange={(e) => handleChange(index, e)}
+              placeholder="Title"
+              className="w-full px-4 py-2 border border-gray-300 rounded"
+            />
+          </div>
+          <div className="mb-4">
+            <label
+              className="block text-lg font-medium text-gray-700 mb-1"
+              htmlFor={`achievement-date-${index}`}
+            >
+              Date
+            </label>
+            <input
+              type="date"
+              name="date"
+              id={`achievement-date-${index}`}
+              value={achievement.date || ""}
+              onChange={(e) => handleChange(index, e)}
+              className="w-full px-4 py-2 border border-gray-300 rounded"
+            />
+          </div>
+          <div className="mb-4">
+            <label
+              className="block text-lg font-medium text-gray-700 mb-1"
+              htmlFor={`achievement-description-${index}`}
+            >
+              Description
+            </label>
+            <input
+              type="text"
+              name="description"
+              id={`achievement-description-${index}`}
+              value={achievement.description || ""}
+              onChange={(e) => handleChange(index, e)}
+              placeholder="Description"
+              className="w-full px-4 py-2 border border-gray-300 rounded"
+            />
+          </div>
+          <div className="flex justify-end">
+            <button
+              className="flex items-center gap-2 bg-red-500 text-white py-2 px-4 rounded-full"
+              onClick={() => dispatch(removeAchievement(index))}
+            >
+              <FaMinus /> Remove Achievement
+            </button>
+          </div>
         </div>
       ))}
-      <button
-        className="bg-blue-500 text-white py-2 px-4 rounded"
-        onClick={() => dispatch(addAchievement())}
-      >
-        Add Project
-      </button>
+      <div className="flex justify-end">
+        <button
+          className="flex items-center gap-2 bg-blue-500 text-white py-2 px-4 rounded-full"
+          onClick={() => dispatch(addAchievement())}
+        >
+          <FaPlus /> Add Achievement
+        </button>
+      </div>
     </div>
   );
 };

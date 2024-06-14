@@ -49,7 +49,6 @@ const initialState = {
         description: "",
       },
     ],
-    
   },
   error: null,
   loading: true,
@@ -103,14 +102,7 @@ const profileReducer = (state = initialState, action) => {
           ),
         },
       };
-    case "ADD_EXPERIENCE":
-      return {
-        ...state,
-        profile: {
-          ...state.profile,
-          experience: [...state.profile.experience, {}],
-        },
-      };
+
     case "UPDATE_EXPERIENCE":
       return {
         ...state,
@@ -163,14 +155,7 @@ const profileReducer = (state = initialState, action) => {
           ),
         },
       };
-    case "ADD_PROJECT":
-      return {
-        ...state,
-        profile: {
-          ...state.profile,
-          projects: [...state.profile.projects, {}],
-        },
-      };
+
     case "UPDATE_PROJECT":
       return {
         ...state,
@@ -223,6 +208,160 @@ const profileReducer = (state = initialState, action) => {
           ),
         },
       };
+    case "ADD_EXPERIENCE":
+      return {
+        ...state,
+        profile: {
+          ...state.profile,
+          experience: [
+            ...state.profile.experience,
+            {
+              company: "",
+              city: "",
+              province: "",
+              position: "",
+              startDate: "",
+              endDate: "",
+              responsibilities: [""],
+            },
+          ],
+        },
+      };
+    case "ADD_RESPONSIBILITY":
+      return {
+        ...state,
+        profile: {
+          ...state.profile,
+          experience: state.profile.experience.map((exp, index) =>
+            index === action.payload
+              ? {
+                  ...exp,
+                  responsibilities: [...(exp.responsibilities || []), ""],
+                }
+              : exp
+          ),
+        },
+      };
+    case "UPDATE_RESPONSIBILITY":
+      return {
+        ...state,
+        profile: {
+          ...state.profile,
+          experience: state.profile.experience.map((exp, expIndex) =>
+            expIndex === action.payload.expIndex
+              ? {
+                  ...exp,
+                  responsibilities: (exp.responsibilities || []).map(
+                    (resp, respIndex) =>
+                      respIndex === action.payload.respIndex
+                        ? action.payload.value
+                        : resp
+                  ),
+                }
+              : exp
+          ),
+        },
+      };
+    case "REMOVE_RESPONSIBILITY":
+      return {
+        ...state,
+        profile: {
+          ...state.profile,
+          experience: state.profile.experience.map((exp, expIndex) =>
+            expIndex === action.payload.expIndex
+              ? {
+                  ...exp,
+                  responsibilities: (exp.responsibilities || []).filter(
+                    (_, respIndex) => respIndex !== action.payload.respIndex
+                  ),
+                }
+              : exp
+          ),
+        },
+      };
+      case "ADD_PROJECT":
+        return {
+          ...state,
+          profile: {
+            ...state.profile,
+            projects: [
+              ...state.profile.projects,
+              { name: "", description: "", link: "", skillsUsed: [""] },
+            ],
+          },
+        };
+    case "ADD_SKILLS_USED":
+      return {
+        ...state,
+        profile: {
+          ...state.profile,
+          projects: state.profile.projects.map((project, index) =>
+            index === action.payload
+              ? {
+                  ...project,
+                  skillsUsed: [...(project.skillsUsed || []), ""],
+                }
+              : project
+          ),
+        },
+      };
+    case "UPDATE_SKILLS_USED":
+      return {
+        ...state,
+        profile: {
+          ...state.profile,
+          projects: state.profile.projects.map((project, projectIndex) =>
+            projectIndex === action.payload.projectIndex
+              ? {
+                  ...project,
+                  skillsUsed: (project.skillsUsed || []).map(
+                    (skill, skillIndex) =>
+                      skillIndex === action.payload.skillIndex
+                        ? action.payload.value
+                        : skill
+                  ),
+                }
+              : project
+          ),
+        },
+      };
+
+    case "REMOVE_SKILLS_USED":
+      return {
+        ...state,
+        profile: {
+          ...state.profile,
+          projects: state.profile.projects.map((project, projectIndex) =>
+            projectIndex === action.payload.projectIndex
+              ? {
+                  ...project,
+                  skillsUsed: (project.skillsUsed || []).filter(
+                    (_, skillUsedIndex) =>
+                      skillUsedIndex !== action.payload.skillIndex
+                  ),
+                }
+              : project
+          ),
+        },
+      };
+    /*case "REMOVE_SKILLS_USED":
+      return {
+        ...state,
+        profile: {
+          ...state.profile,
+          peojects: state.profile.projects.map((project, projectIndex) =>
+            projectIndex === action.payload.projectIndex
+              ? {
+                  ...project,
+                  responsibilities: (project.responsibilities || []).filter(
+                    (_, skillUsedIndex) => skillUsedIndex !== action.payload.skillUsedIndex
+                  ),
+                }
+              : project
+          ),
+        },
+      };*/
+
     case "SAVE_PROFILE_SUCCESS":
       return {
         ...state,

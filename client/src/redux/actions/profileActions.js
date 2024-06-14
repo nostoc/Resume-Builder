@@ -92,6 +92,38 @@ export const updateProfileField = (section, fieldData) => ({
   payload: { section, fieldData },
 });
 
+export const addResponsibility = (expIndex) => ({
+  type: "ADD_RESPONSIBILITY",
+  payload: expIndex,
+});
+
+export const updateResponsibility = (expIndex, respIndex, value) => ({
+  type: "UPDATE_RESPONSIBILITY",
+  payload: { expIndex, respIndex, value },
+});
+
+export const removeResponsibility = (expIndex, respIndex) => ({
+  type: "REMOVE_RESPONSIBILITY",
+  payload: { expIndex, respIndex },
+});
+export const addSkillsUsed = (projectIndex) => ({
+  type: "ADD_SKILLS_USED",
+  payload: projectIndex,
+});
+
+export const updateSkillsUsed = (projectIndex, skillIndex, value) => ({
+  type: "UPDATE_SKILLS_USED",
+  payload: { projectIndex, skillIndex, value },
+});
+
+export const removeSkillsUsed = (projectIndex, skillIndex) => ({
+  type: "REMOVE_SKILLS_USED",
+  payload: { projectIndex, skillIndex },
+});
+
+
+
+
 export const getProfile = () => async (dispatch) => {
   try {
     const res = await axios.get("http://localhost:5000/api/profile/me");

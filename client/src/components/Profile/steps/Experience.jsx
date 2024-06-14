@@ -3,7 +3,11 @@ import {
   addExperience,
   updateExperience,
   removeExperience,
+  addResponsibility,
+  updateResponsibility,
+  removeResponsibility,
 } from "../../../redux/actions/profileActions";
+import { FaPlus, FaMinus } from "react-icons/fa";
 
 const Experience = () => {
   const dispatch = useDispatch();
@@ -16,87 +20,176 @@ const Experience = () => {
     dispatch(updateExperience(index, name, value));
   };
 
-  return (
-    <div>
-      <h3 className="text-xl font-semibold mb-4">Experience</h3>
-      {experienceList.map((experience, index) => (
-        <div key={index} className="mb-4">
-          <input
-            type="text"
-            name="company"
-            value={experience.company || ""}
-            onChange={(e) => handleChange(index, e)}
-            placeholder="Company"
-            className="w-full px-3 py-2 border border-gray-300 rounded mb-2"
-          />
-          <input
-            type="text"
-            name="city"
-            value={experience.city || ""}
-            onChange={(e) => handleChange(index, e)}
-            placeholder="City"
-            className="w-full px-3 py-2 border border-gray-300 rounded mb-2"
-          />
-          <input
-            type="text"
-            name="province"
-            value={experience.province || ""}
-            onChange={(e) => handleChange(index, e)}
-            placeholder="Province"
-            className="w-full px-3 py-2 border border-gray-300 rounded mb-2"
-          />
+  const handleResponsibilityChange = (expIndex, respIndex, e) => {
+    const { value } = e.target;
+    dispatch(updateResponsibility(expIndex, respIndex, value));
+  };
 
-          <input
-            type="text"
-            name="position"
-            value={experience.position || ""}
-            onChange={(e) => handleChange(index, e)}
-            placeholder="Position"
-            className="w-full px-3 py-2 border border-gray-300 rounded mb-2"
-          />
-          <input
-            type="text"
-            name="startDate"
-            value={experience.startDate || ""}
-            onChange={(e) => handleChange(index, e)}
-            placeholder="Start Date"
-            className="w-full px-3 py-2 border border-gray-300 rounded mb-2"
-            onFocus={(e) => (e.target.type = "date")}
-            onBlur={(e) => (e.target.type = "text")}
-          />
-          <input
-            type="text"
-            name="endDate"
-            value={experience.endDate || ""}
-            onChange={(e) => handleChange(index, e)}
-            placeholder="End Date"
-            className="w-full px-3 py-2 border border-gray-300 rounded mb-2"
-            onFocus={(e) => (e.target.type = "date")}
-            onBlur={(e) => (e.target.type = "text")}
-          />
-          <input
-            type="text"
-            name="responsibilities"
-            value={experience.responsibilities || ""}
-            onChange={(e) => handleChange(index, e)}
-            placeholder="Responsibilities"
-            className="w-full px-3 py-2 border border-gray-300 rounded mb-2"
-          
-          />
-          <button
-            className="bg-red-500 text-white py-2 px-4 rounded mb-2"
-            onClick={() => dispatch(removeExperience(index))}
-          >
-            Remove
-          </button>
+  return (
+    <div className="p-6 bg-gray-100 min-h-screen">
+      <h3 className="text-2xl font-semibold mb-6">Experience</h3>
+      {experienceList.map((experience, index) => (
+        <div key={index} className="mb-6 p-6 bg-white rounded-lg shadow-md">
+          <div className="grid grid-cols-2 gap-4 mb-4">
+            <div>
+              <label
+                className="block text-lg font-medium text-gray-700 mb-1"
+                htmlFor={`company-${index}`}
+              >
+                Company
+              </label>
+              <input
+                type="text"
+                name="company"
+                id={`company-${index}`}
+                value={experience.company}
+                onChange={(e) => handleChange(index, e)}
+                placeholder="Company"
+                className="w-full px-4 py-2 border border-gray-300 rounded"
+              />
+            </div>
+            <div>
+              <label
+                className="block text-lg font-medium text-gray-700 mb-1"
+                htmlFor={`city-${index}`}
+              >
+                City
+              </label>
+              <input
+                type="text"
+                name="city"
+                id={`city-${index}`}
+                value={experience.city}
+                onChange={(e) => handleChange(index, e)}
+                placeholder="City"
+                className="w-full px-4 py-2 border border-gray-300 rounded"
+              />
+            </div>
+            <div>
+              <label
+                className="block text-lg font-medium text-gray-700 mb-1"
+                htmlFor={`province-${index}`}
+              >
+                Province
+              </label>
+              <input
+                type="text"
+                name="province"
+                id={`province-${index}`}
+                value={experience.province}
+                onChange={(e) => handleChange(index, e)}
+                placeholder="Province"
+                className="w-full px-4 py-2 border border-gray-300 rounded"
+              />
+            </div>
+            <div>
+              <label
+                className="block text-lg font-medium text-gray-700 mb-1"
+                htmlFor={`position-${index}`}
+              >
+                Position
+              </label>
+              <input
+                type="text"
+                name="position"
+                id={`position-${index}`}
+                value={experience.position}
+                onChange={(e) => handleChange(index, e)}
+                placeholder="Position"
+                className="w-full px-4 py-2 border border-gray-300 rounded"
+              />
+            </div>
+            <div>
+              <label
+                className="block text-lg font-medium text-gray-700 mb-1"
+                htmlFor={`startDate-${index}`}
+              >
+                Start Date
+              </label>
+              <input
+                type="date"
+                name="startDate"
+                id={`startDate-${index}`}
+                value={experience.startDate}
+                onChange={(e) => handleChange(index, e)}
+                placeholder="Start Date"
+                className="w-full px-4 py-2 border border-gray-300 rounded"
+                onFocus={(e) => (e.target.type = "date")}
+                onBlur={(e) => (e.target.type = "text")}
+              />
+            </div>
+            <div>
+              <label
+                className="block text-lg font-medium text-gray-700 mb-1"
+                htmlFor={`endDate-${index}`}
+              >
+                End Date
+              </label>
+              <input
+                type="date"
+                name="endDate"
+                id={`endDate-${index}`}
+                value={experience.endDate}
+                onChange={(e) => handleChange(index, e)}
+                placeholder="End Date"
+                className="w-full px-4 py-2 border border-gray-300 rounded"
+                onFocus={(e) => (e.target.type = "date")}
+                onBlur={(e) => (e.target.type = "text")}
+              />
+            </div>
+          </div>
+
+          {/* Responsibilities Section */}
+          <div className="mb-4">
+            <h4 className="font-semibold text-lg mb-2">Responsibilities</h4>
+            {(Array.isArray(experience.responsibilities)
+              ? experience.responsibilities
+              : []
+            ).map((responsibility, respIndex) => (
+              <div key={respIndex} className="flex items-center mb-2">
+                <input
+                  type="text"
+                  value={responsibility}
+                  onChange={(e) =>
+                    handleResponsibilityChange(index, respIndex, e)
+                  }
+                  placeholder="Responsibility"
+                  className="w-full px-4 py-2 border border-gray-300 rounded"
+                />
+                <button
+                  className="ml-2 flex items-center gap-2 bg-red-500 text-white py-2 px-3 rounded-full"
+                  onClick={() =>
+                    dispatch(removeResponsibility(index, respIndex))
+                  }
+                >
+                  <FaMinus /> Remove
+                </button>
+              </div>
+            ))}
+            <button
+              className="flex items-center gap-2 bg-green-500 text-white py-2 px-4 rounded-full"
+              onClick={() => dispatch(addResponsibility(index))}
+            >
+              <FaPlus /> Add Responsibility
+            </button>
+          </div>
+
+          <div className="flex justify-end space-x-4">
+            <button
+              className="flex items-center gap-2 bg-red-500 text-white py-2 px-4 rounded-full"
+              onClick={() => dispatch(removeExperience(index))}
+            >
+              <FaMinus /> Remove Experience
+            </button>
+            <button
+              className="flex items-center gap-2 bg-green-500 text-white py-2 px-4 rounded-full"
+              onClick={() => dispatch(addExperience())}
+            >
+              <FaPlus /> Add Experience
+            </button>
+          </div>
         </div>
       ))}
-      <button
-        className="bg-blue-500 text-white py-2 px-4 rounded"
-        onClick={() => dispatch(addExperience())}
-      >
-        Add Experience
-      </button>
     </div>
   );
 };
