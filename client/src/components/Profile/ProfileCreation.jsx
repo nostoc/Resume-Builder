@@ -10,7 +10,7 @@ import Achievements from "./steps/Achievements";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
 
-const profileCreation = () => {
+const ProfileCreation = () => {
   const [activeStep, setActiveStep] = useState(0);
   const steps = [
     "Personal Information",
@@ -34,16 +34,15 @@ const profileCreation = () => {
     setActiveStep((prevActiveStep) => prevActiveStep - 1);
   };
 
-  const handleSave =  async () => {
+  const handleSave = async () => {
     try {
-     await dispatch(saveProfileData(profile, token,navigate));
+      await dispatch(saveProfileData(profile, token, navigate));
       toast.success("Profile saved successfully!");
     } catch (error) {
       toast.error("Failed to save profile!");
     }
   };
 
-  
   const renderStepContent = (step) => {
     switch (step) {
       case 0:
@@ -64,50 +63,57 @@ const profileCreation = () => {
   };
 
   return (
-    <div className="w-full max-w-3xl mx-auto p-4 font-montserrat">
-      <div className="flex justify-between items-center mb-4">
+    <div className="flex w-full max-w-5xl mx-auto p-6 font-montserrat bg-blue-100 rounded-lg shadow-lg">
+      <div className="w-1/4 pr-6 border-r-2 border-blue-300">
         {steps.map((label, index) => (
           <div
             key={label}
-            className={`w-1/5 text-center py-2 ${
+            className={`py-4 cursor-pointer ${
               index === activeStep
-                ? "text-blue-500 font-semibold"
+                ? "text-ocean-blue font-semibold border-l-4 border-ocean-blue pl-2"
                 : "text-gray-500"
             }`}
+            onClick={() => setActiveStep(index)}
           >
             {label}
           </div>
         ))}
       </div>
-      <div className="bg-white p-4 rounded shadow">
-        {renderStepContent(activeStep)}
-      </div>
-      <div className="flex justify-between mt-4">
-        <button
-          disabled={activeStep === 0}
-          onClick={handleBack}
-          className="bg-gray-500 text-white py-2 px-4 rounded"
-        >
-          Back
-        </button>
-        {activeStep === steps.length - 1 ? (
+      <div className="w-3/4 pl-6">
+        <div className="bg-white p-6 rounded-lg shadow-sm">
+          {renderStepContent(activeStep)}
+        </div>
+        <div className="flex justify-between mt-6">
           <button
-            onClick={handleSave}
-            className="bg-blue-500 text-white py-2 px-4 rounded"
+            disabled={activeStep === 0}
+            onClick={handleBack}
+            className={`py-2 px-4 rounded-lg ${
+              activeStep === 0
+                ? "bg-gray-300 text-gray-700 cursor-not-allowed"
+                : "bg-gray-600 text-white hover:bg-gray-700"
+            }`}
           >
-            Finish
+            Back
           </button>
-        ) : (
-          <button
-            onClick={handleNext}
-            className="bg-blue-500 text-white py-2 px-4 rounded"
-          >
-            Next
-          </button>
-        )}
+          {activeStep === steps.length - 1 ? (
+            <button
+              onClick={handleSave}
+              className="bg-green-500 text-white py-2 px-4 rounded-lg hover: opacity-90"
+            >
+              Finish
+            </button>
+          ) : (
+            <button
+              onClick={handleNext}
+              className=" bg-yellow-500 text-white py-2 px-4 rounded-lg hover:opacity-90"
+            >
+              Next
+            </button>
+          )}
+        </div>
       </div>
     </div>
   );
 };
 
-export default profileCreation;
+export default ProfileCreation;

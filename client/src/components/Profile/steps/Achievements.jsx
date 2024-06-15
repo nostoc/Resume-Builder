@@ -9,7 +9,7 @@ import { FaPlus, FaMinus } from "react-icons/fa";
 const Achievements = () => {
   const dispatch = useDispatch();
   const achievementList = useSelector(
-    (state) => state.profile.profile.achievements
+    (state) => state.profile.profile.achievements || []
   );
 
   const handleChange = (index, e) => {
@@ -18,7 +18,7 @@ const Achievements = () => {
   };
 
   return (
-    <div className="p-6 bg-gray-100 min-h-screen">
+    <div className="p-6 bg-blue-100 min-h-screen">
       <h3 className="text-2xl font-semibold mb-6">Achievements</h3>
       {achievementList.map((achievement, index) => (
         <div key={index} className="mb-6 p-6 bg-white rounded-lg shadow-md">
@@ -35,7 +35,7 @@ const Achievements = () => {
               id={`achievement-title-${index}`}
               value={achievement.title || ""}
               onChange={(e) => handleChange(index, e)}
-              placeholder="Title"
+              placeholder="e.g., First Prize in Hackathon"
               className="w-full px-4 py-2 border border-gray-300 rounded"
             />
           </div>
@@ -47,10 +47,13 @@ const Achievements = () => {
               Date
             </label>
             <input
-              type="date"
+              type="text"
               name="date"
               id={`achievement-date-${index}`}
               value={achievement.date || ""}
+              placeholder="e.g., 2024-01-01"
+              onFocus={(e) => (e.target.type = "date")}
+                onBlur={(e) => (e.target.type = "text")}
               onChange={(e) => handleChange(index, e)}
               className="w-full px-4 py-2 border border-gray-300 rounded"
             />
@@ -68,7 +71,7 @@ const Achievements = () => {
               id={`achievement-description-${index}`}
               value={achievement.description || ""}
               onChange={(e) => handleChange(index, e)}
-              placeholder="Description"
+              placeholder="Describe your achievement"
               className="w-full px-4 py-2 border border-gray-300 rounded"
             />
           </div>
@@ -82,9 +85,9 @@ const Achievements = () => {
           </div>
         </div>
       ))}
-      <div className="flex justify-end">
+      <div className="flex ">
         <button
-          className="flex items-center gap-2 bg-blue-500 text-white py-2 px-4 rounded-full"
+          className="flex items-center gap-2 bg-ocean-blue text-white py-2 px-4 rounded-full"
           onClick={() => dispatch(addAchievement())}
         >
           <FaPlus /> Add Achievement

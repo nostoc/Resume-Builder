@@ -11,7 +11,7 @@ import { FaPlus, FaMinus } from "react-icons/fa";
 
 const Projects = () => {
   const dispatch = useDispatch();
-  const projectList = useSelector((state) => state.profile.profile.projects);
+  const projectList = useSelector((state) => state.profile.profile.projects || []);
 
   const handleChange = (index, e) => {
     const { name, value } = e.target;
@@ -24,7 +24,7 @@ const Projects = () => {
   };
 
   return (
-    <div className="p-6 bg-gray-100 min-h-screen">
+    <div className="p-6 bg-blue-100 min-h-screen">
       <h3 className="text-2xl font-semibold mb-6">Projects</h3>
       {projectList.map((project, index) => (
         <div key={index} className="mb-6 p-6 bg-white rounded-lg shadow-md">
@@ -41,7 +41,7 @@ const Projects = () => {
               id={`project-name-${index}`}
               value={project.name || ""}
               onChange={(e) => handleChange(index, e)}
-              placeholder="Project Name"
+              placeholder="e.g., Portfolio Website"
               className="w-full px-4 py-2 border border-gray-300 rounded"
             />
           </div>
@@ -58,7 +58,7 @@ const Projects = () => {
               id={`project-description-${index}`}
               value={project.description || ""}
               onChange={(e) => handleChange(index, e)}
-              placeholder="Description"
+              placeholder="e.g., Built a responsive portfolio using React"
               className="w-full px-4 py-2 border border-gray-300 rounded"
             />
           </div>
@@ -75,7 +75,7 @@ const Projects = () => {
               id={`project-link-${index}`}
               value={project.link || ""}
               onChange={(e) => handleChange(index, e)}
-              placeholder="Link"
+              placeholder="e.g., https://example.com"
               className="w-full px-4 py-2 border border-gray-300 rounded"
             />
           </div>
@@ -84,7 +84,7 @@ const Projects = () => {
               className="block text-lg font-medium text-gray-700 mb-1"
               htmlFor={`project-skillsUsed-${index}`}
             >
-              Skills Used (comma separated)
+              Skills Used 
             </label>
             {(Array.isArray(project.skillsUsed) ? project.skillsUsed : []).map(
               (skillsUsed, skillUsedIndex) => (
@@ -95,7 +95,7 @@ const Projects = () => {
                     onChange={(e) =>
                       handleSkillsUsedChange(index, skillUsedIndex, e)
                     }
-                    placeholder="Skill used"
+                    placeholder="e.g., React"
                     className="w-full px-4 py-2 border border-gray-300 rounded"
                   />
                   <button
@@ -127,9 +127,9 @@ const Projects = () => {
           </div>
         </div>
       ))}
-      <div className="flex justify-end">
+      <div className="flex  mt-4">
         <button
-          className="flex items-center gap-2 bg-blue-500 text-white py-2 px-4 rounded-full"
+          className="flex items-center gap-2 bg-ocean-blue text-white py-2 px-4 rounded-full"
           onClick={() => dispatch(addProject())}
         >
           <FaPlus /> Add Project

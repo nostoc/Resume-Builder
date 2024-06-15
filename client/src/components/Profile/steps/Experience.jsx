@@ -11,9 +11,7 @@ import { FaPlus, FaMinus } from "react-icons/fa";
 
 const Experience = () => {
   const dispatch = useDispatch();
-  const experienceList = useSelector(
-    (state) => state.profile.profile.experience
-  );
+  const experienceList = useSelector((state) => state.profile.profile.experience || []);
 
   const handleChange = (index, e) => {
     const { name, value } = e.target;
@@ -26,115 +24,97 @@ const Experience = () => {
   };
 
   return (
-    <div className="p-6 bg-gray-100 min-h-screen">
+    <div className="p-6 bg-blue-100 min-h-screen">
       <h3 className="text-2xl font-semibold mb-6">Experience</h3>
       {experienceList.map((experience, index) => (
         <div key={index} className="mb-6 p-6 bg-white rounded-lg shadow-md">
           <div className="grid grid-cols-2 gap-4 mb-4">
             <div>
-              <label
-                className="block text-lg font-medium text-gray-700 mb-1"
-                htmlFor={`company-${index}`}
-              >
+              <label className="block text-lg font-medium text-gray-700 mb-1" htmlFor={`company-${index}`}>
                 Company
               </label>
               <input
                 type="text"
                 name="company"
                 id={`company-${index}`}
-                value={experience.company}
+                value={experience.company || ""}
                 onChange={(e) => handleChange(index, e)}
-                placeholder="Company"
+                placeholder="e.g., Google"
                 className="w-full px-4 py-2 border border-gray-300 rounded"
               />
             </div>
             <div>
-              <label
-                className="block text-lg font-medium text-gray-700 mb-1"
-                htmlFor={`city-${index}`}
-              >
+              <label className="block text-lg font-medium text-gray-700 mb-1" htmlFor={`city-${index}`}>
                 City
               </label>
               <input
                 type="text"
                 name="city"
                 id={`city-${index}`}
-                value={experience.city}
+                value={experience.city || ""}
                 onChange={(e) => handleChange(index, e)}
-                placeholder="City"
+                placeholder="e.g., Mountain View"
                 className="w-full px-4 py-2 border border-gray-300 rounded"
               />
             </div>
             <div>
-              <label
-                className="block text-lg font-medium text-gray-700 mb-1"
-                htmlFor={`province-${index}`}
-              >
+              <label className="block text-lg font-medium text-gray-700 mb-1" htmlFor={`province-${index}`}>
                 Province
               </label>
               <input
                 type="text"
                 name="province"
                 id={`province-${index}`}
-                value={experience.province}
+                value={experience.province || ""}
                 onChange={(e) => handleChange(index, e)}
-                placeholder="Province"
+                placeholder="e.g., California"
                 className="w-full px-4 py-2 border border-gray-300 rounded"
               />
             </div>
             <div>
-              <label
-                className="block text-lg font-medium text-gray-700 mb-1"
-                htmlFor={`position-${index}`}
-              >
+              <label className="block text-lg font-medium text-gray-700 mb-1" htmlFor={`position-${index}`}>
                 Position
               </label>
               <input
                 type="text"
                 name="position"
                 id={`position-${index}`}
-                value={experience.position}
+                value={experience.position || ""}
                 onChange={(e) => handleChange(index, e)}
-                placeholder="Position"
+                placeholder="e.g., Software Engineer"
                 className="w-full px-4 py-2 border border-gray-300 rounded"
               />
             </div>
             <div>
-              <label
-                className="block text-lg font-medium text-gray-700 mb-1"
-                htmlFor={`startDate-${index}`}
-              >
+              <label className="block text-lg font-medium text-gray-700 mb-1" htmlFor={`startDate-${index}`}>
                 Start Date
               </label>
               <input
-                type="date"
+                type="text"
                 name="startDate"
                 id={`startDate-${index}`}
-                value={experience.startDate}
+                value={experience.startDate || ""}
                 onChange={(e) => handleChange(index, e)}
-                placeholder="Start Date"
-                className="w-full px-4 py-2 border border-gray-300 rounded"
+                placeholder="e.g., 2020-01-01"
                 onFocus={(e) => (e.target.type = "date")}
                 onBlur={(e) => (e.target.type = "text")}
+                className="w-full px-4 py-2 border border-gray-300 rounded"
               />
             </div>
             <div>
-              <label
-                className="block text-lg font-medium text-gray-700 mb-1"
-                htmlFor={`endDate-${index}`}
-              >
+              <label className="block text-lg font-medium text-gray-700 mb-1" htmlFor={`endDate-${index}`}>
                 End Date
               </label>
               <input
-                type="date"
+                type="text"
                 name="endDate"
                 id={`endDate-${index}`}
-                value={experience.endDate}
+                value={experience.endDate || ""}
                 onChange={(e) => handleChange(index, e)}
-                placeholder="End Date"
-                className="w-full px-4 py-2 border border-gray-300 rounded"
+                placeholder="e.g., 2024-01-01"
                 onFocus={(e) => (e.target.type = "date")}
                 onBlur={(e) => (e.target.type = "text")}
+                className="w-full px-4 py-2 border border-gray-300 rounded"
               />
             </div>
           </div>
@@ -149,11 +129,11 @@ const Experience = () => {
               <div key={respIndex} className="flex items-center mb-2">
                 <input
                   type="text"
-                  value={responsibility}
+                  value={responsibility || ""}
                   onChange={(e) =>
                     handleResponsibilityChange(index, respIndex, e)
                   }
-                  placeholder="Responsibility"
+                  placeholder="e.g., Developed a web application"
                   className="w-full px-4 py-2 border border-gray-300 rounded"
                 />
                 <button
@@ -181,15 +161,15 @@ const Experience = () => {
             >
               <FaMinus /> Remove Experience
             </button>
-            <button
-              className="flex items-center gap-2 bg-green-500 text-white py-2 px-4 rounded-full"
-              onClick={() => dispatch(addExperience())}
-            >
-              <FaPlus /> Add Experience
-            </button>
           </div>
         </div>
       ))}
+      <button
+        className="flex items-center gap-2 bg-ocean-blue text-white py-2 px-4 rounded-full"
+        onClick={() => dispatch(addExperience())}
+      >
+        <FaPlus /> Add Experience
+      </button>
     </div>
   );
 };

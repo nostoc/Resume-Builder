@@ -16,7 +16,7 @@ export const loginUser = (userData,navigate) => async (dispatch) => {
     });   
     console.log("Login response", res.data);
     toast.success("Login successful");
-    navigate("/profile/create");
+    navigate("/");
     return Promise.resolve(res.data);
   } catch (error) {
     console.error(

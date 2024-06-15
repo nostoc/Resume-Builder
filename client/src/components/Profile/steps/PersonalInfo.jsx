@@ -15,7 +15,7 @@ const PersonalInfo = () => {
   };
 
   return (
-    <div className="p-6 bg-gray-100 min-h-screen">
+    <div className="p-6 bg-blue-100 min-h-screen">
       <h3 className="text-2xl font-semibold mb-6">Personal Information</h3>
       <div className="p-6 bg-white rounded-lg shadow-md">
         <div className="grid grid-cols-2 gap-4">
@@ -29,7 +29,7 @@ const PersonalInfo = () => {
               id="name"
               value={personalInfo?.name || ""}
               onChange={handleChange}
-              placeholder="Name"
+              placeholder="e.g., John Doe"
               className="w-full px-4 py-2 border border-gray-300 rounded"
             />
           </div>
@@ -38,12 +38,12 @@ const PersonalInfo = () => {
               Email
             </label>
             <input
-              type="text"
+              type="email"
               name="email"
               id="email"
               value={personalInfo?.email || ""}
               onChange={handleChange}
-              placeholder="Email"
+              placeholder="e.g., john.doe@example.com"
               className="w-full px-4 py-2 border border-gray-300 rounded"
             />
           </div>
@@ -57,7 +57,7 @@ const PersonalInfo = () => {
               id="phone"
               value={personalInfo?.phone || ""}
               onChange={handleChange}
-              placeholder="Phone"
+              placeholder="e.g., +94 13 4 567890"
               className="w-full px-4 py-2 border border-gray-300 rounded"
             />
           </div>
@@ -71,7 +71,7 @@ const PersonalInfo = () => {
               id="linkedin"
               value={personalInfo?.linkedin || ""}
               onChange={handleChange}
-              placeholder="LinkedIn"
+              placeholder="e.g., linkedin.com/in/johndoe"
               className="w-full px-4 py-2 border border-gray-300 rounded"
             />
           </div>
@@ -85,7 +85,7 @@ const PersonalInfo = () => {
               id="website"
               value={personalInfo?.website || ""}
               onChange={handleChange}
-              placeholder="Website"
+              placeholder="e.g., www.johndoe.com"
               className="w-full px-4 py-2 border border-gray-300 rounded"
             />
           </div>
@@ -99,7 +99,7 @@ const PersonalInfo = () => {
               id="address"
               value={personalInfo?.address || ""}
               onChange={handleChange}
-              placeholder="Address"
+              placeholder="e.g., 123 Main St"
               className="w-full px-4 py-2 border border-gray-300 rounded"
             />
           </div>
@@ -113,7 +113,7 @@ const PersonalInfo = () => {
               id="city"
               value={personalInfo?.city || ""}
               onChange={handleChange}
-              placeholder="City"
+              placeholder="e.g., Veyangoda"
               className="w-full px-4 py-2 border border-gray-300 rounded"
             />
           </div>
@@ -127,7 +127,7 @@ const PersonalInfo = () => {
               id="province"
               value={personalInfo?.province || ""}
               onChange={handleChange}
-              placeholder="Province"
+              placeholder="e.g., Western"
               className="w-full px-4 py-2 border border-gray-300 rounded"
             />
           </div>
@@ -141,7 +141,7 @@ const PersonalInfo = () => {
               id="postalCode"
               value={personalInfo?.postalCode || ""}
               onChange={handleChange}
-              placeholder="Postal Code"
+              placeholder="e.g., 10000"
               className="w-full px-4 py-2 border border-gray-300 rounded"
             />
           </div>
@@ -155,7 +155,7 @@ const PersonalInfo = () => {
               id="country"
               value={personalInfo?.country || ""}
               onChange={handleChange}
-              placeholder="Country"
+              placeholder="e.g., Sri Lanka"
               className="w-full px-4 py-2 border border-gray-300 rounded"
             />
           </div>

@@ -160,7 +160,7 @@ export const saveProfileData =
         type: "SAVE_PROFILE_SUCCESS",
         payload: response.data,
       });
-      navigate("/profile/resume");
+      navigate("/templates");
       //toast.success("Profile saved successfully!");
     } catch (error) {
       dispatch({

@@ -1,40 +1,54 @@
-
 import { Link } from 'react-router-dom';
+import { FaUserEdit, FaRegFileAlt, FaFileDownload, FaEye } from 'react-icons/fa';
+import backgroundImage from '../assets/undraw_welcoming_re_x0qo.svg';
 
 const LandingPage = () => {
   return (
-    <div className="flex min-h-screen bg-gray-100">
-      {/* Left Side with Background Image */}
-      <div 
-        className="hidden md:block w-1/2 bg-cover bg-center"
-        style={{ backgroundImage: "url('http://127.0.0.1:5500/client/src/assets/undraw_online_resume_re_ru7s.svg')" }}
-      ></div>
-      
-      {/* Right Side with Options */}
-      <div className="flex flex-col items-center justify-center w-full md:w-1/2 p-8">
-        <div className="bg-white bg-opacity-90 p-8 rounded-lg shadow-lg text-center w-full max-w-lg">
-          <h1 className="text-4xl font-bold mb-6 text-gray-800">Welcome to the Resume Builder App</h1>
-          <p className="text-lg mb-8 text-gray-600">Create your professional resume with ease using our templates and tools.</p>
-          <div className="flex flex-col space-y-4">
-            <Link to="/profile/create">
-              <button className="w-full px-6 py-3 bg-blue-500 text-white rounded-lg shadow hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-300">
-                Fill Profile Form
-              </button>
+    <div className="flex items-center justify-center font-montserrat min-h-screen bg-gray-100">
+      <div className="relative flex flex-col md:flex-row items-center justify-between bg-white shadow-lg rounded-lg overflow-hidden w-11/12 md:w-3/4 lg:w-2/3">
+        {/* Left Side with Background Image */}
+        <div className="hidden md:block md:w-1/2 h-full">
+          <img
+            src={backgroundImage}
+            alt="Background"
+            className="w-full h-full object-cover"
+          />
+        </div>
+
+        {/* Right Side with Options */}
+        <div className="flex flex-col items-center justify-center w-full md:w-1/2 p-8">
+          <div className="text-center w-full mb-8">
+            <h1 className="text-4xl text-ocean-blue font-bold mb-4">
+              Welcome to the Resume Builder App
+            </h1>
+            <p className="text-lg text-gray-600">
+              Create your professional resume with ease using our templates and tools.
+            </p>
+          </div>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 w-full">
+            <Link to="/profile/create" className="group">
+              <div className="flex flex-col items-center justify-center p-6 bg-white rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300 h-full">
+                <FaUserEdit className="text-ocean-blue text-3xl mb-4 group-hover:scale-110 transition-transform duration-300" />
+                <h3 className="text-xl font-semibold text-gray-700 text-center">Fill Profile Form</h3>
+              </div>
             </Link>
-            <Link to="/templates">
-              <button className="w-full px-6 py-3 bg-green-500 text-white rounded-lg shadow hover:bg-green-600 focus:outline-none focus:ring-2 focus:ring-green-300">
-                View Templates
-              </button>
+            <Link to="/templates" className="group">
+              <div className="flex flex-col items-center justify-center p-6 bg-white rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300 h-full">
+                <FaRegFileAlt className="text-ocean-blue text-3xl mb-4 group-hover:scale-110 transition-transform duration-300" />
+                <h3 className="text-xl font-semibold text-gray-700 text-center">View Templates</h3>
+              </div>
             </Link>
-            <Link to="/generate-resume">
-              <button className="w-full px-6 py-3 bg-yellow-500 text-white rounded-lg shadow hover:bg-yellow-600 focus:outline-none focus:ring-2 focus:ring-yellow-300">
-                Generate Resume
-              </button>
+            <Link to="/generate-resume" className="group">
+              <div className="flex flex-col items-center justify-center p-6 bg-white rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300 h-full">
+                <FaFileDownload className="text-ocean-blue text-3xl mb-4 group-hover:scale-110 transition-transform duration-300" />
+                <h3 className="text-xl font-semibold text-gray-700 text-center">Generate Resume</h3>
+              </div>
             </Link>
-            <Link to="/view-resumes">
-              <button className="w-full px-6 py-3 bg-red-500 text-white rounded-lg shadow hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-red-300">
-                View Resumes
-              </button>
+            <Link to="/view-resumes" className="group">
+              <div className="flex flex-col items-center justify-center p-6 bg-white rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300 h-full">
+                <FaEye className="text-ocean-blue text-3xl mb-4 group-hover:scale-110 transition-transform duration-300" />
+                <h3 className="text-xl font-semibold text-gray-700 text-center">View Resumes</h3>
+              </div>
             </Link>
           </div>
         </div>
