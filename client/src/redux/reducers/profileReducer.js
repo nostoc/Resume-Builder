@@ -50,6 +50,7 @@ const initialState = {
       },
     ],
   },
+  selectedTemplate: null,
   error: null,
   loading: true,
 };
@@ -279,17 +280,17 @@ const profileReducer = (state = initialState, action) => {
           ),
         },
       };
-      case "ADD_PROJECT":
-        return {
-          ...state,
-          profile: {
-            ...state.profile,
-            projects: [
-              ...state.profile.projects,
-              { name: "", description: "", link: "", skillsUsed: [""] },
-            ],
-          },
-        };
+    case "ADD_PROJECT":
+      return {
+        ...state,
+        profile: {
+          ...state.profile,
+          projects: [
+            ...state.profile.projects,
+            { name: "", description: "", link: "", skillsUsed: [""] },
+          ],
+        },
+      };
     case "ADD_SKILLS_USED":
       return {
         ...state,
@@ -384,6 +385,12 @@ const profileReducer = (state = initialState, action) => {
         ...state,
         loading: false,
         error: action.payload,
+      };
+
+    case "SET_SELECTED_TEMPLATE":
+      return {
+        ...state,
+        selectedTemplate: action.payload,
       };
     default:
       return state;

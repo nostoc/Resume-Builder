@@ -174,3 +174,8 @@ export const saveProfileData =
       //toast.error("Failed to save profile!");
     }
   };
+
+  export const setSelectedTemplate = (templateId) => ({
+    type: "SET_SELECTED_TEMPLATE",
+    payload: templateId,
+  });
