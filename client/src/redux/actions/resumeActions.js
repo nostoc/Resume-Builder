@@ -27,3 +27,18 @@ export const getResume = () => async (dispatch, getState) => {
     toast.error('Failed to load resume!');
   }
 };
+
+export const getUserResumes = () => async (dispatch) => {
+  try {
+    const response = await axios.get('http://localhost:5000/api/resume'); // Replace with your API endpoint
+    dispatch({
+      type: "GET_USER_RESUMES_SUCCESS",
+      payload: response.data,
+    });
+  } catch (error) {
+    dispatch({
+      type: "GET_USER_RESUMES_FAILURE",
+      payload: error.message,
+    });
+  }
+};

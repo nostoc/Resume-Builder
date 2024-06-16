@@ -9,6 +9,7 @@ import Resume from "./components/Resume";
 import "./App.css";
 import { useSelector } from "react-redux";
 import GenerateResume from "./components/GenerateResume";
+import ViewResumes from "./pages/ViewResumes";
 
 function App() {
   const isRegistered = useSelector((state) => state.auth.isRegistered);
@@ -25,6 +26,7 @@ function App() {
       <Route path="/templates" element={<TemplateSelection />} />
       <Route path="/profile/resume" element={<Resume />} />
       <Route path="/generate-resume" element={<GenerateResume />} />
+      <Route path="/view-resume" element={<ViewResumes/>}/>
     </Routes>
   );
 }

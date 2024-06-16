@@ -1,5 +1,6 @@
 import { ResumeTemplate } from "../models/resumeTemplateModel.js";
 import { validationResult } from "express-validator";
+import { Profile } from "../models/profileModel.js";
 
 export const getResumeByProfile = async (req,res) =>{
   try {
@@ -18,6 +19,7 @@ export const getResumeByProfile = async (req,res) =>{
       experience: profile.experience,
       skills: profile.skills,
       projects: profile.projects,
+      achievements: profile.achievements,
     };
     res.json(resume);
   }catch(err){

@@ -44,7 +44,7 @@ const LandingPage = () => {
                 <h3 className="text-xl font-semibold text-gray-700 text-center">Generate Resume</h3>
               </div>
             </Link>
-            <Link to="/view-resumes" className="group">
+            <Link to="/view-resume" className="group">
               <div className="flex flex-col items-center justify-center p-6 bg-white rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300 h-full">
                 <FaEye className="text-ocean-blue text-3xl mb-4 group-hover:scale-110 transition-transform duration-300" />
                 <h3 className="text-xl font-semibold text-gray-700 text-center">View Resumes</h3>
