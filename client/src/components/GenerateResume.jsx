@@ -1,15 +1,20 @@
 // src/components/profile/GenerateResume.jsx
-import { useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { getProfile } from '../redux/actions/profileActions';
-import Template1 from './templates/Template1';
-import Template2 from './templates/Template2';
+import { useEffect,useRef } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { getProfile } from "../redux/actions/profileActions";
+import Template1 from "./templates/Template1";
+import Template2 from "./templates/Template2";
+import jsPDF from "jspdf";
+import html2canvas from "html2canvas";
 
 const GenerateResume = () => {
   const dispatch = useDispatch();
   const profile = useSelector((state) => state.profile.profile);
-  const selectedTemplate = useSelector((state) => state.profile.selectedTemplate);
+  const selectedTemplate = useSelector(
+    (state) => state.profile.selectedTemplate
+  );
   const error = useSelector((state) => state.profile.error);
+  const resumeRef = useRef();
 
   useEffect(() => {
     if (!profile) {
@@ -36,10 +41,55 @@ const GenerateResume = () => {
     }
   };
 
+  const downloadResume = async () => {
+    const input = resumeRef.current;
+
+    if (!input) {
+      console.error('Resume element not found!');
+      return;
+    }
+
+    try {
+      const canvas = await html2canvas(input);
+      const imgData = canvas.toDataURL('image/png');
+      const pdf = new jsPDF({
+        orientation: 'portrait',
+        unit: 'mm',
+        format: 'a4'
+      });
+
+      const imgWidth = 210; // A4 width in mm
+      const pageHeight = 297; // A4 height in mm
+      const imgHeight = (canvas.height * imgWidth) / canvas.width;
+      let heightLeft = imgHeight;
+      let position = 0;
+
+      pdf.addImage(imgData, 'PNG', 0, position, imgWidth, imgHeight);
+      heightLeft -= pageHeight;
+
+      while (heightLeft >= 0) {
+        position = heightLeft - imgHeight;
+        pdf.addPage();
+        pdf.addImage(imgData, 'PNG', 0, position, imgWidth, imgHeight);
+        heightLeft -= pageHeight;
+      }
+
+      pdf.save('resume.pdf');
+    } catch (error) {
+      console.error('Failed to download resume:', error);
+    }
+  };
+
   return (
     <div>
       <h1>Generated Resume</h1>
-      {renderTemplate()}
+      <div ref={resumeRef}>{renderTemplate()}</div>
+      <button
+        onClick={downloadResume}
+        className="bg-blue-500 text-white py-2 px-4 rounded-lg hover:opacity-90 mt-4"
+      >
+        Download Resume
+      </button>
     </div>
   );
 };
