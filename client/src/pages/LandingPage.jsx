@@ -1,8 +1,23 @@
 import { Link } from 'react-router-dom';
-import { FaUserEdit, FaRegFileAlt, FaFileDownload, FaEye } from 'react-icons/fa';
+import { FaUserEdit, FaRegFileAlt, FaFileDownload, FaEye,FaSignOutAlt } from 'react-icons/fa';
 import backgroundImage from '../assets/undraw_welcoming_re_x0qo.svg';
 
+
+import { useDispatch } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
+import { logoutUser } from '../redux/actions/authActions';
+
+
 const LandingPage = () => {
+
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+
+  const handleLogout = () => {
+    dispatch(logoutUser(navigate));
+  };
+
+
   return (
     <div className="flex items-center justify-center font-montserrat min-h-screen bg-gray-100">
       <div className="relative flex flex-col md:flex-row items-center justify-between bg-white shadow-lg rounded-lg overflow-hidden w-11/12 md:w-3/4 lg:w-2/3">
@@ -38,18 +53,25 @@ const LandingPage = () => {
                 <h3 className="text-xl font-semibold text-gray-700 text-center">View Templates</h3>
               </div>
             </Link>
-            <Link to="/generate-resume" className="group">
+            {/*<Link to="/generate-resume" className="group">
               <div className="flex flex-col items-center justify-center p-6 bg-white rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300 h-full">
                 <FaFileDownload className="text-ocean-blue text-3xl mb-4 group-hover:scale-110 transition-transform duration-300" />
                 <h3 className="text-xl font-semibold text-gray-700 text-center">Generate Resume</h3>
               </div>
-            </Link>
+            </Link>*/}
             <Link to="/view-resume" className="group">
               <div className="flex flex-col items-center justify-center p-6 bg-white rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300 h-full">
                 <FaEye className="text-ocean-blue text-3xl mb-4 group-hover:scale-110 transition-transform duration-300" />
                 <h3 className="text-xl font-semibold text-gray-700 text-center">View Resumes</h3>
               </div>
             </Link>
+            <button
+              onClick={handleLogout}
+              className="group w-full flex flex-col items-center justify-center p-6 bg-white rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300">
+              <FaSignOutAlt className="text-ocean-blue text-3xl mb-4 group-hover:scale-110 transition-transform duration-300" />
+              <h3 className="text-xl font-semibold text-gray-700 text-center">Logout</h3>
+              </button>
+
           </div>
         </div>
       </div>

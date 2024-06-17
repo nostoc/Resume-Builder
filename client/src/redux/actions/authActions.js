@@ -59,3 +59,10 @@ export const registerUser = (userData,navigate) => async (dispatch) => {
     return Promise.reject(error);
   }
 };
+export const logoutUser = (navigate) => (dispatch) => {
+  dispatch({
+    type: "LOGOUT_USER",
+  });
+  toast.success("Logout successful");
+  navigate("/login");
+};

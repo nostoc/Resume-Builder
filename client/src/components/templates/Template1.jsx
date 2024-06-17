@@ -1,4 +1,3 @@
-// src/components/templates/Template1.jsx
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { getProfile } from "../../redux/actions/profileActions";
@@ -38,21 +37,26 @@ const Template1 = () => {
     <div className="font-montserrat p-10 bg-white rounded-lg shadow-md max-w-4xl mx-auto">
       <div className="text-center pb-4 mb-4">
         <h1 className="text-4xl font-bold text-green-600">{profile.personalInfo.name}</h1>
-        <p className="flex justify-center items-center space-x-4">
-          <span className="flex items-center">
-            <MdEmail className="mr-2" /> {profile.personalInfo.email}
+        <div className="flex justify-center space-x-4">
+          <span className="flex items-center space-x-2">
+            <MdEmail />
+            <span>{profile.personalInfo.email}</span>
           </span>
-          <span className="flex items-center">
-            <MdPhone className="mr-2" /> {profile.personalInfo.phone}
+          <span className="flex items-center space-x-2">
+            <MdPhone />
+            <span>{profile.personalInfo.phone}</span>
           </span>
-          <span className="flex items-center">
-            <FaGlobe className="mr-2" />
+          <span className="flex items-center space-x-2">
+            <FaGlobe />
             <a href={profile.personalInfo.website} className="underline">{profile.personalInfo.website}</a>
           </span>
-        </p>
-        <p className="flex items-center justify-center">
-          <MdLocationOn className="mr-2" /> {profile.personalInfo.address}, {profile.personalInfo.city}, {profile.personalInfo.province}, {profile.personalInfo.postalCode}, {profile.personalInfo.country}
-        </p>
+        </div>
+        <div className="flex items-center justify-center mt-2">
+          <MdLocationOn />
+          <span className="ml-2">
+            {profile.personalInfo.address}, {profile.personalInfo.city}, {profile.personalInfo.province}, {profile.personalInfo.postalCode}, {profile.personalInfo.country}
+          </span>
+        </div>
       </div>
 
       <div className="mb-4">

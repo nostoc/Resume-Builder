@@ -1,6 +1,11 @@
 // src/redux/reducers/authReducer.js
 
-import { LOGIN_USER, REGISTER_USER, LOGIN_FAILURE, REGISTER_FAILURE } from "../actions/types";
+import {
+  LOGIN_USER,
+  REGISTER_USER,
+  LOGIN_FAILURE,
+  REGISTER_FAILURE,
+} from "../actions/types";
 
 const initialState = {
   user: null,
@@ -17,7 +22,7 @@ const authReducer = (state = initialState, action) => {
         ...state,
         user: action.payload,
         isRegistered: true,
-        token:action.payload.token,
+        token: action.payload.token,
         loading: false,
         error: null, // Clear any previous errors on success
       };
@@ -29,6 +34,15 @@ const authReducer = (state = initialState, action) => {
         user: null,
         error: action.payload, // Set error message in state
         loading: false,
+      };
+    case "LOGOUT_USER":
+      return {
+        ...state,
+        user: null,
+        isRegistered: false,
+        token: null,
+        loading: false,
+        error: null,
       };
     default:
       return state;
