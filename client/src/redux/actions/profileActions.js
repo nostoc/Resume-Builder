@@ -121,9 +121,6 @@ export const removeSkillsUsed = (projectIndex, skillIndex) => ({
   payload: { projectIndex, skillIndex },
 });
 
-
-
-
 export const getProfile = () => async (dispatch) => {
   try {
     const res = await axios.get("http://localhost:5000/api/profile/me");
@@ -178,4 +175,9 @@ export const saveProfileData =
   export const setSelectedTemplate = (templateId) => ({
     type: "SET_SELECTED_TEMPLATE",
     payload: templateId,
+  });
+
+  export const updateFormData = (formData) => ({
+    type: "UPDATE_FORM_DATA",
+    payload: formData,
   });

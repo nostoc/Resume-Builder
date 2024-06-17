@@ -392,6 +392,11 @@ const profileReducer = (state = initialState, action) => {
         ...state,
         selectedTemplate: action.payload,
       };
+      case "UPDATE_FORM_DATA":
+      return {
+        ...state,
+        profile: { ...state.profile, ...action.payload },
+      };
     default:
       return state;
   }

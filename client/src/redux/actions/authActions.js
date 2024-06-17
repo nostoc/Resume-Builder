@@ -59,6 +59,23 @@ export const registerUser = (userData,navigate) => async (dispatch) => {
     return Promise.reject(error);
   }
 };
+
+export const updateUser = (userData) => async (dispatch) => {
+  try {
+    const res = await axios.put(`${API_URL}/update`, userData);
+    dispatch({
+      type: "UPDATE_USER",
+      payload: res.data,
+    });
+    toast.success('Profile updated successfully');
+    return Promise.resolve(res.data);
+  } catch (error) {
+    console.error('Update error', error.response ? error.response.data : error.message);
+    toast.error(error.response?.data?.message || 'Update failed!');
+    return Promise.reject(error);
+  }
+};
+
 export const logoutUser = (navigate) => (dispatch) => {
   dispatch({
     type: "LOGOUT_USER",

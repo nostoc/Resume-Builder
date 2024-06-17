@@ -3,7 +3,7 @@ import { FaUserEdit, FaRegFileAlt, FaFileDownload, FaEye,FaSignOutAlt } from 're
 import backgroundImage from '../assets/undraw_welcoming_re_x0qo.svg';
 
 
-import { useDispatch } from 'react-redux';
+import { useDispatch,useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { logoutUser } from '../redux/actions/authActions';
 
@@ -12,6 +12,7 @@ const LandingPage = () => {
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const user = useSelector((state) => state.auth.user);
 
   const handleLogout = () => {
     dispatch(logoutUser(navigate));

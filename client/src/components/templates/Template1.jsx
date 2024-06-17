@@ -78,7 +78,7 @@ const Template1 = () => {
         <h2 className="text-2xl font-semibold text-green-600 border-b-2 border-green-600 pb-2 mb-2">Skills</h2>
         <div className="grid grid-cols-3 gap-4">
           {profile.skills.map((skill) => (
-            <p key={skill._id} className="italic">● {skill.name}</p>
+            <p key={skill._id} className="italic"> {skill.name}</p>
           ))}
         </div>
       </div>
@@ -88,7 +88,7 @@ const Template1 = () => {
         {profile.projects.map((project) => (
           <div key={project._id} className="mb-4">
             <h3 className="text-lg font-bold">{project.name}</h3>
-            <p>● {project.skillsUsed}</p>
+            <p> {project.skillsUsed}</p>
             <p className="italic">{project.description}</p>
             {project.link && <a href={project.link} className="text-blue-500 underline">{project.link}</a>}
           </div>
