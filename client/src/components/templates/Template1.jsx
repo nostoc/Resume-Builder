@@ -1,11 +1,12 @@
-import { useEffect } from "react";
+import React, { useEffect, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { getProfile } from "../../redux/actions/profileActions";
 import { MdEmail, MdPhone } from "react-icons/md";
 import { FaGlobe } from "react-icons/fa";
 import { MdLocationOn } from "react-icons/md";
+import { useReactToPrint } from "react-to-print";
 
-const Template1 = () => {
+const Template1 = React.forwardRef((props, ref) => {
   const dispatch = useDispatch();
   const profile = useSelector((state) => state.profile.profile);
   const error = useSelector((state) => state.profile.error);
@@ -34,7 +35,7 @@ const Template1 = () => {
   }
 
   return (
-    <div className="font-montserrat p-10 bg-white rounded-lg shadow-md max-w-4xl mx-auto">
+    <div ref={ref} className="font-montserrat p-10 bg-white rounded-lg shadow-md max-w-4xl mx-auto">
       <div className="text-center pb-4 mb-4">
         <h1 className="text-4xl font-bold text-green-600">{profile.personalInfo.name}</h1>
         <div className="flex justify-center space-x-4">
@@ -124,6 +125,31 @@ const Template1 = () => {
       </div>
     </div>
   );
+});
+
+Template1.displayName = "Template1";
+
+const ProfilePage = () => {
+  const componentRef = useRef();
+  const profile = useSelector((state) => state.profile.profile);
+
+  const handlePrint = useReactToPrint({
+    content: () => componentRef.current,
+    documentTitle: profile ? `resume_${profile.personalInfo.name}` : 'resume',
+    pageStyle: "@page { size: A4; margin: 20mm; }",
+  });
+
+  return (
+    <div className="flex flex-col items-center">
+      <Template1 ref={componentRef} />
+      <button
+        onClick={handlePrint}
+        className="mt-4 py-2 px-4 bg-blue-500 text-white rounded-lg hover:bg-blue-600"
+      >
+        Download PDF
+      </button>
+    </div>
+  );
 };
 
-export default Template1;
+export default ProfilePage;

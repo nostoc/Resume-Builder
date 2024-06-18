@@ -23,10 +23,12 @@ import {
   faWrench,
   faLightbulb,
   faTrophy,
+  faChevronDown,
+  faChevronUp,
 } from "@fortawesome/free-solid-svg-icons";
 
 const ProfileCreation = () => {
-  const [activeStep, setActiveStep] = useState(0);
+  const [activeStep, setActiveStep] = useState(null);
   const steps = [
     { label: "Personal Information", component: PersonalInfo, icon: faUser },
     { label: "Education", component: Education, icon: faGraduationCap },
@@ -60,6 +62,14 @@ const ProfileCreation = () => {
     const updatedData = { ...formData, selectedTemplate: template };
     setFormData(updatedData);
     dispatch(updateFormData(updatedData));
+  };
+
+  const toggleStep = (index) => {
+    if (activeStep === index) {
+      setActiveStep(null);
+    } else {
+      setActiveStep(index);
+    }
   };
 
   const renderStepContent = (StepComponent) => {
@@ -99,11 +109,16 @@ const ProfileCreation = () => {
           {steps.map((step, index) => (
             <div key={index} className="mb-4">
               <div
-                className="cursor-pointer p-4 rounded-lg bg-gray-200 hover:bg-gray-300 transition-all duration-300 flex items-center"
-                onClick={() => setActiveStep(index)}
+                className="cursor-pointer p-4 rounded-lg bg-gray-200 hover:bg-gray-300 transition-all duration-300 flex justify-between items-center"
+                onClick={() => toggleStep(index)}
               >
-                <FontAwesomeIcon icon={step.icon} className="mr-2" />
-                <h3 className="text-lg font-semibold">{step.label}</h3>
+                <div className="flex items-center">
+                  <FontAwesomeIcon icon={step.icon} className="mr-2" />
+                  <h3 className="text-lg font-semibold">{step.label}</h3>
+                </div>
+                <FontAwesomeIcon
+                  icon={activeStep === index ? faChevronUp : faChevronDown}
+                />
               </div>
               {activeStep === index && (
                 <div className="mt-2 p-4 bg-gray-50 border border-gray-300 rounded-lg">
