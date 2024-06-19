@@ -80,7 +80,7 @@ const ProfileCreation = () => {
     <div className="flex w-full max-w-7xl mx-auto p-6 font-montserrat bg-gray-50 rounded-lg shadow-lg h-screen">
       <div className="w-1/2 pr-6 border-r-2 border-gray-300 overflow-y-auto">
         <div className="flex justify-between items-center mb-4">
-          <h2 className="text-xl font-semibold">Create Your Profile</h2>
+          <h2 className="text-2xl font-semibold"></h2>
           <div className="flex space-x-4">
             <button
               onClick={() => handleTemplateChange(1)}

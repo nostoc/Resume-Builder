@@ -20,7 +20,7 @@ const ResumePreview = ({ data }) => {
 
   return (
     <div>
-      <h2>Resume Preview</h2>
+      
       {renderTemplate()}
     </div>
   );
