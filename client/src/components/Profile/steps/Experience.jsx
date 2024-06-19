@@ -28,7 +28,7 @@ const Experience = () => {
       <h3 className="text-2xl font-semibold mb-6">Experience</h3>
       {experienceList.map((experience, index) => (
         <div key={index} className="mb-6 p-6 bg-white rounded-lg shadow-md">
-          <div className="grid grid-cols-2 gap-4 mb-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-4">
             <div>
               <label className="block text-lg font-medium text-gray-700 mb-1" htmlFor={`company-${index}`}>
                 Company

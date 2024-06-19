@@ -3,7 +3,9 @@ import { updateProfileField } from "../../../redux/actions/profileActions";
 
 const PersonalInfo = () => {
   const dispatch = useDispatch();
-  const personalInfo = useSelector((state) => state.profile.profile.personalInfo);
+  const personalInfo = useSelector(
+    (state) => state.profile.profile.personalInfo
+  );
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -18,9 +20,12 @@ const PersonalInfo = () => {
     <div className="p-6 bg-blue-100 ">
       <h3 className="text-2xl font-semibold mb-6">Personal Information</h3>
       <div className="p-5 bg-white rounded-lg shadow-md">
-        <div className="grid grid-cols-2 gap-4">
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
           <div>
-            <label className="block text-lg font-medium text-gray-700 mb-1" htmlFor="name">
+            <label
+              className="block text-lg font-medium text-gray-700 mb-1"
+              htmlFor="name"
+            >
               Name
             </label>
             <input
@@ -34,7 +39,10 @@ const PersonalInfo = () => {
             />
           </div>
           <div>
-            <label className="block text-lg font-medium text-gray-700 mb-1" htmlFor="email">
+            <label
+              className="block text-lg font-medium text-gray-700 mb-1"
+              htmlFor="email"
+            >
               Email
             </label>
             <input
@@ -48,7 +56,10 @@ const PersonalInfo = () => {
             />
           </div>
           <div>
-            <label className="block text-lg font-medium text-gray-700 mb-1" htmlFor="phone">
+            <label
+              className="block text-lg font-medium text-gray-700 mb-1"
+              htmlFor="phone"
+            >
               Phone
             </label>
             <input
@@ -62,7 +73,10 @@ const PersonalInfo = () => {
             />
           </div>
           <div>
-            <label className="block text-lg font-medium text-gray-700 mb-1" htmlFor="linkedin">
+            <label
+              className="block text-lg font-medium text-gray-700 mb-1"
+              htmlFor="linkedin"
+            >
               LinkedIn
             </label>
             <input
@@ -76,7 +90,10 @@ const PersonalInfo = () => {
             />
           </div>
           <div>
-            <label className="block text-lg font-medium text-gray-700 mb-1" htmlFor="website">
+            <label
+              className="block text-lg font-medium text-gray-700 mb-1"
+              htmlFor="website"
+            >
               Website
             </label>
             <input
@@ -90,7 +107,10 @@ const PersonalInfo = () => {
             />
           </div>
           <div>
-            <label className="block text-lg font-medium text-gray-700 mb-1" htmlFor="address">
+            <label
+              className="block text-lg font-medium text-gray-700 mb-1"
+              htmlFor="address"
+            >
               Address
             </label>
             <input
@@ -104,7 +124,10 @@ const PersonalInfo = () => {
             />
           </div>
           <div>
-            <label className="block text-lg font-medium text-gray-700 mb-1" htmlFor="city">
+            <label
+              className="block text-lg font-medium text-gray-700 mb-1"
+              htmlFor="city"
+            >
               City
             </label>
             <input
@@ -118,7 +141,10 @@ const PersonalInfo = () => {
             />
           </div>
           <div>
-            <label className="block text-lg font-medium text-gray-700 mb-1" htmlFor="province">
+            <label
+              className="block text-lg font-medium text-gray-700 mb-1"
+              htmlFor="province"
+            >
               Province
             </label>
             <input
@@ -132,7 +158,10 @@ const PersonalInfo = () => {
             />
           </div>
           <div>
-            <label className="block text-lg font-medium text-gray-700 mb-1" htmlFor="postalCode">
+            <label
+              className="block text-lg font-medium text-gray-700 mb-1"
+              htmlFor="postalCode"
+            >
               Postal Code
             </label>
             <input
@@ -146,7 +175,10 @@ const PersonalInfo = () => {
             />
           </div>
           <div>
-            <label className="block text-lg font-medium text-gray-700 mb-1" htmlFor="country">
+            <label
+              className="block text-lg font-medium text-gray-700 mb-1"
+              htmlFor="country"
+            >
               Country
             </label>
             <input

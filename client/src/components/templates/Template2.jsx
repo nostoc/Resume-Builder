@@ -22,7 +22,7 @@ const Template2 = React.forwardRef((props, ref) => {
     return date.toLocaleDateString("en-US", {
       year: "numeric",
       month: "short",
-      day: "numeric",
+      
     });
   };
 
@@ -42,9 +42,9 @@ const Template2 = React.forwardRef((props, ref) => {
 
   return (
     <div className="flex flex-col items-center">
-      <div ref={componentRef2} className="font-montserrat p-10 bg-white rounded-lg shadow-md max-w-4xl mx-auto">
+      <div ref={componentRef2} className="font-times-new-roman p-10 bg-white rounded-lg shadow-md max-w-4xl mx-auto">
         <div className="text-center pb-4 mb-4">
-          <h1 className="text-4xl font-bold text-green-600">{profile.personalInfo.name}</h1>
+          <h1 className="text-4xl font-bold ">{profile.personalInfo.name}</h1>
           <div className="flex justify-center space-x-4">
             <span className="flex items-center space-x-2">
               <MdEmail />
@@ -68,7 +68,7 @@ const Template2 = React.forwardRef((props, ref) => {
         </div>
 
         <div className="mb-4">
-          <h2 className="text-2xl font-semibold text-green-600 border-b-2 border-green-600 pb-2 mb-2">Education</h2>
+          <h2 className="text-2xl font-semibold border-b-2 border-black pb-2 mb-2">Education</h2>
           {profile.education.map((edu) => (
             <div key={edu._id} className="mb-4">
               <div className="flex justify-between">
@@ -83,7 +83,7 @@ const Template2 = React.forwardRef((props, ref) => {
         </div>
 
         <div className="mb-4">
-          <h2 className="text-2xl font-semibold text-green-600 border-b-2 border-green-600 pb-2 mb-2">Skills</h2>
+          <h2 className="text-2xl font-semibold  border-b-2 border-black pb-2 mb-2">Skills</h2>
           <div className="grid grid-cols-3 gap-4">
             {profile.skills.map((skill) => (
               <p key={skill._id} className="italic"> {skill.name}</p>
@@ -92,34 +92,52 @@ const Template2 = React.forwardRef((props, ref) => {
         </div>
 
         <div className="mb-4">
-          <h2 className="text-2xl font-semibold text-green-600 border-b-2 border-green-600 pb-2 mb-2">Projects</h2>
-          {profile.projects.map((project) => (
-            <div key={project._id} className="mb-4">
-              <h3 className="text-lg font-bold">{project.name}</h3>
-              <p> {project.skillsUsed}</p>
-              <p className="italic">{project.description}</p>
-              {project.link && <a href={project.link} className="text-blue-500 underline">{project.link}</a>}
-            </div>
-          ))}
-        </div>
+        <h2 className="text-2xl font-bold  border-b-2 border-black pb-2 mb-2">
+          Projects
+        </h2>
+        {profile.projects.map((project) => (
+          <div key={project._id} className="mb-4">
+            <h3 className="text-lg font-semibold">{project.name}</h3>
+            <p>{project.skillsUsed.join(", ")}</p>
+            <p className="italic">{project.description}</p>
+            {project.link && (
+              <a href={project.link} className=" underline">
+                {project.link}
+              </a>
+            )}
+          </div>
+        ))}
+      </div>
 
         <div className="mb-4">
-          <h2 className="text-2xl font-semibold text-green-600 border-b-2 border-green-600 pb-2 mb-2">Work Experience</h2>
-          {profile.experience.map((exp) => (
-            <div key={exp._id} className="mb-4">
-              <div className="flex justify-between">
-                <h3 className="text-lg font-bold">{exp.company}</h3>
-                <p>{exp.city}, {exp.province}</p>
-                <p>{formatDate(exp.startDate)} - {formatDate(exp.endDate)}</p>
-              </div>
-              <p className="italic">{exp.position}</p>
-              <p>{exp.description}</p>
+        <h2 className="text-2xl font-bold  border-b-2 border-black pb-2 mb-2">
+          Experience
+        </h2>
+        {profile.experience.map((exp) => (
+          <div key={exp._id} className="mb-4">
+            <div className="flex justify-between">
+             <span> <h3 className="text-lg font-bold">{exp.company}</h3>
+              <p>
+                {exp.city}, {exp.province}
+              </p>
+              </span>
+              <p>
+                {formatDate(exp.startDate)} - {formatDate(exp.endDate)}
+              </p>
             </div>
-          ))}
-        </div>
+            <p className="italic">{exp.position}</p>
+            <p>{exp.description}</p>
+            <ul className="list-disc list-inside ml-4">
+              {exp.responsibilities.map((resp, index) => (
+                <li key={index}>{resp}</li>
+              ))}
+            </ul>
+          </div>
+        ))}
+      </div>
 
         <div className="mb-4">
-          <h2 className="text-2xl font-semibold text-green-600 border-b-2 border-green-600 pb-2 mb-2">Achievements</h2>
+          <h2 className="text-2xl font-semibold  border-b-2 border-black pb-2 mb-2">Achievements</h2>
           {profile.achievements.map((ach) => (
             <div key={ach._id} className="mb-4">
               <div className="flex justify-between">

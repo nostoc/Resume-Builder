@@ -16,7 +16,7 @@ const Education = () => {
       <h3 className="text-2xl font-semibold mb-6">Education</h3>
       {educationList.map((education, index) => (
         <div key={index} className="mb-6 p-6 bg-white rounded-lg shadow-md">
-          <div className="grid grid-cols-2 gap-4 mb-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-4 ">
             <div>
               <label className="block text-lg font-medium text-gray-700 mb-1" htmlFor={`institution-${index}`}>
                 Institution

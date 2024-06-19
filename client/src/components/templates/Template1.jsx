@@ -16,7 +16,6 @@ const Template1 = React.forwardRef((props, ref) => {
     return date.toLocaleDateString("en-US", {
       year: "numeric",
       month: "short",
-      day: "numeric",
     });
   };
 
@@ -128,10 +127,12 @@ const Template1 = React.forwardRef((props, ref) => {
         {profile.experience.map((exp) => (
           <div key={exp._id} className="mb-4">
             <div className="flex justify-between">
-             <span> <h3 className="text-lg font-bold">{exp.company}</h3>
-              <p>
-                {exp.city}, {exp.province}
-              </p>
+              <span>
+                {" "}
+                <h3 className="text-lg font-semibold">{exp.company}</h3>
+                <p>
+                  {exp.city}, {exp.province}
+                </p>
               </span>
               <p>
                 {formatDate(exp.startDate)} - {formatDate(exp.endDate)}
@@ -155,7 +156,7 @@ const Template1 = React.forwardRef((props, ref) => {
         {profile.achievements.map((ach) => (
           <div key={ach._id} className="mb-4">
             <div className="flex justify-between">
-              <h3 className="text-lg font-bold">{ach.title}</h3>
+              <h3 className="text-lg font-semibold">{ach.title}</h3>
               <p>{formatDate(ach.date)}</p>
             </div>
             <p>{ach.description}</p>

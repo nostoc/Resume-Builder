@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import {
   saveProfileData,
@@ -13,8 +13,6 @@ import Achievements from "./steps/Achievements";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
 import ResumePreview from "../ResumePreview";
-
-// Import FontAwesome icons
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faUser,
@@ -44,6 +42,12 @@ const ProfileCreation = () => {
   const token = useSelector((state) => state.auth.token);
   const [formData, setFormData] = useState(profile || {});
 
+  useEffect(() => {
+    if (profile) {
+      setFormData(profile);
+    }
+  }, [profile]);
+
   const handleSave = async () => {
     try {
       await dispatch(saveProfileData(formData, token, navigate));
@@ -54,8 +58,9 @@ const ProfileCreation = () => {
   };
 
   const handleChange = (stepData) => {
-    setFormData({ ...formData, ...stepData });
-    dispatch(updateFormData({ ...formData, ...stepData }));
+    const updatedData = { ...formData, ...stepData };
+    setFormData(updatedData);
+    dispatch(updateFormData(updatedData));
   };
 
   const handleTemplateChange = (template) => {
@@ -77,10 +82,10 @@ const ProfileCreation = () => {
   };
 
   return (
-    <div className="flex w-full max-w-7xl mx-auto p-6 font-montserrat bg-gray-50 rounded-lg shadow-lg h-screen">
-      <div className="w-1/2 pr-6 border-r-2 border-gray-300 overflow-y-auto">
-        <div className="flex justify-between items-center mb-4">
-          <h2 className="text-2xl font-semibold"></h2>
+    <div className="flex flex-col lg:flex-row w-full max-w-7xl mx-auto p-4 md:p-6 font-montserrat bg-gray-50 rounded-lg shadow-lg h-full lg:h-screen">
+      <div className="w-full lg:w-1/2 lg:pr-6 border-b-2 lg:border-b-0 lg:border-r-2 border-gray-300 overflow-y-auto">
+        <div className="flex flex-col lg:flex-row justify-between items-center mb-4">
+          <h2 className="text-2xl font-semibold mb-4 lg:mb-0"></h2>
           <div className="flex space-x-4">
             <button
               onClick={() => handleTemplateChange(1)}
@@ -105,7 +110,7 @@ const ProfileCreation = () => {
           </div>
         </div>
 
-        <div className="bg-white p-6 rounded-lg shadow-sm mb-4">
+        <div className="bg-white p-4 md:p-6 rounded-lg shadow-sm mb-4">
           {steps.map((step, index) => (
             <div key={index} className="mb-4">
               <div
@@ -159,8 +164,8 @@ const ProfileCreation = () => {
         </div>
       </div>
 
-      <div className="w-1/2 pl-6">
-        <div className="bg-white p-6 rounded-lg shadow-sm h-full overflow-auto">
+      <div className="w-full lg:w-1/2 lg:pl-6 mt-6 lg:mt-0">
+        <div className="bg-white p-4 md:p-6 rounded-lg shadow-sm h-full overflow-auto">
           <ResumePreview data={formData} />
         </div>
       </div>
