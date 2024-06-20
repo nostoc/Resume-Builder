@@ -3,7 +3,7 @@ import { validationResult } from "express-validator";
 import { Profile } from "../models/profileModel.js";
 
 // Create a new resume
-export const createResume = async (req, res) => {
+ export const createResume = async (req, res) => {
   try {
     console.log("Incoming request body:", req.body);
     const { profile ,selectedTemplate} = req.body;
@@ -22,6 +22,7 @@ export const createResume = async (req, res) => {
     res.status(500).send("Server Error");
   }
 };
+
 
 // Get all resumes for the authenticated user
 export const getAllResumes = async (req, res) => {
@@ -58,17 +59,6 @@ export const getResumeById = async (req, res) => {
   }
 };
 
-
-
-
-
-
-
-
-
-
-
-
 export const getResumeByProfile = async (req, res) => {
   try {
     const profile = await Profile.findOne({ user: req.user.id });
@@ -94,66 +84,39 @@ export const getResumeByProfile = async (req, res) => {
     res.status(500).send("Server Error");
   }
 };
-
-// @route  POST api/resume
-// @desc   Create a resume template
-// @access Private
-
-export const createResumeTemplate = async (req, res) => {
-  const errors = validationResult(req);
-  if (!errors.isEmpty()) {
-    return res.status(400).json({ errors: errors.array() });
-  }
-  const { name, description, fields } = req.body;
+/*export const createorUpdateResume = async (req, res) => {
   try {
-    const newTemplate = new ResumeTemplate({
+    console.log("Incoming request body:", req.body);
+    const { profile, selectedTemplate } = req.body;
+    const newResume = new Resume({
       user: req.user.id,
-      name,
-      description,
-      fields,
+      profile,
+      selectedTemplate,
     });
 
-    const template = await newTemplate.save();
-    res.json(template);
-  } catch (err) {
-    console.error(err.message);
-    res.status(500).send("Server Error");
-  }
-};
-
-// @route  GET api/resume
-// @desc   Get all resume templates
-// @access Public
-
-export const getAllResumeTemplates = async (req, res) => {
-  try {
-    const templates = await ResumeTemplate.find();
-    res.json(templates);
-  } catch (err) {
-    console.error(err.message);
-    res.status(500).send("Server Error");
-  }
-};
-
-// @route  GET api/resume/:id
-// @desc   Get resume template by ID
-// @access Public
-
-export const getResumeTemplateById = async (req, res) => {
-  try {
-    const template = await ResumeTemplate.findById(req.params.id);
-    if (!template) {
-      return res.status(404).json({ message: "Template not found" });
+    const resume = await Resume.findOne({ user: req.user.id });
+    if (resume) {
+      //update resume
+      resume = await Resume.findOneAndUpdate(
+        { user: req.user.id },
+        { $set: newResume },
+        { new: true }
+      );
+      return res.json(resume);
     }
-    res.json(template);
+
+    //create resume
+    resume = new Resume(newResume);
+    await resume.save();
+    res.json(resume);
+    console.log("Received resume data:", req.body);
   } catch (err) {
-    console.error(err.message);
-    if (err.kind === "ObjectId") {
-      return res.status(404).json({ message: "Resume Template not found" });
-    }
+    console.error("Error creating resume:", err.message);
     res.status(500).send("Server Error");
   }
 };
+
+
 
 // @route PUT api/resume/:id
 // @desc Update resume template by ID
@@ -224,4 +187,4 @@ export const deleteResumeTemplate = async (req, res) => {
     }
     res.status(500).send("Server Error");
   }
-};
+};*/

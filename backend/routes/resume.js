@@ -3,11 +3,6 @@ import { check } from "express-validator";
 import auth from "../middleware/auth.js";
 
 import {
-  createResumeTemplate,
-  getAllResumeTemplates,
-  getResumeTemplateById,
-  updateResumeTemplate,
-  deleteResumeTemplate,
   getResumeByProfile,
   createResume,
   getAllResumes,
