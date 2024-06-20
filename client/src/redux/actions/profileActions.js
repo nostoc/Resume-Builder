@@ -139,7 +139,7 @@ export const getProfile = () => async (dispatch) => {
 };
 
 export const saveProfileData =
-  (profileData, token, navigate) => async (dispatch) => {
+  (profileData, token) => async (dispatch) => {
     dispatch({ type: "SAVE_PROFILE_REQUEST" });
 
     try {
@@ -157,7 +157,7 @@ export const saveProfileData =
         type: "SAVE_PROFILE_SUCCESS",
         payload: response.data,
       });
-      navigate("/templates");
+      //navigate("/");
       //toast.success("Profile saved successfully!");
     } catch (error) {
       dispatch({

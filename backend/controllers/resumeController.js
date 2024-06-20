@@ -1,8 +1,75 @@
-import { ResumeTemplate } from "../models/resumeTemplateModel.js";
+import { Resume } from "../models/resumeModel.js";
 import { validationResult } from "express-validator";
 import { Profile } from "../models/profileModel.js";
 
-export const getResumeByProfile = async (req,res) =>{
+// Create a new resume
+export const createResume = async (req, res) => {
+  try {
+    console.log("Incoming request body:", req.body);
+    const { profile ,selectedTemplate} = req.body;
+    const newResume = new Resume({
+      user: req.user.id,
+      profile,
+      selectedTemplate,
+      
+    });
+
+    const resume = await newResume.save();
+    res.json(resume);
+    console.log("Received resume data:", req.body )
+  } catch (err) {
+    console.error("Error creating resume:",err.message);
+    res.status(500).send("Server Error");
+  }
+};
+
+// Get all resumes for the authenticated user
+export const getAllResumes = async (req, res) => {
+  try {
+    const resumes = await Resume.find({ user: req.user.id });
+    res.json(resumes);
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).send("Server Error");
+  }
+};
+
+// Get a specific resume by ID
+export const getResumeById = async (req, res) => {
+  try {
+    const resume = await Resume.findById(req.params.id);
+
+    if (!resume) {
+      return res.status(404).json({ msg: "Resume not found" });
+    }
+
+    // Ensure user owns resume
+    if (resume.user.toString() !== req.user.id) {
+      return res.status(401).json({ msg: "User not authorized" });
+    }
+
+    res.json(resume);
+  } catch (err) {
+    console.error(err.message);
+    if (err.kind === "ObjectId") {
+      return res.status(404).json({ msg: "Resume not found" });
+    }
+    res.status(500).send("Server Error");
+  }
+};
+
+
+
+
+
+
+
+
+
+
+
+
+export const getResumeByProfile = async (req, res) => {
   try {
     const profile = await Profile.findOne({ user: req.user.id });
     if (!profile) {
@@ -22,22 +89,11 @@ export const getResumeByProfile = async (req,res) =>{
       achievements: profile.achievements,
     };
     res.json(resume);
-  }catch(err){
+  } catch (err) {
     console.error(err.message);
     res.status(500).send("Server Error");
   }
-}
-
-
-
-
-
-
-
-
-
-
-
+};
 
 // @route  POST api/resume
 // @desc   Create a resume template
@@ -157,10 +213,10 @@ export const deleteResumeTemplate = async (req, res) => {
     }
 
     //await template.remove();
-   // res.json({ message: "Template removed" });
+    // res.json({ message: "Template removed" });
 
-      await ResumeTemplate.findByIdAndDelete(req.params.id);
-     res.json({ message: "Template removed" });
+    await ResumeTemplate.findByIdAndDelete(req.params.id);
+    res.json({ message: "Template removed" });
   } catch (err) {
     console.error(err.message);
     if (err.kind === "ObjectId") {

@@ -9,13 +9,18 @@ import {
   updateResumeTemplate,
   deleteResumeTemplate,
   getResumeByProfile,
+  createResume,
+  getAllResumes,
+  getResumeById,
 } from "../controllers/resumeController.js";
 
 const router = express.Router();
 
-router.get("/generate",auth,getResumeByProfile)
-
-
+router.post("/", auth, createResume);
+router.get("/", auth, getAllResumes);
+router.get("/:id", auth, getResumeById);
+router.get("/generate", auth, getResumeByProfile);
+/*
 // @route  POST api/resume
 // @desc   Create a resume template
 // @access Private
@@ -57,5 +62,5 @@ router.put("/:id", [
 // @desc   Delete resume template by ID
 // @access Private
 router.delete("/:id", auth, deleteResumeTemplate);
-
+*/
 export default router;

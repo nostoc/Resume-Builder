@@ -9,7 +9,7 @@ import formReducer from "./formReducer.js";
 export default combineReducers({
   auth: authReducer,
   profile: profileReducer,
-  resume: resumeReducer,
+  resumes: resumeReducer,
   form: formReducer,
   
 });

@@ -4,6 +4,7 @@ import {
   saveProfileData,
   updateFormData,
 } from "../../redux/actions/profileActions";
+import { saveResumeData } from "../../redux/actions/resumeActions";
 import PersonalInfo from "./steps/PersonalInfo";
 import Education from "./steps/Education";
 import Experience from "./steps/Experience";
@@ -11,7 +12,7 @@ import Skills from "./steps/Skills";
 import Projects from "./steps/Projects";
 import Achievements from "./steps/Achievements";
 import { toast } from "react-toastify";
-import { useNavigate } from "react-router-dom";
+//import { useNavigate } from "react-router-dom";
 import ResumePreview from "../ResumePreview";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
@@ -37,7 +38,7 @@ const ProfileCreation = () => {
   ];
 
   const dispatch = useDispatch();
-  const navigate = useNavigate();
+  //const navigate = useNavigate();
   const profile = useSelector((state) => state.profile.profile);
   const token = useSelector((state) => state.auth.token);
   const [formData, setFormData] = useState(profile || {});
@@ -50,9 +51,18 @@ const ProfileCreation = () => {
 
   const handleSave = async () => {
     try {
-      await dispatch(saveProfileData(formData, token, navigate));
+      const resumeData = {
+        profile: formData,
+        selectedTemplate: formData.selectedTemplate,
+      };
+      await dispatch(saveProfileData(formData, token));
       toast.success("Profile saved successfully!");
+      console.log("Dispatching saveResumeData with:", resumeData, token);
+      await dispatch(saveResumeData(resumeData, token));
+      console.log("Dispatching saveProfileData with:", formData, token);
+      
     } catch (error) {
+      console.error("Error saving profile:", error); 
       toast.error("Failed to save profile!");
     }
   };

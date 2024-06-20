@@ -12,6 +12,7 @@ const initialState = {
   isRegistered: false,
   loading: false,
   error: null, // Add error field to store error messages
+  token: null,  // Add token field to store JWT token
 };
 
 const authReducer = (state = initialState, action) => {

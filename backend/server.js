@@ -29,7 +29,7 @@ app.use(cors({
 // Define Routes (we will add routes later)
 app.use("/api/auth", authRoutes);
 app.use("/api/profile", profileRoutes);
-app.use("/api/resume", resumeRoutes);
+app.use("/api/resumes", resumeRoutes);
 
 //server
 app.listen(process.env.PORT, () => {
