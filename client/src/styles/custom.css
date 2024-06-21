@@ -1,0 +1,17 @@
+body {
+    font-family: 'Inter', sans-serif;
+  }
+  
+  .container {
+    max-width: 1200px;
+    margin: auto;
+  }
+  
+  .resume-tile {
+    transition: transform 0.3s, box-shadow 0.3s;
+  }
+  
+  .resume-tile:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+  }

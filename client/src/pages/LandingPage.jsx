@@ -57,7 +57,7 @@ const LandingPage = () => {
             <Link to="/resumes" className="group">
               <div className="flex flex-col items-center justify-center p-6 bg-white rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300 h-full">
                 <FaFileDownload className="text-ocean-blue text-3xl mb-4 group-hover:scale-110 transition-transform duration-300" />
-                <h3 className="text-xl font-semibold text-gray-700 text-center">Generate Resume</h3>
+                <h3 className="text-xl font-semibold text-gray-700 text-center">View Resume</h3>
               </div>
             </Link>
             

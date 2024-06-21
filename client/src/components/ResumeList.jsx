@@ -1,5 +1,4 @@
-// src/components/ResumesList.jsx
-import  { useEffect } from "react";
+import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { getResumes } from "../redux/actions/resumeActions";
 import { Link } from "react-router-dom";
@@ -12,21 +11,34 @@ const ResumeList = () => {
     dispatch(getResumes());
   }, [dispatch]);
 
+  const formatResumeTitle = (resume,index)=>{
+    const personalInfo = resume.profile.personalInfo;
+    const name = personalInfo.name ? `${personalInfo.name} Resume` : `Resume ${index + 1}`;
+    return `${name}_${index + 1}`; 
+  }
+
   return (
-    <div className="container mx-auto p-4">
-      <h1 className="text-2xl font-bold mb-4">List of Resumes</h1>
+    <div className="container mx-auto p-6">
+      <h1 className="text-4xl font-bold mb-8 text-center text-gray-800">
+        My Resumes
+      </h1>
       {resumes.length === 0 ? (
-        <p>No resumes found</p>
+        <p className="text-center text-gray-600">No resumes found</p>
       ) : (
-        <ul>
-          {resumes.map((resume) => (
-            <li key={resume._id} className="mb-2">
-              <Link to={`/resume/${resume._id}`} className="text-blue-500 underline">
-                {resume.name}
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+          {resumes.map((resume,index) => (
+            <div
+              key={resume._id}
+              className="border rounded-lg p-6 shadow-lg hover:shadow-2xl transition-shadow duration-300 bg-white"
+            >
+              <Link to={`/resume/${resume._id}`} className="block text-center">
+                <h2 className="text-xl font-semibold text-gray-700">
+                  {formatResumeTitle(resume,index)}
+                </h2>
               </Link>
-            </li>
+            </div>
           ))}
-        </ul>
+        </div>
       )}
     </div>
   );
