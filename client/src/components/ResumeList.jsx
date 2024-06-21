@@ -14,11 +14,11 @@ const ResumeList = () => {
   const formatResumeTitle = (resume,index)=>{
     const personalInfo = resume.profile.personalInfo;
     const name = personalInfo.name ? `${personalInfo.name} Resume` : `Resume ${index + 1}`;
-    return `${name}_${index + 1}`; 
+    return `${name} ${index + 1}`; 
   }
 
   return (
-    <div className="container mx-auto p-6">
+    <div className="container mx-auto p-6 font-montserrat">
       <h1 className="text-4xl font-bold mb-8 text-center text-gray-800">
         My Resumes
       </h1>
@@ -32,9 +32,10 @@ const ResumeList = () => {
               className="border rounded-lg p-6 shadow-lg hover:shadow-2xl transition-shadow duration-300 bg-white"
             >
               <Link to={`/resume/${resume._id}`} className="block text-center">
-                <h2 className="text-xl font-semibold text-gray-700">
-                  {formatResumeTitle(resume,index)}
-                </h2>
+              <div className="flex flex-col items-center justify-center h-full">
+                  <h2 className="text-xl font-semibold text-gray-700 mb-4">{formatResumeTitle(resume, index)}</h2>
+                  <p className="text-blue-500">Created on: {new Date(resume.createdAt).toLocaleDateString()}</p>
+                </div>
               </Link>
             </div>
           ))}
