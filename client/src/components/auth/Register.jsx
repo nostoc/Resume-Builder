@@ -10,16 +10,43 @@ const Register = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false); // State to toggle password visibility
+  const [errors, setErrors] = useState({}); // State to hold validation errors
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
+  const validate = () => {
+    const errors = {};
+    if (!email.includes("@")) {
+      errors.email = "Email must include '@'.";
+    }
+    if (!email || !password || !username) {
+      errors.email = "All fields are required.";
+      errors.password = "All fields are required.";
+      errors.username = "All fields are required.";
+    }
+    if(!email) errors.email = "Email is required.";
+    if(!password) errors.password = "Password is required.";
+    if(!username) errors.username = "Username is required.";
+
+   
+
+    if (password.length < 8) {
+      errors.password = "Password must be at least 6 characters long.";
+    }
+    
+    setErrors(errors);
+    return Object.keys(errors).length === 0;
+  };
+
   const handleRegister = () => {
-    dispatch(registerUser({ username, email, password }, navigate));
+    if (validate()) {
+      dispatch(registerUser({ username, email, password }, navigate));
+    }
   };
 
   return (
     <div className="flex flex-col items-center justify-center h-screen bg-blue-100">
-      <div className="relative flex flex-col md:flex-row items-center justify-between bg-white shadow-lg rounded-lg p-8 md:p-16">
+      <div className="relative flex flex-col md:flex-row items-center justify-between bg-white shadow-lg rounded-lg p-2 md:p-16">
         <div className="w-full md:w-1/2 hidden md:block">
           <img
             src={backgroundImage}
@@ -38,6 +65,7 @@ const Register = () => {
               onChange={(e) => setUserName(e.target.value)}
               className="bg-purple-50 p-4 rounded-lg font-sans focus:outline-none focus:ring-2 focus:ring-ocean-blue"
             />
+            {errors.username && <p className="text-red-500 text-sm">{errors.username}</p>}
             <input
               type="email"
               placeholder="Email"
@@ -45,6 +73,7 @@ const Register = () => {
               onChange={(e) => setEmail(e.target.value)}
               className="bg-purple-50 p-4 rounded-lg font-sans focus:outline-none focus:ring-2 focus:ring-ocean-blue"
             />
+            {errors.email && <p className="text-red-500 text-sm">{errors.email}</p>}
             <div className="relative">
               <input
                 type={showPassword ? "text" : "password"}
@@ -61,6 +90,7 @@ const Register = () => {
                 {showPassword ? <FaEyeSlash /> : <FaEye />}
               </button>
             </div>
+            {errors.password && <p className="text-red-500 text-sm">{errors.password}</p>}
             <button
               onClick={handleRegister}
               className="bg-ocean-blue text-white py-3 rounded-lg font-sans font-bold hover:bg-ocean-blue-dark focus:outline-none focus:ring-2 focus:ring-ocean-blue focus:ring-opacity-50 transition duration-200"
