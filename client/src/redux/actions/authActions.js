@@ -1,6 +1,6 @@
 // src/redux/actions/authActions.js
 import axios from "axios";
-import { toast } from "react-toastify";
+import { toast } from "react-hot-toast";
 import { LOGIN_USER, REGISTER_USER, LOGIN_FAILURE, REGISTER_FAILURE } from "../actions/types";
 const API_URL = "http://localhost:5000/api/auth"; // Backend API URL
 //import { useNavigate } from "react-router-dom";
@@ -27,7 +27,23 @@ export const loginUser = (userData,navigate) => async (dispatch) => {
       type: LOGIN_FAILURE,
       payload: error.response ? error.response.data : error.message,
     });
-    toast.error(error.response?.data?.message || "Login failed!");
+    if (error.response) {
+      switch (error.response.status) {
+        case 400:
+          toast.error(error.response.data.message || "Invalid credentials!");
+          break;
+        case 401:
+          toast.error(error.response.data.message || "Unauthorized!");
+          break;
+        case 404:
+          toast.error("User not found!");
+          break;
+        default:
+          toast.error("Login failed! Please try again.");
+      }
+    } else {
+      toast.error("Network error! Please check your connection.");
+    }
     return Promise.reject(error);
   }
   

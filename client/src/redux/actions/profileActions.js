@@ -1,6 +1,6 @@
 import { UPDATE_PROFILE_FIELD } from "./types";
 import axios from "axios";
-//import { toast } from "react-toastify";
+import { toast } from "react-hot-toast";
 const API_URL = "http://localhost:5000/api/profile/upsert";
 
 export const addPersonalInfo = () => ({
@@ -156,6 +156,7 @@ export const saveProfileData = (profileData, token) => (dispatch) => {
         payload: response.data,
       });
       console.log("Profile data saved successfully:", response.data);
+      toast.success("Profile data saved successfully!");
     })
     .catch((error) => {
       dispatch({
@@ -166,6 +167,7 @@ export const saveProfileData = (profileData, token) => (dispatch) => {
         },
       });
       console.error("Error saving profile data:", error);
+      toast.error(error.response?.data?.message || "Failed to save profile!");
     });
 };
 

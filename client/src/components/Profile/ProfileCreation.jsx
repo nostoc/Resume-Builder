@@ -11,7 +11,7 @@ import Experience from "./steps/Experience";
 import Skills from "./steps/Skills";
 import Projects from "./steps/Projects";
 import Achievements from "./steps/Achievements";
-import { toast } from "react-toastify";
+import { toast } from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
 import ResumePreview from "../ResumePreview";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -50,6 +50,64 @@ const ProfileCreation = () => {
   }, [profile]);
 
   const handleSave = () => {
+    const { personalInfo, education, experience, skills, projects, achievements, selectedTemplate } = formData;
+
+  // Validation functions
+  const isEmptyObject = (obj) => !obj || Object.keys(obj).length === 0;
+  const isObjectFieldsEmpty = (obj) => {
+    return Object.values(obj).some(value => {
+      if (typeof value === 'string') {
+        return !value.trim();
+      }
+      return !value;
+    });
+  };
+
+  const isArrayItemsValid = (arr) => {
+    return arr && arr.length > 0 && arr.every(item => !isObjectFieldsEmpty(item));
+  };
+
+  const isEmptyArray = (arr) => !arr || arr.length === 0 || arr.every(item => isEmptyObject(item));
+
+  // Track if there are any validation errors
+  let hasErrors = false;
+
+  // Check each section and show corresponding error message
+  if (isEmptyObject(personalInfo) || isObjectFieldsEmpty(personalInfo)) {
+    toast.error("Please complete the Personal Information section.");
+    hasErrors = true;
+  }
+  if (!isArrayItemsValid(education)) {
+    toast.error("Please complete the Education section.");
+    hasErrors = true;
+  }
+  if (!isArrayItemsValid(experience)) {
+    toast.error("Please complete the Experience section.");
+    hasErrors = true;
+  }
+  if (isEmptyArray(skills)) {
+    toast.error("Please complete the Skills section.");
+    hasErrors = true;
+  }
+  if (!isArrayItemsValid(projects)) {
+    toast.error("Please complete the Projects section.");
+    hasErrors = true;
+  }
+  if (!isArrayItemsValid(achievements)) {
+    toast.error("Please complete the Achievements section.");
+    hasErrors = true;
+  }
+  if (!selectedTemplate) {
+    toast.error("Please select a template.");
+    hasErrors = true;
+  }
+
+  // If there are any errors, do not proceed with saving
+  if (hasErrors) {
+    return;
+  }
+
+    
     const resumeData = {
       profile: formData,
       selectedTemplate: formData.selectedTemplate,
@@ -57,7 +115,7 @@ const ProfileCreation = () => {
 
     dispatch(saveProfileData(formData, token))
       .then(() => {
-        toast.success("Profile saved successfully!");
+        //toast.success("Profile saved successfully!");
         console.log("Dispatching saveResumeData with:", resumeData, token);
         return dispatch(saveResumeData(resumeData, token));
       })
@@ -66,7 +124,7 @@ const ProfileCreation = () => {
       })
       .catch((error) => {
         console.error("Error saving profile:", error);
-        toast.error("Failed to save profile!");
+        //toast.error("Failed to save profile!");
       });
   };
 

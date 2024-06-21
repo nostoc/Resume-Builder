@@ -3,10 +3,12 @@ import { useState } from "react";
 import { useDispatch } from "react-redux";
 import { loginUser } from "../../redux/actions/authActions";
 import backgroundImage from "../../assets/undraw_login_re_4vu2.svg";
+import { FaEye, FaEyeSlash } from "react-icons/fa"; // Import eye icons
 
 const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [showPassword, setShowPassword] = useState(false); // State to toggle password visibility
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
@@ -35,13 +37,22 @@ const Login = () => {
               onChange={(e) => setEmail(e.target.value)}
               className="bg-purple-50 p-4 rounded-lg font-sans focus:outline-none focus:ring-2 focus:ring-ocean-blue"
             />
-            <input
-              type="password"
-              placeholder="Password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              className="bg-purple-50 p-4 rounded-lg font-sans focus:outline-none focus:ring-2 focus:ring-ocean-blue"
-            />
+            <div className="relative">
+              <input
+                type={showPassword ? "text" : "password"}
+                placeholder="Password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                className="bg-purple-50 p-4 rounded-lg font-sans focus:outline-none focus:ring-2 focus:ring-ocean-blue w-full"
+              />
+              <button
+                type="button"
+                className="absolute inset-y-0 right-0 flex items-center px-4 text-gray-600"
+                onClick={() => setShowPassword((prevState) => !prevState)}
+              >
+                {showPassword ? <FaEyeSlash /> : <FaEye />}
+              </button>
+            </div>
             <button
               onClick={handleLogin}
               className="bg-ocean-blue text-white py-3 rounded-lg font-sans font-bold hover:bg-ocean-blue-dark focus:outline-none focus:ring-2 focus:ring-ocean-blue focus:ring-opacity-50 transition duration-200"

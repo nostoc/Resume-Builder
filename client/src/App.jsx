@@ -12,6 +12,7 @@ import { useSelector } from "react-redux";
 import ViewResumes from "./pages/ViewResumes";
 import ResumeList from "./components/ResumeList";
 
+
 function App() {
   const isRegistered = useSelector((state) => state.auth.isRegistered);
   return (

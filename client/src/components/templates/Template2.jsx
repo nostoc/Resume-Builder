@@ -77,8 +77,8 @@ const Template2 = React.forwardRef((data, ref) => {
           <h2 className="text-2xl font-semibold border-b-2 border-black pb-2 mb-2">
             Education
           </h2>
-          {profile.education.map((edu) => (
-            <div key={edu._id} className="mb-4">
+          {profile.education.map((edu,index) => (
+            <div key={index} className="mb-4">
               <div className="flex justify-between">
                 <h3 className="text-lg font-bold">{edu.institution}</h3>
                 <p>
@@ -99,8 +99,8 @@ const Template2 = React.forwardRef((data, ref) => {
             Skills
           </h2>
           <div className="grid grid-cols-3 gap-4">
-            {profile.skills.map((skill) => (
-              <p key={skill._id} className="italic">
+            {profile.skills.map((skill,index) => (
+              <p key={index} className="italic">
                 {" "}
                 {skill.name}
               </p>
@@ -112,8 +112,8 @@ const Template2 = React.forwardRef((data, ref) => {
           <h2 className="text-2xl font-bold  border-b-2 border-black pb-2 mb-2">
             Projects
           </h2>
-          {profile.projects.map((project) => (
-            <div key={project._id} className="mb-4">
+          {profile.projects.map((project,index) => (
+            <div key={index} className="mb-4">
               <h3 className="text-lg font-semibold">{project.name}</h3>
               <p>{project.skillsUsed.join(", ")}</p>
               <p className="italic">{project.description}</p>
@@ -130,8 +130,8 @@ const Template2 = React.forwardRef((data, ref) => {
           <h2 className="text-2xl font-bold  border-b-2 border-black pb-2 mb-2">
             Experience
           </h2>
-          {profile.experience.map((exp) => (
-            <div key={exp._id} className="mb-4">
+          {profile.experience.map((exp,index) => (
+            <div key={index} className="mb-4">
               <div className="flex justify-between">
                 <span>
                   {" "}
@@ -145,12 +145,14 @@ const Template2 = React.forwardRef((data, ref) => {
                 </p>
               </div>
               <p className="italic">{exp.position}</p>
-              <p>{exp.description}</p>
-              <ul className="list-disc list-inside ml-4">
-                {exp.responsibilities.map((resp, index) => (
-                  <li key={index}>{resp}</li>
-                ))}
-              </ul>
+              
+              {exp.responsibilities && ( // Added check for responsibilities
+                  <ul className="list-disc list-inside ml-4">
+                    {exp.responsibilities.map((resp, index) => (
+                      <li key={index}>{resp}</li>
+                    ))}
+                  </ul>
+                )}
             </div>
           ))}
         </div>
@@ -159,8 +161,8 @@ const Template2 = React.forwardRef((data, ref) => {
           <h2 className="text-2xl font-semibold  border-b-2 border-black pb-2 mb-2">
             Achievements
           </h2>
-          {profile.achievements.map((ach) => (
-            <div key={ach._id} className="mb-4">
+          {profile.achievements.map((ach,index) => (
+            <div key={index} className="mb-4">
               <div className="flex justify-between">
                 <h3 className="text-lg font-bold">{ach.title}</h3>
                 <p>{formatDate(ach.date)}</p>
