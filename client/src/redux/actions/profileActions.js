@@ -1,7 +1,7 @@
 import { UPDATE_PROFILE_FIELD } from "./types";
 import axios from "axios";
 import { toast } from "react-hot-toast";
-const API_URL = "http://localhost:5000/api/profile/upsert";
+const API_URL = "https://resume-builder-m5y5.onrender.com/api/profile/upsert";
 
 export const addPersonalInfo = () => ({
   type: "ADD_PERSONAL_INFO",
@@ -123,7 +123,7 @@ export const removeSkillsUsed = (projectIndex, skillIndex) => ({
 
 export const getProfile = () => async (dispatch) => {
   try {
-    const res = await axios.get("http://localhost:5000/api/profile/me");
+    const res = await axios.get("https://resume-builder-m5y5.onrender.com/api/profile/me");
     console.log("Profile data fetched:", res.data);
     dispatch({
       type: "GET_PROFILE",

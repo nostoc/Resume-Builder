@@ -17,8 +17,8 @@ const Login = () => {
   };
 
   return (
-    <div className="flex flex-col items-center justify-center h-screen bg-blue-100">
-      <div className="relative flex flex-col md:flex-row items-center justify-between bg-white shadow-lg rounded-lg p-8 md:p-16">
+    <div className="flex flex-col items-center justify-center h-screen bg-blue-100 py-6">
+      <div className="relative flex flex-col md:flex-row items-center justify-between bg-white shadow-lg rounded-lg md: p-40">
         <div className="w-full md:w-1/2 hidden md:block">
           <img
             src={backgroundImage}
@@ -55,6 +55,7 @@ const Login = () => {
             </div>
             <button
               onClick={handleLogin}
+              
               className="bg-ocean-blue text-white py-3 rounded-lg font-sans font-bold hover:bg-ocean-blue-dark focus:outline-none focus:ring-2 focus:ring-ocean-blue focus:ring-opacity-50 transition duration-200"
             >
               Login
@@ -62,7 +63,9 @@ const Login = () => {
             <div className="flex gap-2 mt-5 justify-center">
               <p>Don&apos;t have an account?</p>
               <Link to="/register">
-                <span className="text-ocean-blue font-semibold hover:underline">Register</span>
+                <span className="text-ocean-blue font-semibold hover:underline">
+                  Register
+                </span>
               </Link>
             </div>
           </div>
