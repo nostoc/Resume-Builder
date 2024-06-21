@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom';
-import { FaUserEdit, FaRegFileAlt, FaSignOutAlt,FaFileDownload } from 'react-icons/fa';
+import { FaUserEdit, FaRegFileAlt, FaSignOutAlt, } from 'react-icons/fa';
 import backgroundImage from '../assets/undraw_welcoming_re_x0qo.svg';
 
 
@@ -48,16 +48,11 @@ const LandingPage = () => {
                 <h3 className="text-xl font-semibold text-gray-700 text-center">Fill Profile Form</h3>
               </div>
             </Link>
-            <Link to="/templates" className="group">
-              <div className="flex flex-col items-center justify-center p-6 bg-white rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300 h-full">
-                <FaRegFileAlt className="text-ocean-blue text-3xl mb-4 group-hover:scale-110 transition-transform duration-300" />
-                <h3 className="text-xl font-semibold text-gray-700 text-center">View Templates</h3>
-              </div>
-            </Link>
+            
             <Link to="/resumes" className="group">
               <div className="flex flex-col items-center justify-center p-6 bg-white rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300 h-full">
-                <FaFileDownload className="text-ocean-blue text-3xl mb-4 group-hover:scale-110 transition-transform duration-300" />
-                <h3 className="text-xl font-semibold text-gray-700 text-center">View Resume</h3>
+                <FaRegFileAlt className="text-ocean-blue text-3xl mb-4 group-hover:scale-110 transition-transform duration-300" />
+                <h3 className="text-xl font-semibold text-gray-700 text-center">View Resumes</h3>
               </div>
             </Link>
             

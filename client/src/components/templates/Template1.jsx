@@ -5,7 +5,7 @@ import { MdEmail, MdPhone, MdLocationOn } from "react-icons/md";
 import { FaGlobe } from "react-icons/fa";
 import { useReactToPrint } from "react-to-print";
 
-const Template1 = React.forwardRef((props, ref) => {
+const Template1 = React.forwardRef(({data}, ref) => {
   const dispatch = useDispatch();
   const profile = useSelector((state) => state.profile.profile);
   const error = useSelector((state) => state.profile.error);
@@ -77,8 +77,8 @@ const Template1 = React.forwardRef((props, ref) => {
             Education
           </h2>
           {profile.education && profile.education.length > 0 ? (
-            profile.education.map((edu) => (
-              <div key={edu._id} className="mb-4">
+            profile.education.map((edu,index) => (
+              <div key={index} className="mb-4">
                 <div className="flex justify-between">
                   <span>
                     <h3 className="text-lg font-semibold">{edu.institution}</h3>
@@ -105,8 +105,8 @@ const Template1 = React.forwardRef((props, ref) => {
           </h2>
           <div className="grid grid-cols-3 gap-4">
             {profile.skills && profile.skills.length > 0 ? (
-              profile.skills.map((skill) => (
-                <p key={skill._id} className="italic">
+              profile.skills.map((skill,index) => (
+                <p key={index} className="italic">
                   {skill.name}
                 </p>
               ))
@@ -121,8 +121,8 @@ const Template1 = React.forwardRef((props, ref) => {
             Projects
           </h2>
           {profile.projects && profile.projects.length > 0 ? (
-            profile.projects.map((project) => (
-              <div key={project._id} className="mb-4">
+            profile.projects.map((project,index) => (
+              <div key={index} className="mb-4">
                 <h3 className="text-lg font-semibold">{project.name}</h3>
                 <p>{project.skillsUsed.join(", ")}</p>
                 <p className="italic">{project.description}</p>
@@ -143,8 +143,8 @@ const Template1 = React.forwardRef((props, ref) => {
             Experience
           </h2>
           {profile.experience && profile.experience.length > 0 ? (
-            profile.experience.map((exp) => (
-              <div key={exp._id} className="mb-4">
+            profile.experience.map((exp,index) => (
+              <div key={index} className="mb-4">
                 <div className="flex justify-between">
                   <span>
                     <h3 className="text-lg font-semibold">{exp.company}</h3>
@@ -157,12 +157,14 @@ const Template1 = React.forwardRef((props, ref) => {
                   </p>
                 </div>
                 <p className="italic">{exp.position}</p>
-                <p>{exp.description}</p>
-                <ul className="list-disc list-inside ml-4">
-                  {exp.responsibilities.map((resp, index) => (
-                    <li key={index}>{resp}</li>
-                  ))}
-                </ul>
+                
+                {exp.responsibilities && ( // Added check for responsibilities
+                  <ul className="list-disc list-inside ml-4">
+                    {exp.responsibilities.map((resp, index) => (
+                      <li key={index}>{resp}</li>
+                    ))}
+                  </ul>
+                )}
               </div>
             ))
           ) : (
@@ -175,8 +177,8 @@ const Template1 = React.forwardRef((props, ref) => {
             Achievements
           </h2>
           {profile.achievements && profile.achievements.length > 0 ? (
-            profile.achievements.map((ach) => (
-              <div key={ach._id} className="mb-4">
+            profile.achievements.map((ach,index) => (
+              <div key={index} className="mb-4">
                 <div className="flex justify-between">
                   <h3 className="text-lg font-semibold">{ach.title}</h3>
                   <p>{formatDate(ach.date)}</p>

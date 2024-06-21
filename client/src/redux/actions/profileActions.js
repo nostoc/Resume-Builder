@@ -138,28 +138,26 @@ export const getProfile = () => async (dispatch) => {
   }
 };
 
-export const saveProfileData =
-  (profileData, token) => async (dispatch) => {
-    dispatch({ type: "SAVE_PROFILE_REQUEST" });
+export const saveProfileData = (profileData, token) => (dispatch) => {
+  dispatch({ type: "SAVE_PROFILE_REQUEST" });
 
-    try {
-      const config = {
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
-        },
-      };
+  const config = {
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${token}`,
+    },
+  };
 
-      console.log("Saving profile data:", profileData);
-      const response = await axios.post(API_URL, profileData, config);
-
+  console.log("Saving profile data:", profileData);
+  return axios.post(API_URL, profileData, config)
+    .then((response) => {
       dispatch({
         type: "SAVE_PROFILE_SUCCESS",
         payload: response.data,
       });
-      //navigate("/");
-      //toast.success("Profile saved successfully!");
-    } catch (error) {
+      console.log("Profile data saved successfully:", response.data);
+    })
+    .catch((error) => {
       dispatch({
         type: "SAVE_PROFILE_FAILURE",
         payload: {
@@ -168,16 +166,15 @@ export const saveProfileData =
         },
       });
       console.error("Error saving profile data:", error);
-      //toast.error("Failed to save profile!");
-    }
-  };
+    });
+};
 
-  export const setSelectedTemplate = (templateId) => ({
-    type: "SET_SELECTED_TEMPLATE",
-    payload: templateId,
-  });
+export const setSelectedTemplate = (templateId) => ({
+  type: "SET_SELECTED_TEMPLATE",
+  payload: templateId,
+});
 
-  export const updateFormData = (formData) => ({
-    type: "UPDATE_FORM_DATA",
-    payload: formData,
-  });
+export const updateFormData = (formData) => ({
+  type: "UPDATE_FORM_DATA",
+  payload: formData,
+});

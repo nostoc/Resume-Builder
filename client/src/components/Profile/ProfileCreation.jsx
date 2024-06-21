@@ -12,7 +12,7 @@ import Skills from "./steps/Skills";
 import Projects from "./steps/Projects";
 import Achievements from "./steps/Achievements";
 import { toast } from "react-toastify";
-//import { useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import ResumePreview from "../ResumePreview";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
@@ -38,7 +38,7 @@ const ProfileCreation = () => {
   ];
 
   const dispatch = useDispatch();
-  //const navigate = useNavigate();
+  const navigate = useNavigate();
   const profile = useSelector((state) => state.profile.profile);
   const token = useSelector((state) => state.auth.token);
   const [formData, setFormData] = useState(profile || {});
@@ -49,22 +49,25 @@ const ProfileCreation = () => {
     }
   }, [profile]);
 
-  const handleSave = async () => {
-    try {
-      const resumeData = {
-        profile: formData,
-        selectedTemplate: formData.selectedTemplate,
-      };
-      await dispatch(saveProfileData(formData, token));
-      toast.success("Profile saved successfully!");
-      console.log("Dispatching saveResumeData with:", resumeData, token);
-      await dispatch(saveResumeData(resumeData, token));
-      console.log("Dispatching saveProfileData with:", formData, token);
-      
-    } catch (error) {
-      console.error("Error saving profile:", error); 
-      toast.error("Failed to save profile!");
-    }
+  const handleSave = () => {
+    const resumeData = {
+      profile: formData,
+      selectedTemplate: formData.selectedTemplate,
+    };
+
+    dispatch(saveProfileData(formData, token))
+      .then(() => {
+        toast.success("Profile saved successfully!");
+        console.log("Dispatching saveResumeData with:", resumeData, token);
+        return dispatch(saveResumeData(resumeData, token));
+      })
+      .then(() => {
+        navigate("/");
+      })
+      .catch((error) => {
+        console.error("Error saving profile:", error);
+        toast.error("Failed to save profile!");
+      });
   };
 
   const handleChange = (stepData) => {

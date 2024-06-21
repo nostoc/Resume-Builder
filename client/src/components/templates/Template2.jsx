@@ -5,7 +5,7 @@ import { MdEmail, MdPhone, MdLocationOn } from "react-icons/md";
 import { FaGlobe } from "react-icons/fa";
 import { useReactToPrint } from "react-to-print";
 
-const Template2 = React.forwardRef((props, ref) => {
+const Template2 = React.forwardRef((data, ref) => {
   const dispatch = useDispatch();
   const profile = useSelector((state) => state.profile.profile);
   const error = useSelector((state) => state.profile.error);

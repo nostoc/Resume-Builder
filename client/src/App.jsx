@@ -28,7 +28,8 @@ function App() {
      {/* <Route path="/templates" element={<TemplateSelection />} />
       
       <Route path="/generate-resume" element={<GenerateResume />} />*/}
-      <Route path="/view-resumes" element={<ViewResumes/>}/>
+      <Route path="/view-resumes" 
+      element={isRegistered ? <ViewResumes/> : <Navigate to="/login"/>}/>
       <Route path="/resumes" element={<ResumeList/>} />
     </Routes>
   );
