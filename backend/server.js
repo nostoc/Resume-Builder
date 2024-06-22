@@ -30,7 +30,7 @@ const allowedOrigins = [
 
 app.use(
   cors({
-    origin: "https://eazyrezume.senani.me/",
+    origin: "https://eazyrezume.senani.me",
     methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
     allowedHeaders: "Content-Type,Authorization",
     credentials: true,
