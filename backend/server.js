@@ -16,29 +16,26 @@ connectDB();
 const app = express();
 
 app.use((req, res, next) => {
-  console.log('Request received:', req.method, req.url);
+  console.log("Request received:", req.method, req.url);
   next();
 });
 //init middlewares
 app.use(express.json());
 
-// Updated CORS configuration
-const allowedOrigins = ['http://localhost:5173', 'https://eazyrezume.senani.me'];
+//cors config
+const allowedOrigins = [
+  "http://localhost:5173",
+  "https://eazyrezume.senani.me/",
+];
 
-app.use(cors({
-  origin: function (origin, callback) {
-    console.log('Origin:', origin); // Add this line for debugging
-    // Allow requests with no origin (like mobile apps or curl requests)
-    if (!origin) return callback(null, true);
-    if (allowedOrigins.indexOf(origin) === -1) {
-      const msg = 'The CORS policy for this site does not allow access from the specified origin.';
-      console.log('CORS error:', msg); // Add this line for debugging
-      return callback(new Error(msg), false);
-    }
-    return callback(null, true);
-  },
-  credentials: true,
-}));
+app.use(
+  cors({
+    origin: "https://eazyrezume.senani.me/",
+    methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
+    allowedHeaders: "Content-Type,Authorization",
+    credentials: true,
+  })
+);
 
 // Define Routes (we will add routes later)
 app.use("/api/auth", authRoutes);
