@@ -22,15 +22,17 @@ app.use((req, res, next) => {
 //init middlewares
 app.use(express.json());
 
-//cors config
-const allowedOrigins = ['http://localhost:5173', 'https://eazyrezume.senani.me/'];
+// Updated CORS configuration
+const allowedOrigins = ['http://localhost:5173', 'https://eazyrezume.senani.me'];
 
 app.use(cors({
   origin: function (origin, callback) {
+    console.log('Origin:', origin); // Add this line for debugging
     // Allow requests with no origin (like mobile apps or curl requests)
     if (!origin) return callback(null, true);
     if (allowedOrigins.indexOf(origin) === -1) {
       const msg = 'The CORS policy for this site does not allow access from the specified origin.';
+      console.log('CORS error:', msg); // Add this line for debugging
       return callback(new Error(msg), false);
     }
     return callback(null, true);
