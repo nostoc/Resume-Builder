@@ -60,7 +60,7 @@ export const registerUser = (userData,navigate) => async (dispatch) => {
     
     toast.success("Registration successful!");
     console.log(res.data);
-    navigate("/login");
+    navigate("/on-board");
     return Promise.resolve(res.data);
   } catch (error) {
     console.error(

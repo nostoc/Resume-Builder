@@ -5,7 +5,7 @@ import Hero from "../components/Hero";
 const Home = () => {
   return (
     <div>
-    <div className="container mx-auto ">
+    <div className=" mx-auto ">
       <Header />
       <div className="my-8">
         <Hero />

@@ -43,7 +43,7 @@ const LandingPage2 = () => {
         {/* Text Section */}
         <div className="flex-1 flex flex-col items-start md:mb-0 pr-4">
           <h2 className="text-5xl md:text-6xl text-slate-900 font-outfit mt-0 mb-10 font-bold">
-            Just three simple steps.
+            Just three simple steps
           </h2>
           <ol className="list-decimal list-inside space-y-4 text-lg text-slate-700 mb-8">
             <li className="relative pl-6 font-semibold text-xl">
@@ -53,7 +53,7 @@ const LandingPage2 = () => {
             Pick a professional template that suits your style and career goals.
             </li>
             <li className="relative pl-6 font-semibold text-xl">
-            Download your resume, print it, and get ready to impress employers.
+            Download your resume, print it, and get ready to impress employers!
             </li>
           </ol>
           <Link to="/profile/create">
