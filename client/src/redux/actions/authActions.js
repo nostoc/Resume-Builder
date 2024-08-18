@@ -2,7 +2,7 @@
 import axios from "axios";
 import { toast } from "react-hot-toast";
 import { LOGIN_USER, REGISTER_USER, LOGIN_FAILURE, REGISTER_FAILURE } from "../actions/types";
-const API_URL = "https://resume-builder-m5y5.onrender.com/api/auth"; // Backend API URL
+const API_URL = "http://localhost:5000/api/auth"; // Backend API URL
 //import { useNavigate } from "react-router-dom";
 
 export const loginUser = (userData,navigate) => async (dispatch) => {

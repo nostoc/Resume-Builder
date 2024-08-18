@@ -20,8 +20,8 @@ const LandingPage = () => {
 
 
   return (
-    <div className="flex items-center justify-center font-montserrat min-h-screen bg-gray-100">
-      <div className="relative flex flex-col md:flex-row items-center justify-between bg-white shadow-lg rounded-lg overflow-hidden w-11/12 md:w-3/4 lg:w-2/3">
+    <div className="container flex items-center justify-center font-montserrat min-h-screen ">
+      <div className="container w-full  relative flex flex-col md:flex-row items-center justify-between bg-white shadow-lg  overflow-hidden ">
         {/* Left Side with Background Image */}
         <div className="hidden md:block md:w-1/2 h-full">
           <img

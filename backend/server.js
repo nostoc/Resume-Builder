@@ -30,7 +30,7 @@ const allowedOrigins = [
 
 app.use(
   cors({
-    origin: "https://eazyrezume.senani.me",
+    origin: "http://localhost:5173", // change this after "http://localhost:5173" to "https://eazyrezume.senani.me/" when deploying
     methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
     allowedHeaders: "Content-Type,Authorization",
     credentials: true,
@@ -42,8 +42,13 @@ app.use("/api/auth", authRoutes);
 app.use("/api/profile", profileRoutes);
 app.use("/api/resumes", resumeRoutes);
 
+dotenv.config();
+console.log("MONGO_URL:", process.env.MONGO_URL);
+console.log("PORT:", process.env.PORT);
+
+const port = process.env.PORT || 5000;
 //server
-app.listen(process.env.PORT, () => {
+app.listen(port, () => {
   console.log(`Server is listening on port ${process.env.PORT}`);
 });
 

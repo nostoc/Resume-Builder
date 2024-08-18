@@ -8,7 +8,7 @@ import { FaEye, FaEyeSlash } from "react-icons/fa"; // Import eye icons
 const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [showPassword, setShowPassword] = useState(false); // State to toggle password visibility
+  const [showPassword, setShowPassword] = useState(false); 
   const dispatch = useDispatch();
   const navigate = useNavigate();
 

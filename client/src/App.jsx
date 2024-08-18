@@ -11,13 +11,14 @@ import { useSelector } from "react-redux";
 //import GenerateResume from "./components/GenerateResume";
 import ViewResumes from "./pages/ViewResumes";
 import ResumeList from "./components/ResumeList";
+import Home2 from "./pages/Home2";
 
 
 function App() {
   const isRegistered = useSelector((state) => state.auth.isRegistered);
   return (
     <Routes>
-      <Route path="/home" element={<Home />} />
+      <Route path="/home" element={<Home2 />} />
       <Route path="/login" element={<Login />} />
       <Route path="/register" element={<Register />} />
       <Route path="/" element={<LandingPage />} />
