@@ -18,16 +18,27 @@ const Login = () => {
   return (
     <div className="flex flex-col items-center justify-center h-screen bg-slate-100 font-outfit">
       <div className="bg-white shadow-lg rounded-lg p-8 md:p-16 w-full max-w-md">
-        <h1 className="text-4xl font-bold text-ash-blue text-center mb-2">Eazy Rezume</h1>
-        <p className="text-lg text-slate-600 text-center mb-8">Sign in to your account</p>
-        
+      <div className="flex items-center justify-center gap-1 mb-6">
+          <img
+            src="../../public/icon.svg"
+            alt="Eazy Rezume"
+            className="w-10 h-10"
+          />
+          <h1 className="text-4xl font-bold text-ash-blue">
+            Eazy Rezume
+          </h1>
+        </div>
+        <p className="text-lg text-slate-600 text-center mb-8">
+          Sign in to your account
+        </p>
+
         <div className="flex flex-col gap-4">
           <input
             type="email"
             placeholder="Email"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
-            className="bg-purple-50 p-4 rounded-full focus:outline-none focus:ring-2 focus:ring-ash-blue"
+            className="bg-slate-100 p-4 rounded-lg focus:outline-none focus:ring-2 focus:ring-ash-blue"
           />
           <div className="relative">
             <input
@@ -35,7 +46,7 @@ const Login = () => {
               placeholder="Password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
-              className="bg-purple-50 p-4 rounded-full focus:outline-none focus:ring-2 focus:ring-ash-blue w-full"
+              className="bg-slate-100 p-4 rounded-lg focus:outline-none focus:ring-2 focus:ring-ash-blue w-full"
             />
             <button
               type="button"
@@ -48,13 +59,17 @@ const Login = () => {
 
           <button
             onClick={handleLogin}
-            className="bg-ash-blue text-white  hover:bg-white border-2 border-transparent hover:border-slate-700 hover:text-black rounded-full px-3 py-3 transition-all duration-300 ease-in-out text-xl"
+            className="bg-ash-blue text-white  hover:bg-white border-2 border-transparent hover:border-ash-blue hover:text-ash-blue rounded-full px-3 py-3 transition-all duration-300 ease-in-out text-xl"
           >
             Login
           </button>
 
           <p className="text-sm text-slate-500 text-center  mt-4">
-            By signing in, you agree to our <Link to="/terms" className="text-ash-blue hover:underline">Terms and Conditions</Link>.
+            By signing in, you agree to our{" "}
+            <Link to="/terms" className="text-ash-blue hover:underline">
+              Terms and Conditions
+            </Link>
+            .
           </p>
 
           <div className="flex gap-2 mt-5 justify-center">

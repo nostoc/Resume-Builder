@@ -20,7 +20,7 @@ export default {
       },
       colors:{
         "ocean-blue": "#6C63FF",
-        "light-blue": "#c8f8ff",
+        "light-blue": "#A1DFFF",
         "ash-blue":"#006DA6",
       }
     },
