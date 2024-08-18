@@ -2,7 +2,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { useState } from "react";
 import { useDispatch } from "react-redux";
 import { registerUser } from "../../redux/actions/authActions";
-import backgroundImage from "../../assets/undraw_sign_up_n6im.svg";
+
 import { FaEye, FaEyeSlash } from "react-icons/fa"; // Import eye icons
 
 const Register = () => {
@@ -38,13 +38,7 @@ const Register = () => {
   return (
     <div className="flex flex-col items-center justify-center h-screen bg-blue-100 py-6 ">
       <div className="relative flex flex-col md:flex-row items-center justify-between bg-white shadow-lg rounded-lg  md:p-48">
-        <div className="w-full md:w-1/2 hidden md:block">
-          <img
-            src={backgroundImage}
-            alt="Background"
-            className="w-full h-full object-cover"
-          />
-        </div>
+        
 
         <div className="relative w-full md:w-1/2 text-center md:text-left font-montserrat p-8 md:p-16">
           <h2 className="text-3xl text-ocean-blue font-bold mb-6">Register</h2>
