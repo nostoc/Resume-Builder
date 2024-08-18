@@ -1,7 +1,7 @@
 import { UPDATE_PROFILE_FIELD } from "./types";
 import axios from "axios";
 import { toast } from "react-hot-toast";
-const API_URL = "https://resume-builder-m5y5.onrender.com/api/profile/upsert";
+const API_URL = "http://localhost:5000/api/profile/upsert";
 
 export const addPersonalInfo = () => ({
   type: "ADD_PERSONAL_INFO",
