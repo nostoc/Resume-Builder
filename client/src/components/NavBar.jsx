@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 const NavBar = () => {
   return (
     <div className="bg-white font-outfit text-xl shadow-lg">
-      <div className="container flex justify-between items-center max-w-6xl bg-light-blue m-auto p-4">
+      <div className="container mx-auto flex justify-between items-center p-4">
         <div className="flex items-center gap-1">
           <Link to="/">
             <img
@@ -16,7 +16,7 @@ const NavBar = () => {
             <h1 className="font-bold text-slate-800 text-xl">Eazy Rezume</h1>
           </Link>
         </div>
-        <div className="flex items-center justify-end flex-wrap-nowrap">
+        <div className="flex items-center justify-end">
           <ul className="flex gap-5 items-center text-slate-800">
             <Link to="/">
               <li>Home</li>
@@ -26,7 +26,7 @@ const NavBar = () => {
             </Link>
             <Link to="/login">
               <li>
-                <button className="bg-ash-blue text-white hover:bg-ash-blue hover:text-black   rounded-full px-3 p-1 transition-all duration-300 ease-in-out text-xl">
+                <button className="bg-ash-blue text-white  hover:bg-white border-2 border-transparent hover:border-slate-700 hover:text-black rounded-full px-3 py-1 transition-all duration-300 ease-in-out text-xl">
                   Login
                 </button>
               </li>
