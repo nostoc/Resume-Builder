@@ -15,7 +15,7 @@ const Hero = () => {
           the bots, ensuring you stand out in any industry.
         </p>
         <Link to="/login">
-          <button className="bg-ash-blue text-white hover:bg-white hover:text-slate-700 border-2 border-transparent hover:border-slate-700 rounded-full px-4 py-2 transition-all duration-300 ease-in-out text-xl">
+          <button className="bg-ash-blue text-white hover:bg-white hover:text-ash-blue border-2 border-transparent hover:border-ash-blue rounded-full px-4 py-2 transition-all duration-300 ease-in-out text-xl">
             Create My Resume Now
           </button>
         </Link>

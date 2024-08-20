@@ -4,7 +4,7 @@ import {
   updateAchievement,
   removeAchievement,
 } from "../../../redux/actions/profileActions";
-import { FaPlus, FaMinus } from "react-icons/fa";
+
 
 const Achievements = () => {
   const dispatch = useDispatch();
@@ -18,7 +18,7 @@ const Achievements = () => {
   };
 
   return (
-    <div className="p-6 bg-blue-100 ">
+    <div className="p-6 ">
       <h3 className="text-2xl font-semibold mb-6">Achievements</h3>
       {achievementList.map((achievement, index) => (
         <div key={index} className="mb-6 p-6 bg-white rounded-lg shadow-md">
@@ -77,20 +77,20 @@ const Achievements = () => {
           </div>
           <div className="flex justify-end">
             <button
-              className="flex items-center gap-2 bg-red-500 text-white py-2 px-4 rounded-full"
+              className="bg-remove hover:border-remove hover:text-remove text-white hover:bg-white border-2 border-transparent   rounded-full px-4 py-1 transition-all duration-300 ease-in-out text-lg"
               onClick={() => dispatch(removeAchievement(index))}
             >
-              <FaMinus /> Remove Achievement
+              Remove Achievement
             </button>
           </div>
         </div>
       ))}
       <div className="flex ">
         <button
-          className="flex items-center gap-2 bg-ocean-blue text-white py-2 px-4 rounded-full"
+          className="bg-add hover:border-add hover:text-add text-white hover:bg-white border-2 border-transparent   rounded-full px-4 py-1 transition-all duration-300 ease-in-out text-lg"
           onClick={() => dispatch(addAchievement())}
         >
-          <FaPlus /> Add Achievement
+         Add Achievement
         </button>
       </div>
     </div>

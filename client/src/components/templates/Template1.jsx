@@ -43,7 +43,7 @@ const Template1 = React.forwardRef(({data}, ref) => {
     <div className="flex flex-col items-center">
       <div
         ref={componentRef1}
-        className="font-sans p-10 bg-white rounded-lg max-w-4xl mx-auto"
+        className="font-sans p-10 bg-white rounded-lg max-w-4xl mx-auto h-full max-h-[80vh] overflow-y-auto"
       >
         <div className="text-center pb-4 mb-4 border-b-2">
           <h1 className="text-4xl font-bold">{profile.personalInfo.name}</h1>

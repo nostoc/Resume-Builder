@@ -8,7 +8,7 @@ const NavBar = () => {
           <div className="flex items-center gap-1">
             <Link to="/">
               <img
-                src="../../public/icon.svg"
+                src="/icon.svg"
                 alt="Eazy Rezume"
                 className="w-10 h-10"
               />
@@ -27,7 +27,7 @@ const NavBar = () => {
               </Link>
               <Link to="/login">
                 <li>
-                  <button className="bg-ash-blue text-white hover:bg-white border-2 border-transparent hover:border-slate-700 hover:text-black rounded-full px-3 py-1 transition-all duration-300 ease-in-out text-xl">
+                  <button className="bg-ash-blue text-white hover:bg-white border-2 border-transparent hover:border-ash-blue hover:text-ash-blue rounded-full px-3 py-1 transition-all duration-300 ease-in-out text-xl">
                     Login
                   </button>
                 </li>

@@ -18,12 +18,13 @@ function App() {
       <Route path="/home" element={<Home />} />
       <Route path="/login" element={<Login />} />
       <Route path="/register" element={<Register />} />
-      <Route path="/" element={<LandingPage />} />
+      <Route path="/" element={<Home />} />
       <Route path="/on-board" element={<LandingPage2 />} />
-      <Route
+     <Route
         path="/profile/create"
         element={isRegistered ? <ProfileCreation /> : <Navigate to="/login" />}
       />
+      
       <Route path="/profile/resume" element={<Resume />} />
       <Route
         path="/view-resumes"

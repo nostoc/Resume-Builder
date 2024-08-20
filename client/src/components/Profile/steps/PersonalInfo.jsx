@@ -17,7 +17,7 @@ const PersonalInfo = () => {
   };
 
   return (
-    <div className="p-6 bg-blue-100 ">
+    <div className="p-6 font-outfit  ">
       <h3 className="text-2xl font-semibold mb-6">Personal Information</h3>
       <div className="p-5 bg-white rounded-lg shadow-md">
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">

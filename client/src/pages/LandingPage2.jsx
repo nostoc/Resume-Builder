@@ -2,6 +2,7 @@ import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { logoutUser } from "../redux/actions/authActions";
+import Footer from "../components/Footer";
 
 const LandingPage2 = () => {
   const dispatch = useDispatch();
@@ -12,7 +13,7 @@ const LandingPage2 = () => {
     dispatch(logoutUser(navigate));
   };
 
-  return (
+  return (<>
     <div className=" container font-outfit my-6 flex flex-col">
       {/* Top Section with Icon, Text, and Button */}
       <div className="w-screen shadow-lg p-4 flex items-center justify-between mb-6 fixed top-0 left-0 bg-white z-10">
@@ -20,7 +21,7 @@ const LandingPage2 = () => {
           <div className="flex items-center gap-2">
             <Link to="/">
               <img
-                src="../../public/icon.svg"
+                src="/icon.svg"
                 alt="Eazy Rezume"
                 className="w-10 h-10"
               />
@@ -72,7 +73,10 @@ const LandingPage2 = () => {
           />
         </div>
       </div>
+      
     </div>
+    <Footer/>
+    </>
   );
 };
 

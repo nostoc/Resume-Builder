@@ -22,6 +22,12 @@ export default {
         "ocean-blue": "#6C63FF",
         "light-blue": "#A1DFFF",
         "ash-blue":"#006DA6",
+        "add":"#006DA6",
+        "remove":"#D9534F",
+        "back" : "#5BC0DE",
+        "next":"#009688",
+        "finish":"#4CAF50",
+
       }
     },
     plugins: [],

@@ -7,7 +7,6 @@ import {
   updateResponsibility,
   removeResponsibility,
 } from "../../../redux/actions/profileActions";
-import { FaPlus, FaMinus } from "react-icons/fa";
 
 const Experience = () => {
   const dispatch = useDispatch();
@@ -24,7 +23,7 @@ const Experience = () => {
   };
 
   return (
-    <div className="p-6 bg-blue-100 ">
+    <div className="p-6  ">
       <h3 className="text-2xl font-semibold mb-6">Experience</h3>
       {experienceList.map((experience, index) => (
         <div key={index} className="mb-6 p-6 bg-white rounded-lg shadow-md">
@@ -137,38 +136,38 @@ const Experience = () => {
                   className="w-full px-4 py-2 border border-gray-300 rounded"
                 />
                 <button
-                  className="ml-2 flex items-center gap-2 bg-red-500 text-white py-2 px-3 rounded-full"
+                  className="ml-2 flex items-center gap-2 bg-remove hover:border-remove hover:text-remove text-white hover:bg-white border-2 border-transparent   rounded-full px-4 py-1 transition-all duration-300 ease-in-out text-lg"
                   onClick={() =>
                     dispatch(removeResponsibility(index, respIndex))
                   }
                 >
-                  <FaMinus /> Remove
+                  Remove
                 </button>
               </div>
             ))}
             <button
-              className="flex items-center gap-2 bg-green-500 text-white py-2 px-4 rounded-full"
+              className="bg-add hover:border-add hover:text-add text-white hover:bg-white border-2 border-transparent   rounded-full px-4 py-1 transition-all duration-300 ease-in-out text-lg"
               onClick={() => dispatch(addResponsibility(index))}
             >
-              <FaPlus /> Add Responsibility
+               Add Responsibility
             </button>
           </div>
 
           <div className="flex justify-end space-x-4">
             <button
-              className="flex items-center gap-2 bg-red-500 text-white py-2 px-4 rounded-full"
+              className="bg-remove hover:border-remove hover:text-remove text-white hover:bg-white border-2 border-transparent   rounded-full px-4 py-1 transition-all duration-300 ease-in-out text-lg"
               onClick={() => dispatch(removeExperience(index))}
             >
-              <FaMinus /> Remove Experience
+               Remove Experience
             </button>
           </div>
         </div>
       ))}
       <button
-        className="flex items-center gap-2 bg-ocean-blue text-white py-2 px-4 rounded-full"
+        className="bg-add hover:border-add hover:text-add text-white hover:bg-white border-2 border-transparent   rounded-full px-4 py-1 transition-all duration-300 ease-in-out text-lg"
         onClick={() => dispatch(addExperience())}
       >
-        <FaPlus /> Add Experience
+        Add Experience
       </button>
     </div>
   );
