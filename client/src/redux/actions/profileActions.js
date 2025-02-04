@@ -123,7 +123,7 @@ export const removeSkillsUsed = (projectIndex, skillIndex) => ({
 
 export const getProfile = () => async (dispatch) => {
   try {
-    const res = await axios.get("https://resume-builder-m5y5.onrender.com/api/profile/me");
+    const res = await axios.get("http://localhost:5000/api/profile/me");
     console.log("Profile data fetched:", res.data);
     dispatch({
       type: "GET_PROFILE",

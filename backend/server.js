@@ -43,7 +43,7 @@ app.use("/api/profile", profileRoutes);
 app.use("/api/resumes", resumeRoutes);
 
 dotenv.config();
-console.log("MONGO_URL:", process.env.MONGO_URL);
+console.log("MONGO_URI:", process.env.MONGO_URI);
 console.log("PORT:", process.env.PORT);
 
 const port = process.env.PORT || 5000;

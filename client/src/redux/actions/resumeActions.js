@@ -9,7 +9,7 @@ export const getResumes = () => async (dispatch, getState) => {
         Authorization: `Bearer ${token}`,
       },
     };
-    const res = await axios.get("https://resume-builder-m5y5.onrender.com/api/resumes", config);
+    const res = await axios.get("http://localhost:5000/api/resumes", config);
     dispatch({ type: "GET_RESUMES", payload: res.data });
   } catch (err) {
     console.error(err);
@@ -25,7 +25,7 @@ export const getResume = (id) => async (dispatch, getState) => {
       },
     };
     const res = await axios.get(
-      `https://resume-builder-m5y5.onrender.com/api/resumes/${id}`,
+      `http://localhost:5000/api/resumes/${id}`,
       config
     );
     dispatch({ type: "GET_RESUME", payload: res.data });
@@ -44,7 +44,7 @@ export const createResume = (resumeData) => async (dispatch, getState) => {
       },
     };
     const res = await axios.post(
-      "https://resume-builder-m5y5.onrender.com/api/resumes",
+      "http://localhost:5000/api/resumes",
       resumeData,
       config
     );
@@ -62,7 +62,7 @@ export const saveResumeData = (resumeData, token) => async (dispatch) => {
       },
     };
 
-    const res = await axios.post("https://resume-builder-m5y5.onrender.com/api/resumes", resumeData, config);
+    const res = await axios.post("http://localhost:5000/api/resumes", resumeData, config);
     dispatch({ type: "SAVE_RESUME", payload: res.data });
   } catch (err) {
     console.error(err);
