@@ -69,6 +69,46 @@ export const saveResumeData = (resumeData, token) => async (dispatch) => {
   }
 };
 
+
+export const updateResume = (id, resumeData) => async (dispatch, getState) => {
+  try {
+    const token = getState().auth.token;
+    const config = {
+      headers: {
+        Authorization: `Bearer ${token}`,
+        "Content-Type": "application/json",
+      },
+    };
+
+    const res = await axios.put(
+      `http://localhost:5000/api/resumes/${id}`,
+      resumeData,
+      config
+    );
+    dispatch({ type: "UPDATE_RESUME", payload: res.data });
+  } catch (err) {
+    console.error(err);
+  }
+};
+
+export const deleteResume = (id) => async (dispatch, getState) => {
+  try {
+    const token = getState().auth.token;
+    const config = {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    };
+
+    await axios.delete(`http://localhost:5000/api/resumes/${id}`, config);
+    dispatch({ type: "DELETE_RESUME", payload: id });
+  } catch (err) {
+    console.error(err);
+  }
+};
+
+
+
 /*export const getResume = () => async (dispatch, getState) => {
   try {
     const token = getState().auth.token;

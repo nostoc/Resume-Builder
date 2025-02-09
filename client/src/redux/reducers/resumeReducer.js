@@ -20,11 +20,22 @@ export default function (state = initialState, action) {
         ...state,
         resumes: [action.payload, ...state.resumes],
       };
+    case "UPDATE_RESUME":
+      return {
+        ...state,
+        resumes: state.resumes.map((resume) =>
+          resume._id === action.payload._id ? action.payload : resume
+        ),
+      };
+    case "DELETE_RESUME":
+      return {
+        ...state,
+        resumes: state.resumes.filter((resume) => resume._id !== action.payload),
+      };
     default:
       return state;
   }
 }
-  
   /*const resumeReducer = (state = initialState, action) => {
     
     switch (action.type) {

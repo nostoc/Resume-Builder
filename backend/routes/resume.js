@@ -3,18 +3,26 @@ import { check } from "express-validator";
 import auth from "../middleware/auth.js";
 
 import {
-  getResumeByProfile,
   createResume,
   getAllResumes,
   getResumeById,
+  updateResume,
+  deleteResume,
 } from "../controllers/resumeController.js";
+
 
 const router = express.Router();
 
 router.post("/", auth, createResume);
 router.get("/", auth, getAllResumes);
 router.get("/:id", auth, getResumeById);
-router.get("/generate", auth, getResumeByProfile);
+
+// New routes for update and delete
+router.put("/:id", auth, updateResume);
+router.delete("/:id", auth, deleteResume);
+
+
+
 /*
 // @route  POST api/resume
 // @desc   Create a resume template
