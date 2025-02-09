@@ -2,7 +2,7 @@ import { Navigate, Route, Routes } from "react-router-dom";
 import Login from "./components/auth/Login";
 import Register from "./components/auth/Register";
 import ProfileCreation from "./components/Profile/ProfileCreation";
-import LandingPage from "./pages/LandingPage";
+//import LandingPage from "./pages/LandingPage";
 import Resume from "./components/Resume";
 import "./App.css";
 import { useSelector } from "react-redux";
@@ -10,6 +10,7 @@ import ViewResumes from "./pages/ViewResumes";
 import ResumeList from "./components/ResumeList";
 import Home from "./pages/Home";
 import LandingPage2 from "./pages/LandingPage2";
+import EditResume from "./components/EditResume";
 
 function App() {
   const isRegistered = useSelector((state) => state.auth.isRegistered);
@@ -31,6 +32,7 @@ function App() {
         element={isRegistered ? <ViewResumes /> : <Navigate to="/login" />}
       />
       <Route path="/resumes" element={<ResumeList />} />
+      <Route path="/edit-resume/:id" element={<EditResume />} />
     </Routes>
   );
 }

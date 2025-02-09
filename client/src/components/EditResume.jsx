@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams, useNavigate } from "react-router-dom";
-import { getResumeById, updateResume } from "../redux/actions/resumeActions";
+import { getResume, updateResume } from "../redux/actions/resumeActions";
 import ProfileCreation from "../components/Profile/ProfileCreation";
 
 const EditResume = () => {
@@ -12,7 +12,7 @@ const EditResume = () => {
   const [formData, setFormData] = useState(resume || {});
 
   useEffect(() => {
-    dispatch(getResumeById(id));
+    dispatch(getResume(id));
   }, [dispatch, id]);
 
   useEffect(() => {

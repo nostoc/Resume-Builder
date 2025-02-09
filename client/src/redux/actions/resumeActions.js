@@ -69,7 +69,6 @@ export const saveResumeData = (resumeData, token) => async (dispatch) => {
   }
 };
 
-
 export const updateResume = (id, resumeData) => async (dispatch, getState) => {
   try {
     const token = getState().auth.token;
@@ -106,8 +105,6 @@ export const deleteResume = (id) => async (dispatch, getState) => {
     console.error(err);
   }
 };
-
-
 
 /*export const getResume = () => async (dispatch, getState) => {
   try {
