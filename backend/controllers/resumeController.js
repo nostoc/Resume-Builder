@@ -84,6 +84,57 @@ export const getResumeByProfile = async (req, res) => {
     res.status(500).send("Server Error");
   }
 };
+
+
+// Update a resume by ID
+export const updateResume = async (req, res) => {
+  try {
+    const { profile, selectedTemplate } = req.body;
+    const resume = await Resume.findById(req.params.id);
+
+    if (!resume) {
+      return res.status(404).json({ msg: "Resume not found" });
+    }
+
+    // Ensure the user owns the resume
+    if (resume.user.toString() !== req.user.id) {
+      return res.status(401).json({ msg: "User not authorized" });
+    }
+
+    // Update the resume
+    resume.profile = profile;
+    resume.selectedTemplate = selectedTemplate;
+    await resume.save();
+
+    res.json(resume);
+  } catch (err) {
+    console.error("Error updating resume:", err.message);
+    res.status(500).send("Server Error");
+  }
+};
+
+// Delete a resume by ID
+export const deleteResume = async (req, res) => {
+  try {
+    const resume = await Resume.findById(req.params.id);
+
+    if (!resume) {
+      return res.status(404).json({ msg: "Resume not found" });
+    }
+
+    // Ensure the user owns the resume
+    if (resume.user.toString() !== req.user.id) {
+      return res.status(401).json({ msg: "User not authorized" });
+    }
+
+    // Delete the resume
+    await resume.remove();
+    res.json({ msg: "Resume deleted" });
+  } catch (err) {
+    console.error("Error deleting resume:", err.message);
+    res.status(500).send("Server Error");
+  }
+};
 /*export const createorUpdateResume = async (req, res) => {
   try {
     console.log("Incoming request body:", req.body);
