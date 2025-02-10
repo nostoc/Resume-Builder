@@ -12,14 +12,14 @@ const initialState = {
   isRegistered: false,
   loading: false,
   error: null, // Add error field to store error messages
-  token: null,  // Add token field to store JWT token
+  token: localStorage.getItem("authToken") || null, // Load token from localStorage
 };
 
 const authReducer = (state = initialState, action) => {
   switch (action.type) {
     case LOGIN_USER:
     case REGISTER_USER:
-      case "UPDATE_USER":
+    case "UPDATE_USER":
       return {
         ...state,
         user: action.payload,
@@ -38,6 +38,7 @@ const authReducer = (state = initialState, action) => {
         loading: false,
       };
     case "LOGOUT_USER":
+      localStorage.removeItem("authToken"); // Remove token from localStorage on logout
       return {
         ...state,
         user: null,

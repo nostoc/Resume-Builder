@@ -1,20 +1,30 @@
 // src/redux/actions/authActions.js
-import axios from "axios";
+
 import { toast } from "react-hot-toast";
-import { LOGIN_USER, REGISTER_USER, LOGIN_FAILURE, REGISTER_FAILURE } from "../actions/types";
-const API_URL = "http://localhost:5000/api/auth"; // Backend API URL
+import {
+  LOGIN_USER,
+  REGISTER_USER,
+  LOGIN_FAILURE,
+  REGISTER_FAILURE,
+} from "../actions/types";
+
 //import { useNavigate } from "react-router-dom";
 
-export const loginUser = (userData,navigate) => async (dispatch) => {
+import axiosInstance from "../../utils/axiosInstance";
+
+export const loginUser = (userData, navigate) => async (dispatch) => {
   try {
-    const res = await axios.post(`${API_URL}/login`, userData);
+    const res = await axiosInstance.post("/auth/login", userData);
     const token = res.data.token;
     console.log("Login response", res.data);
+
+    localStorage.setItem("authToken", token);
+
     dispatch({
       type: LOGIN_USER,
-      payload: {token},
-    });   
-    console.log("Login response", res.data);
+      payload: { token },
+    });
+
     toast.success("Login successful");
     navigate("/on-board");
     return Promise.resolve(res.data);
@@ -27,6 +37,7 @@ export const loginUser = (userData,navigate) => async (dispatch) => {
       type: LOGIN_FAILURE,
       payload: error.response ? error.response.data : error.message,
     });
+
     if (error.response) {
       switch (error.response.status) {
         case 400:
@@ -46,18 +57,17 @@ export const loginUser = (userData,navigate) => async (dispatch) => {
     }
     return Promise.reject(error);
   }
-  
 };
 
-export const registerUser = (userData,navigate) => async (dispatch) => {
+export const registerUser = (userData, navigate) => async (dispatch) => {
   try {
-    const res = await axios.post(`${API_URL}/register`, userData);
+    const res = await axiosInstance.post("/auth/register", userData);
     console.log("Register response:", res.data);
     dispatch({
       type: REGISTER_USER,
       payload: res.data,
     });
-    
+
     toast.success("Registration successful!");
     console.log(res.data);
     navigate("/on-board");
@@ -78,16 +88,19 @@ export const registerUser = (userData,navigate) => async (dispatch) => {
 
 export const updateUser = (userData) => async (dispatch) => {
   try {
-    const res = await axios.put(`${API_URL}/update`, userData);
+    const res = await axiosInstance.post("/auth/update", userData);
     dispatch({
       type: "UPDATE_USER",
       payload: res.data,
     });
-    toast.success('Profile updated successfully');
+    toast.success("Profile updated successfully");
     return Promise.resolve(res.data);
   } catch (error) {
-    console.error('Update error', error.response ? error.response.data : error.message);
-    toast.error(error.response?.data?.message || 'Update failed!');
+    console.error(
+      "Update error",
+      error.response ? error.response.data : error.message
+    );
+    toast.error(error.response?.data?.message || "Update failed!");
     return Promise.reject(error);
   }
 };

@@ -29,6 +29,7 @@ export const getAllResumes = async (req, res) => {
   try {
     const resumes = await Resume.find({ user: req.user.id });
     res.json(resumes);
+    console.log("Fetching resumes for user:", req.user.id);
   } catch (err) {
     console.error(err.message);
     res.status(500).send("Server Error");

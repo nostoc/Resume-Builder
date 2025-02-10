@@ -1,4 +1,4 @@
-import axios from "axios";
+import axiosInstance from "../../utils/axiosInstance";
 //import { toast } from 'react-toastify';
 
 export const getResumes = () => async (dispatch, getState) => {
@@ -9,10 +9,11 @@ export const getResumes = () => async (dispatch, getState) => {
         Authorization: `Bearer ${token}`,
       },
     };
-    const res = await axios.get("http://localhost:5000/api/resumes", config);
+    const res = await axiosInstance.get("/resumes", config);
     dispatch({ type: "GET_RESUMES", payload: res.data });
+    console.log("Resumes fetched:", res.data);
   } catch (err) {
-    console.error(err);
+    console.error("Erroe fetching resumes", err);
   }
 };
 
@@ -24,10 +25,7 @@ export const getResume = (id) => async (dispatch, getState) => {
         Authorization: `Bearer ${token}`,
       },
     };
-    const res = await axios.get(
-      `http://localhost:5000/api/resumes/${id}`,
-      config
-    );
+    const res = await axiosInstance.get(`/resumes/${id}`, config);
     dispatch({ type: "GET_RESUME", payload: res.data });
   } catch (err) {
     console.error(err);
@@ -43,11 +41,7 @@ export const createResume = (resumeData) => async (dispatch, getState) => {
         "Content-Type": "application/json",
       },
     };
-    const res = await axios.post(
-      "http://localhost:5000/api/resumes",
-      resumeData,
-      config
-    );
+    const res = await axiosInstance.post("/resumes", resumeData, config);
     dispatch({ type: "CREATE_RESUME", payload: res.data });
   } catch (err) {
     console.error(err);
@@ -62,7 +56,7 @@ export const saveResumeData = (resumeData, token) => async (dispatch) => {
       },
     };
 
-    const res = await axios.post("http://localhost:5000/api/resumes", resumeData, config);
+    const res = await axiosInstance.post("/resumes", resumeData, config);
     dispatch({ type: "SAVE_RESUME", payload: res.data });
   } catch (err) {
     console.error(err);
@@ -79,11 +73,7 @@ export const updateResume = (id, resumeData) => async (dispatch, getState) => {
       },
     };
 
-    const res = await axios.put(
-      `http://localhost:5000/api/resumes/${id}`,
-      resumeData,
-      config
-    );
+    const res = await axiosInstance.put(`/resumes/${id}`, resumeData, config);
     dispatch({ type: "UPDATE_RESUME", payload: res.data });
   } catch (err) {
     console.error(err);
@@ -99,7 +89,7 @@ export const deleteResume = (id) => async (dispatch, getState) => {
       },
     };
 
-    await axios.delete(`http://localhost:5000/api/resumes/${id}`, config);
+    await axiosInstance.delete(`/resumes/${id}`, config);
     dispatch({ type: "DELETE_RESUME", payload: id });
   } catch (err) {
     console.error(err);
@@ -133,7 +123,7 @@ export const deleteResume = (id) => async (dispatch, getState) => {
 
 export const getUserResumes = () => async (dispatch) => {
   try {
-    const response = await axios.get("http://localhost:5000/api/resume"); // Replace with your API endpoint
+    const response = await axiosInstance.get("/resume"); // Replace with your API endpoint
     dispatch({
       type: "GET_USER_RESUMES_SUCCESS",
       payload: response.data,

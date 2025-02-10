@@ -30,7 +30,7 @@ const allowedOrigins = [
 
 app.use(
   cors({
-    origin: "http://localhost:5173", // change this after "http://localhost:5173" to "https://eazyrezume.senani.me/" when deploying
+    origin: "http://localhost:5173", // change this "https://eazyrezume.senani.me/" when deploying
     methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
     allowedHeaders: "Content-Type,Authorization",
     credentials: true,

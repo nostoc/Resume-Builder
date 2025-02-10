@@ -15,11 +15,13 @@ const ResumeList = () => {
     dispatch(deleteResume(id));
   };
 
-  const formatResumeTitle = (resume,index)=>{
+  const formatResumeTitle = (resume, index) => {
     const personalInfo = resume.profile.personalInfo;
-    const name = personalInfo.name ? `${personalInfo.name} Resume` : `Resume ${index + 1}`;
-    return `${name} ${index + 1}`; 
-  }
+    const name = personalInfo.name
+      ? `${personalInfo.name} Resume`
+      : `Resume ${index + 1}`;
+    return `${name} ${index + 1}`;
+  };
 
   return (
     <div className="container mx-auto p-6 font-montserrat">
@@ -41,7 +43,8 @@ const ResumeList = () => {
                     {formatResumeTitle(resume, index)}
                   </h2>
                   <p className="text-blue-500">
-                    Created on: {new Date(resume.createdAt).toLocaleDateString()}
+                    Created on:{" "}
+                    {new Date(resume.createdAt).toLocaleDateString()}
                   </p>
                 </div>
               </Link>
