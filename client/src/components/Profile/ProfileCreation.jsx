@@ -42,12 +42,12 @@ const ProfileCreation = () => {
   const navigate = useNavigate();
   const profile = useSelector((state) => state.profile.profile);
   const token = useSelector((state) => state.auth.token);
-  const [formData, setFormData] = useState(profile || {});
+  const [formData, setFormData] = useState({});
   const [showPreview, setShowPreview] = useState(false);
 
   useEffect(() => {
-    if (profile) {
-      setFormData(profile);
+    if (profile && Object.keys(profile).length > 0) {
+      setFormData(profile); // This ensures the form fields are set properly
     }
   }, [profile]);
 
@@ -169,38 +169,38 @@ const ProfileCreation = () => {
       <div className="w-full lg:w-full lg:pr-6 border-b-2 lg:border-b-0 lg:border-r-2 border-gray-300 overflow-y-auto">
         <div className="flex items-center m-auto">
           <div className="flex flex-col lg:flex-row justify-start items-center mb-4 lg:mb-0 w-full">
-  <h2 className="text-2xl font-semibold mb-4 lg:mb-0"></h2>
-  <div className="flex justify-center lg:justify-start space-x-4 w-full">
-    <button
-      onClick={() => handleTemplateChange(1)}
-      className={`py-2 px-6 rounded-full transition-all duration-300 text-lg ${
-        formData.selectedTemplate === 1
-          ? "bg-ash-blue text-white"
-          : "bg-gray-300 text-gray-700 hover:bg-gray-400"
-      } ${
-        formData.selectedTemplate === 1
-          ? "hover:bg-ash-blue active:bg-ash-blue"
-          : "hover:bg-gray-400 active:bg-gray-500"
-      }`}
-    >
-      Template 1
-    </button>
-    <button
-      onClick={() => handleTemplateChange(2)}
-      className={`py-2 px-6 rounded-full transition-all duration-300 text-lg ${
-        formData.selectedTemplate === 2
-          ? "bg-ash-blue text-white"
-          : "bg-gray-300 text-gray-700 hover:bg-gray-400"
-      } ${
-        formData.selectedTemplate === 2
-          ? "hover:bg-ash-blue active:bg-ash-blue"
-          : "hover:bg-gray-400 active:bg-gray-500"
-      }`}
-    >
-      Template 2
-    </button>
-  </div>
-</div>
+            <h2 className="text-2xl font-semibold mb-4 lg:mb-0"></h2>
+            <div className="flex justify-center lg:justify-start space-x-4 w-full">
+              <button
+                onClick={() => handleTemplateChange(1)}
+                className={`py-2 px-6 rounded-full transition-all duration-300 text-lg ${
+                  formData.selectedTemplate === 1
+                    ? "bg-ash-blue text-white"
+                    : "bg-gray-300 text-gray-700 hover:bg-gray-400"
+                } ${
+                  formData.selectedTemplate === 1
+                    ? "hover:bg-ash-blue active:bg-ash-blue"
+                    : "hover:bg-gray-400 active:bg-gray-500"
+                }`}
+              >
+                Template 1
+              </button>
+              <button
+                onClick={() => handleTemplateChange(2)}
+                className={`py-2 px-6 rounded-full transition-all duration-300 text-lg ${
+                  formData.selectedTemplate === 2
+                    ? "bg-ash-blue text-white"
+                    : "bg-gray-300 text-gray-700 hover:bg-gray-400"
+                } ${
+                  formData.selectedTemplate === 2
+                    ? "hover:bg-ash-blue active:bg-ash-blue"
+                    : "hover:bg-gray-400 active:bg-gray-500"
+                }`}
+              >
+                Template 2
+              </button>
+            </div>
+          </div>
 
           <div className="w-full lg:pl-6 mt-6 lg:mt-0">
             <div className="flex justify-end mb-4">
