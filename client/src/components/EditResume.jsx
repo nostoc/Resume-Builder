@@ -9,14 +9,18 @@ const EditResume = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const resume = useSelector((state) => state.resumes.resume);
-  const [formData, setFormData] = useState(resume || {});
+  const [formData, setFormData] = useState({});
 
   useEffect(() => {
-    dispatch(getResume(id));
-  }, [dispatch, id]);
+    if (!resume || resume._id !== id) {
+      dispatch(getResume(id));
+    }
+  }, [dispatch, id, resume]);
 
   useEffect(() => {
-    if (resume) {
+    console.log("Fetched resume: ",resume)
+    if (resume && Object.keys(resume).length > 0) {
+      console.log("Updating formData with:", resume); // Debugging
       setFormData(resume);
     }
   }, [resume]);
@@ -30,7 +34,12 @@ const EditResume = () => {
   return (
     <div>
       <h1>Edit Resume</h1>
-      <ProfileCreation data={formData} onChange={setFormData} />
+      <ProfileCreation
+        key={formData?._id}
+        data={formData}
+        onChange={setFormData}
+      />
+
       <button onClick={handleSave}>Save Changes</button>
     </div>
   );

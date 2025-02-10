@@ -129,7 +129,7 @@ export const deleteResume = async (req, res) => {
     }
 
     // Delete the resume
-    await resume.remove();
+    await resume.deleteOne();
     res.json({ msg: "Resume deleted" });
   } catch (err) {
     console.error("Error deleting resume:", err.message);
