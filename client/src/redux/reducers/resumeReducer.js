@@ -26,6 +26,7 @@ export default function (state = initialState, action) {
         resumes: state.resumes.map((resume) =>
           resume._id === action.payload._id ? action.payload : resume
         ),
+        resume: action.payload,
       };
     case "DELETE_RESUME":
       return {
