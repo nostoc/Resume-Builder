@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { logoutUser } from "../redux/actions/authActions";
 import Footer from "../components/Footer";
+import onboardImage from "../assets/1.png";
 
 const LandingPage2 = () => {
   const dispatch = useDispatch();
@@ -76,7 +77,7 @@ const LandingPage2 = () => {
           {/* Image Section */}
           <div className="flex-1 flex justify-center">
             <img
-              src="../../src/assets/1.png"
+              src={onboardImage}
               alt="on-board image"
               className="w-full max-w-md h-auto object-cover container shadow-xl rounded-lg"
             />

@@ -1,4 +1,5 @@
 import { Link } from "react-router-dom";
+import heroImage from "../assets/image.png";
 const Hero = () => {
   return (
     <div className="container mx-auto my-10 flex flex-col md:flex-row items-center justify-between font-outfit px-4">
@@ -22,7 +23,7 @@ const Hero = () => {
       </div>
       <div className="md:w-1/2">
         <img
-          src="../../src/assets/image.png"
+          src={heroImage}
           alt="Hero image"
           className="w-full h-auto object-cover"
         />
