@@ -11,6 +11,7 @@ import Projects from "./Profile/steps/Projects";
 import Achievements from "./Profile/steps/Achievements";
 import ResumePreview from "./ResumePreview";
 import { toast } from "react-hot-toast";
+import Layout from "./Layout";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faUser,
@@ -100,7 +101,7 @@ const EditResume = () => {
     try {
       await dispatch(updateResume(id, resumeData));
       toast.success("Resume updated successfully!");
-      navigate("/resumes");
+      navigate("/view-resumes");
     } catch (error) {
       toast.error("Failed to update resume. Please try again.");
     } finally {
@@ -110,22 +111,27 @@ const EditResume = () => {
 
   if (loading) {
     return (
-      <div className="flex justify-center items-center h-screen">
-        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-500"></div>
-      </div>
+      <Layout>
+        <div className="flex justify-center items-center h-96">
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-500"></div>
+        </div>
+      </Layout>
     );
   }
 
   if (!resume) {
     return (
-      <div className="flex justify-center items-center h-screen">
-        <p className="text-xl text-gray-600">Resume not found</p>
-      </div>
+      <Layout>
+        <div className="flex justify-center items-center h-96">
+          <p className="text-xl text-gray-600">Resume not found</p>
+        </div>
+      </Layout>
     );
   }
 
   return (
-    <div className="flex flex-col lg:flex-row w-full max-w-7xl mx-auto p-4 md:p-6 font-outfit bg-gray-50 rounded-lg shadow-lg h-full lg:h-screen">
+    <Layout>
+      <div className="flex flex-col lg:flex-row w-full max-w-7xl mx-auto p-4 md:p-6 font-outfit bg-gray-50 rounded-lg shadow-lg h-full lg:h-screen">
       <div className="w-full lg:w-full lg:pr-6 border-b-2 lg:border-b-0 lg:border-r-2 border-gray-300 overflow-y-auto">
         <div className="flex items-center m-auto">
           <div className="flex flex-col lg:flex-row justify-start items-center mb-4 lg:mb-0 w-full">
@@ -197,7 +203,7 @@ const EditResume = () => {
 
         <div className="flex justify-between mt-6 gap-4">
           <button
-            onClick={() => navigate("/resumes")}
+            onClick={() => navigate("/view-resumes")}
             className="bg-gray-500 hover:bg-gray-600 text-white rounded-full px-6 py-2 transition-all duration-300 ease-in-out text-lg"
             disabled={saving}
           >
@@ -213,6 +219,7 @@ const EditResume = () => {
         </div>
       </div>
     </div>
+    </Layout>
   );
 };
 
