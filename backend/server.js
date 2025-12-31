@@ -48,7 +48,7 @@ dotenv.config();
 const port = process.env.PORT || 5000;
 //server
 app.listen(port, () => {
-  //console.log(`Server is listening on port ${process.env.PORT}`);
+  console.log(`Server is listening on port ${process.env.PORT}`);
 });
 
 //global error handler
