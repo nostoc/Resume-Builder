@@ -29,7 +29,7 @@ const allowedOrigins = [
 
 app.use(
   cors({
-    origin: "https://rezume.internalbuildtools.online/", 
+    origin: "https://rezume.internalbuildtools.online", 
     methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
     allowedHeaders: "Content-Type,Authorization",
     credentials: true,
