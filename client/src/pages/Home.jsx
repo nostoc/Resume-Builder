@@ -1,19 +1,13 @@
-import Footer from "../components/Footer";
-import Header from "../components/Header";
 import Hero from "../components/Hero";
+import Layout from "../components/Layout";
 
 const Home = () => {
   return (
-    <div>
-    <div className=" mx-auto ">
-      <Header />
+    <Layout>
       <div className="my-8">
         <Hero />
       </div>
-      
-    </div>
-    <Footer />
-    </div>
+    </Layout>
   );
 };
 

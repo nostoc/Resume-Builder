@@ -15,6 +15,7 @@ import Modal from "./Modal";
 import { toast } from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
 import ResumePreview from "../ResumePreview";
+import Layout from "../Layout";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faUser,
@@ -130,11 +131,12 @@ const ProfileCreation = () => {
         return dispatch(saveResumeData(resumeData, token));
       })
       .then(() => {
-        navigate("/");
+        toast.success("Resume saved successfully!");
+        navigate("/view-resumes");
       })
       .catch((error) => {
         console.error("Error saving profile:", error);
-        //toast.error("Failed to save profile!");
+        toast.error("Failed to save resume. Please try again.");
       });
   };
 
@@ -163,6 +165,7 @@ const ProfileCreation = () => {
   };
 
   return (
+    <Layout>
     <div className="flex flex-col lg:flex-row w-full max-w-7xl mx-auto p-4 md:p-6 font-outfit bg-gray-50 rounded-lg shadow-lg h-full lg:h-screen">
       <div className="w-full lg:w-full lg:pr-6 border-b-2 lg:border-b-0 lg:border-r-2 border-gray-300 overflow-y-auto">
         <div className="flex items-center m-auto">
@@ -277,6 +280,7 @@ const ProfileCreation = () => {
         <ResumePreview data={formData} />
       </Modal>
     </div>
+    </Layout>
   );
 };
 
