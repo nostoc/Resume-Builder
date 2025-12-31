@@ -24,12 +24,12 @@ app.use(express.json());
 //cors config
 const allowedOrigins = [
   "http://localhost:5173",
-  "https://eazy-rezume-api.internalbuildtools.online",
+  "https://eazy-rezume.internalbuildtools.online",
 ];
 
 app.use(
   cors({
-    origin: "https://eazy-rezume-api.internalbuildtools.online", 
+    origin: "https://eazy-rezume.internalbuildtools.online", 
     methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
     allowedHeaders: "Content-Type,Authorization",
     credentials: true,
