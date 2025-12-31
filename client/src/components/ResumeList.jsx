@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { getResumes, deleteResume } from "../redux/actions/resumeActions";
 import { Link } from "react-router-dom";
@@ -6,13 +6,23 @@ import { Link } from "react-router-dom";
 const ResumeList = () => {
   const dispatch = useDispatch();
   const resumes = useSelector((state) => state.resumes.resumes);
+  const [loading, setLoading] = useState(true);
+  const [deleting, setDeleting] = useState(null);
 
   useEffect(() => {
-    dispatch(getResumes());
+    setLoading(true);
+    dispatch(getResumes()).finally(() => setLoading(false));
   }, [dispatch]);
 
-  const handleDelete = (id) => {
-    dispatch(deleteResume(id));
+  const handleDelete = async (id) => {
+    if (window.confirm("Are you sure you want to delete this resume? This action cannot be undone.")) {
+      setDeleting(id);
+      try {
+        await dispatch(deleteResume(id));
+      } finally {
+        setDeleting(null);
+      }
+    }
   };
 
   const formatResumeTitle = (resume, index) => {
@@ -23,13 +33,29 @@ const ResumeList = () => {
     return `${name} ${index + 1}`;
   };
 
+  if (loading) {
+    return (
+      <div className="flex justify-center items-center h-screen">
+        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-500"></div>
+      </div>
+    );
+  }
+
   return (
     <div className="container mx-auto p-6 font-montserrat">
       <h1 className="text-4xl font-bold mb-8 text-center text-gray-800">
         My Resumes
       </h1>
       {resumes.length === 0 ? (
-        <p className="text-center text-gray-600">No resumes found</p>
+        <div className="text-center">
+          <p className="text-gray-600 mb-4">No resumes found</p>
+          <Link
+            to="/profile/create"
+            className="bg-blue-500 text-white px-6 py-2 rounded-lg hover:bg-blue-600 inline-block"
+          >
+            Create Your First Resume
+          </Link>
+        </div>
       ) : (
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
           {resumes.map((resume, index) => (
@@ -51,15 +77,16 @@ const ResumeList = () => {
               <div className="flex justify-between mt-4">
                 <Link
                   to={`/edit-resume/${resume._id}`}
-                  className="bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600"
+                  className="bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600 transition-colors"
                 >
                   Edit
                 </Link>
                 <button
                   onClick={() => handleDelete(resume._id)}
-                  className="bg-red-500 text-white px-4 py-2 rounded-lg hover:bg-red-600"
+                  disabled={deleting === resume._id}
+                  className="bg-red-500 text-white px-4 py-2 rounded-lg hover:bg-red-600 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
                 >
-                  Delete
+                  {deleting === resume._id ? "Deleting..." : "Delete"}
                 </button>
               </div>
             </div>

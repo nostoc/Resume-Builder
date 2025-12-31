@@ -16,7 +16,6 @@ export const loginUser = (userData, navigate) => async (dispatch) => {
   try {
     const res = await axiosInstance.post("/auth/login", userData);
     const token = res.data.token;
-    console.log("Login response", res.data);
 
     localStorage.setItem("authToken", token);
 
@@ -62,14 +61,12 @@ export const loginUser = (userData, navigate) => async (dispatch) => {
 export const registerUser = (userData, navigate) => async (dispatch) => {
   try {
     const res = await axiosInstance.post("/auth/register", userData);
-    console.log("Register response:", res.data);
     dispatch({
       type: REGISTER_USER,
       payload: res.data,
     });
 
     toast.success("Registration successful!");
-    console.log(res.data);
     navigate("/on-board");
     return Promise.resolve(res.data);
   } catch (error) {

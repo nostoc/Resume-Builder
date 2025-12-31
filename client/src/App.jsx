@@ -11,6 +11,7 @@ import ResumeList from "./components/ResumeList";
 import Home from "./pages/Home";
 import LandingPage2 from "./pages/LandingPage2";
 import EditResume from "./components/EditResume";
+import ViewResume from "./pages/ViewResume";
 
 function App() {
   const isRegistered = useSelector((state) => state.auth.isRegistered);
@@ -33,6 +34,7 @@ function App() {
       />
       <Route path="/resumes" element={<ResumeList />} />
       <Route path="/edit-resume/:id" element={<EditResume />} />
+      <Route path="/resume/:id" element={<ViewResume />} />
     </Routes>
   );
 }

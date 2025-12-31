@@ -26,10 +26,6 @@ const Resume = () => {
     }
   }, [dispatch, profile]);
 
-  useEffect(() => {
-    console.log("Profile data:", profile);
-  }, [profile]);
-
   //if (loading) {
   // return <div>Loading...</div>;
   // }

@@ -127,8 +127,6 @@ const ProfileCreation = () => {
 
     dispatch(saveProfileData(formData, token))
       .then(() => {
-        //toast.success("Profile saved successfully!");
-        console.log("Dispatching saveResumeData with:", resumeData, token);
         return dispatch(saveResumeData(resumeData, token));
       })
       .then(() => {

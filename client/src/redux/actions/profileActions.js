@@ -124,7 +124,6 @@ export const removeSkillsUsed = (projectIndex, skillIndex) => ({
 export const getProfile = () => async (dispatch) => {
   try {
     const res = await axios.get("http://localhost:5000/api/profile/me");
-    console.log("Profile data fetched:", res.data);
     dispatch({
       type: "GET_PROFILE",
       payload: res.data,
@@ -148,14 +147,12 @@ export const saveProfileData = (profileData, token) => (dispatch) => {
     },
   };
 
-  console.log("Saving profile data:", profileData);
   return axios.post(API_URL, profileData, config)
     .then((response) => {
       dispatch({
         type: "SAVE_PROFILE_SUCCESS",
         payload: response.data,
       });
-      console.log("Profile data saved successfully:", response.data);
       toast.success("Profile data saved successfully!");
     })
     .catch((error) => {

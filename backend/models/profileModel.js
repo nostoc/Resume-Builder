@@ -37,7 +37,7 @@ const ProfileSchema = new mongoose.Schema(
         position: { type: String, required: true },
         startDate: { type: Date, required: true },
         endDate: { type: Date },
-        responibilities: [{ type: String, required: true }],
+        responsibilities: [{ type: String, required: true }],
       },
     ],
     skills: [{ name: { type: String } }],
