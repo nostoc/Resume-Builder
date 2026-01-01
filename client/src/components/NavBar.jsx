@@ -30,7 +30,7 @@ const NavBar = () => {
               </Link>
               {isRegistered ? (
                 <>
-                  <Link to="/view-resumes">
+                  <Link to="/resumes">
                     <li className="hover:text-ash-blue transition-colors cursor-pointer">My Resumes</li>
                   </Link>
                   <Link to="/profile/create">

@@ -112,7 +112,7 @@ const EditResume = () => {
   if (loading) {
     return (
       <Layout>
-        <div className="flex justify-center items-center h-96">
+        <div className="flex justify-center items-center h-96 mt-11">
           <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-500"></div>
         </div>
       </Layout>
@@ -131,7 +131,7 @@ const EditResume = () => {
 
   return (
     <Layout>
-      <div className="flex flex-col lg:flex-row w-full max-w-7xl mx-auto p-4 md:p-6 font-outfit bg-gray-50 rounded-lg shadow-lg h-full lg:h-screen">
+      <div className="flex flex-col lg:flex-row w-full max-w-7xl mx-auto p-4 md:p-6 mt-6 font-outfit bg-gray-50 rounded-lg shadow-lg h-full lg:h-screen">
       <div className="w-full lg:w-full lg:pr-6 border-b-2 lg:border-b-0 lg:border-r-2 border-gray-300 overflow-y-auto">
         <div className="flex items-center m-auto">
           <div className="flex flex-col lg:flex-row justify-start items-center mb-4 lg:mb-0 w-full">

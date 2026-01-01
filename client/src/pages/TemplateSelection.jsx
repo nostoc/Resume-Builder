@@ -2,6 +2,7 @@ import { useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { setSelectedTemplate } from '../redux/actions/profileActions';
 import backgroundImage from '../assets/undraw_portfolio_update_re_jqnp.svg';
+import Layout from '../components/Layout';
 
 const templates = [
   { id: 1, name: 'Template 1', description: 'A modern template' },
@@ -19,7 +20,8 @@ const TemplateSelection = () => {
   };
 
   return (
-    <div className="flex flex-col items-center justify-center h-screen bg-gray-100">
+    <Layout>
+      <div className="flex flex-col items-center justify-center min-h-screen bg-gray-100 py-8">
       <div className="relative flex flex-col md:flex-row items-center justify-between bg-white shadow-lg rounded-lg p-8 md:p-16">
         <div className="w-full md:w-1/2 hidden md:block">
           <img
@@ -47,7 +49,8 @@ const TemplateSelection = () => {
           </div>
         </div>
       </div>
-    </div>
+      </div>
+    </Layout>
   );
 };
 

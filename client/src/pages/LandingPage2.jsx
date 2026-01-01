@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { logoutUser } from "../redux/actions/authActions";
 import Footer from "../components/Footer";
@@ -8,7 +8,6 @@ import onboardImage from "../assets/1.png";
 const LandingPage2 = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const user = useSelector((state) => state.auth.user);
 
   const handleLogout = () => {
     dispatch(logoutUser(navigate));
