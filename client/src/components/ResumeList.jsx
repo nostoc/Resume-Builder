@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { getResumes, deleteResume } from "../redux/actions/resumeActions";
 import { Link } from "react-router-dom";
+import Layout from "./Layout";
 
 const ResumeList = () => {
   const dispatch = useDispatch();
@@ -35,14 +36,17 @@ const ResumeList = () => {
 
   if (loading) {
     return (
-      <div className="flex justify-center items-center h-screen">
-        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-500"></div>
-      </div>
+      <Layout>
+        <div className="flex justify-center items-center h-96">
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-500"></div>
+        </div>
+      </Layout>
     );
   }
 
   return (
-    <div className="container mx-auto p-6 font-montserrat">
+    <Layout>
+      <div className="container mx-auto p-6 font-montserrat">
       <h1 className="text-4xl font-bold mb-8 text-center text-gray-800">
         My Resumes
       </h1>
@@ -93,7 +97,8 @@ const ResumeList = () => {
           ))}
         </div>
       )}
-    </div>
+      </div>
+    </Layout>
   );
 };
 

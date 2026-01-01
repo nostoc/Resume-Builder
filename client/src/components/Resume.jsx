@@ -5,6 +5,7 @@ import { getProfile } from "../redux/actions/profileActions";
 import { MdEmail, MdPhone } from "react-icons/md";
 import { FaGlobe } from "react-icons/fa";
 import { MdLocationOn } from "react-icons/md";
+import Layout from "./Layout";
 
 const Resume = () => {
   const dispatch = useDispatch();
@@ -34,11 +35,19 @@ const Resume = () => {
     return <div>Error: {error.message}</div>;
   }
   if (!profile) {
-    return <div>No profile data available</div>;
+    return (
+      <Layout>
+        <div className="flex justify-center items-center h-96">
+          <p className="text-xl text-gray-600">No profile data available</p>
+        </div>
+      </Layout>
+    );
   }
 
   return (
-    <div className=" font-montserrat p-10 bg-white rounded-lg shadow-md max-w-4xl mx-auto">
+    <Layout>
+      <div className="container mx-auto p-6 font-outfit">
+        <div className=" font-montserrat p-10 bg-white rounded-lg shadow-md max-w-4xl mx-auto">
       <div className=" pb-4 mb-4 text-center">
         <h1 className="text-3xl font-bold text-ocean-blue">
           {profile.personalInfo.name}
@@ -162,7 +171,9 @@ const Resume = () => {
           </div>
         ))}
       </div>
-    </div>
+        </div>
+      </div>
+    </Layout>
   );
 };
 
