@@ -67,7 +67,7 @@ export const saveResumeData = (resumeData, token) => async (dispatch) => {
     };
 
     const res = await axiosInstance.post("/resumes", resumeData, config);
-    dispatch({ type: "SAVE_RESUME", payload: res.data });
+    dispatch({ type: "CREATE_RESUME", payload: res.data });
     return Promise.resolve(res.data);
   } catch (err) {
     console.error("Error saving resume", err);
@@ -116,9 +116,16 @@ export const deleteResume = (id) => async (dispatch, getState) => {
   }
 };
 
-export const getUserResumes = () => async (dispatch) => {
+export const getUserResumes = () => async (dispatch, getState) => {
   try {
-    const response = await axiosInstance.get("/resume");
+    dispatch({ type: "LOADING_RESUMES" });
+    const token = getState().auth.token;
+    const config = {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    };
+    const response = await axiosInstance.get("/resumes", config);
     dispatch({
       type: "GET_USER_RESUMES_SUCCESS",
       payload: response.data,

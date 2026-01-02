@@ -6,9 +6,9 @@ import Layout from "../components/Layout";
 
 const ViewResumes = () => {
   const dispatch = useDispatch();
-  const resumes = useSelector((state) => state.resume.resumes);
-  const loading = useSelector((state) => state.resume.loading);
-  const error = useSelector((state) => state.resume.error);
+  const resumes = useSelector((state) => state.resumes.resumes);
+  const loading = useSelector((state) => state.resumes.loading);
+  const error = useSelector((state) => state.resumes.error);
 
   useEffect(() => {
     dispatch(getUserResumes());
