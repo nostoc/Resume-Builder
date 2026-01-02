@@ -65,7 +65,7 @@ const LandingPage2 = () => {
                   Create My Resume
                 </button>
               </Link>
-              <Link to="/resumes">
+              <Link to="/view-resumes">
                 <button className="bg-ash-blue text-white hover:bg-white hover:text-ash-blue border-2 border-transparent hover:border-ash-blue rounded-full px-6 py-3 transition-all duration-300 ease-in-out text-xl ml-4 mt-4">
                   View My Resumes
                 </button>
